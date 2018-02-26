@@ -27,12 +27,12 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function userHasFriends()
+    public function users()
     {
         return $this->belongsToMany('App\User', 'user_user', 'user_id', 'user_friend_id');
     }
 
-    public function userIsFriendOf()
+    public function userFriends()
     {
         return $this->belongsToMany('App\User', 'user_user', 'user_friend_id', 'user_id');
     }
