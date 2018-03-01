@@ -5,6 +5,9 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\User;
+use App\Message;
+
 
 class MessageUserTest extends TestCase
 {
@@ -13,6 +16,8 @@ class MessageUserTest extends TestCase
      *
      * @return void
      */
+
+    
     public function getMessageReceivers($id)
     {
         $receivers = array();
@@ -109,4 +114,5 @@ class MessageUserTest extends TestCase
         $this->assertNull($sent[2]);
 
     }
+    
 }

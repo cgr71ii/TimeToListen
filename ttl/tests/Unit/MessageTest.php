@@ -5,6 +5,8 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\User;
+use App\Message;
 
 class MessageTest extends TestCase
 {
@@ -13,6 +15,7 @@ class MessageTest extends TestCase
      *
      * @return void
      */
+
     public function testDataExists()
     {
         $message = Message::where ('user_id', '0')->first();
@@ -45,4 +48,5 @@ class MessageTest extends TestCase
         $this->assertNull($message);
 
     }
+    
 }
