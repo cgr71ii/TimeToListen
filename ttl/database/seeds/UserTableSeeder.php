@@ -14,6 +14,8 @@ class UserTableSeeder extends Seeder
     {
         //'email', 'password', 'name', 'lastname', 'birthday', 'pic_profile_path'
 
+        DB::table('users')->delete();
+
         $user = new User([  'email' => 'mike@gmail.com', 
                             'password' => 'mikethebest', 
                             'name' => 'Mike',

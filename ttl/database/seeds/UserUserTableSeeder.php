@@ -13,6 +13,8 @@ class UserUserTableSeeder extends Seeder
     public function run()
     {
         
+        DB::table('user_user')->delete();
+
         $friend_id = User::where('email', 'mike@gmail.com')->firstOrFail()->id;
 
         $user = User::where('email', 'kamil@gmail.com')->firstOrFail();
