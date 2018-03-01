@@ -16,8 +16,9 @@ class CreatePublicationsTable extends Migration
         Schema::create('publications', function (Blueprint $table) {
             $table->increments('id');
             $table->string('text');
-            $table->string('date');
+            $table->datetime('date');
             $table->timestamps();
+            $table->integer('user_id')->references('id')->on('users');
         });
     }
 
