@@ -13,6 +13,7 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         //'email', 'password', 'name', 'lastname', 'birthday', 'pic_profile_path'
+        DB::table('users')->delete();
 
         $user = new User([  'email' => 'mike@gmail.com', 
                             'password' => 'mikethebest', 
