@@ -29,12 +29,12 @@ class User extends Authenticatable
 
     public function users()
     {
-        return $this->belongsToMany('App\User', 'user_user', 'user_id', 'user_friend_id');
+        return $this->belongsToMany('App\User', 'user_user', 'user_id', 'user_friend_id')->withTimestamps();
     }
 
     public function userFriends()
     {
-        return $this->belongsToMany('App\User', 'user_user', 'user_friend_id', 'user_id');
+        return $this->belongsToMany('App\User', 'user_user', 'user_friend_id', 'user_id')->withTimestamps();
     }
 
     public function publication()
@@ -49,7 +49,7 @@ class User extends Authenticatable
 
     public function message_user()
     {
-        return $this->belongsToMany('App\Message');
+        return $this->belongsToMany('App\Message')->withTimestamps();
     }
 
 }

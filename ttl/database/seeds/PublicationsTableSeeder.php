@@ -35,6 +35,15 @@ class PublicationsTableSeeder extends Seeder
             'user_id' => '3',
             'date' => '2015-10-07 22:23:19.120'
         ]);
+
+        $publication->save();
+
+        $publication = new Publication([
+            'text' => 'Test',
+            'user_id' => '1',
+            'date' => '2015-11-07 22:23:19.120'
+        ]);
+
         $publication->save();
 
     }

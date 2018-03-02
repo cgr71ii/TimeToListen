@@ -11,6 +11,6 @@ class Message extends Model
     }
 
     public function user_receive(){
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany('App\User')->withTimestamps();
     }
 }
