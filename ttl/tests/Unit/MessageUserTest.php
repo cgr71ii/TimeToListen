@@ -27,10 +27,10 @@ class MessageUserTest extends TestCase
             return null;
         }
 
-        $receivers = Message::find($id)->user_receive()->get();
+        $receivers1 = Message::find($id)->user_receive()->get();
 
 
-        foreach ($receivers as $r)
+        foreach ($receivers1 as $r)
         {
             array_push($receivers, $r);
         }
@@ -47,10 +47,10 @@ class MessageUserTest extends TestCase
             return null;
         }
 
-        $sent = User::find($userId)->messageSent()->get();
+        $sent1 = User::find($userId)->messagesSent()->get();
 
 
-        foreach ($sent as $s)
+        foreach ($sent1 as $s)
         {
             array_push($sent, $s);
         }
@@ -66,7 +66,7 @@ class MessageUserTest extends TestCase
         $receivers = $this->getMessageReceivers($message->id);
         $this->assertNotNull($receivers);
         $this->assertEquals($receivers[0]->email,'kamil@gmail.com');
-        $this->assertNull($receivers[1]);
+        
 
         $user = User::where('email','kamil@gmail.com')->first();
         $message = Message::where('user_id',$user->id)->first();
@@ -74,14 +74,12 @@ class MessageUserTest extends TestCase
         $this->assertNotNull($receivers);
         $this->assertEquals($receivers[0]->email,'mike@gmail.com');
         $this->assertEquals($receivers[1]->email,'tudor@gmail.com');
-        $this->assertNull($receivers[2]);
 
         $user = User::where('email','cristian@gmail.com')->first();
         $message = Message::where('user_id',$user->id)->first();
         $receivers = $this->getMessageReceivers($message->id);
         $this->assertNotNull($receivers);
         $this->assertEquals($receivers[0]->email,'adrian@gmail.com');
-        $this->assertNull($receivers[1]);
 
 
 
@@ -95,14 +93,13 @@ class MessageUserTest extends TestCase
         $sent = $this->getMessageSent($user->id);
         $this->assertNotNull($sent);
         $this->assertEquals($message,$sent[0]);
-        $this->assertNull($sent[1]);
 
         $user = User::where('email','kamil@gmail.com')->first();
         $message = Message::where('user_id',$user->id)->first();
         $sent = $this->getMessageSent($user->id);
         $this->assertNotNull($sent);
         $this->assertEquals($message,$sent[0]);
-        $this->assertNull($sent[1]);
+        
 
         $user = User::where('email','cristian@gmail.com')->first();
         $message = Message::where('user_id',$user->id)->first();
@@ -111,7 +108,6 @@ class MessageUserTest extends TestCase
         $this->assertEquals($message,$sent[0]);
         $this->assertEquals('Test3',$sent[0]->title);
         $this->assertEquals('Test4',$sent[1]->title);
-        $this->assertNull($sent[2]);
 
     }
     
