@@ -37,17 +37,17 @@ class User extends Authenticatable
         return $this->belongsToMany('App\User', 'user_user', 'user_friend_id', 'user_id');
     }
 
-    public function publications()
+    public function publication()
     {
         return $this->hasMany('App\Publication');
     }
 
-    public function messagesSent()
+    public function message()
     {
         return $this->hasMany('App\Message');
     }
 
-    public function messagesReceived()
+    public function message_user()
     {
         return $this->belongsToMany('App\Message');
     }

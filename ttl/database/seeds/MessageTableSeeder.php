@@ -15,7 +15,7 @@ class MessageTableSeeder extends Seeder
     {
         DB::table('messages')->delete();
 
-        $user = DB::table('users')->where('email', 'mike@gmail.com')->first();
+        $user = User::where('email', 'mike@gmail.com')->first();
 
         $messages = new Message([ 'user_id' => $user->id,
                                   'title' => 'Test1',
@@ -25,7 +25,7 @@ class MessageTableSeeder extends Seeder
         ]);
         $messages->save();
 
-        $user = DB::table('users')->where('email', 'kamil@gmail.com')->first();
+        $user = User::where('email', 'kamil@gmail.com')->first();
 
         $messages = new Message([ 'user_id' => $user->id,
                                   'title' => 'Test2',
@@ -35,7 +35,7 @@ class MessageTableSeeder extends Seeder
         ]);
         $messages->save();
 
-        $user = DB::table('users')->where('email', 'cristian@gmail.com')->first();
+        $user = User::where('email', 'cristian@gmail.com')->first();
 
         $messages = new Message([ 'user_id' => $user->id,
                                   'title' => 'Test3',

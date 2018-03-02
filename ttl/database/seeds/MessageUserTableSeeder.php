@@ -17,14 +17,14 @@ class MessageUserTableSeeder extends Seeder
 
         $user = User::where('email', 'mike@gmail.com')->first();
         $message = Message::where('user_id', $user->id)->first();
-        $message->user_receive()->attach($user);
+        $message->user_receive()->attach($user->id);
 
         $user = User::where('email', 'kamil@gmail.com')->first();
         $message = Message::where('user_id', $user->id)->first();
-        $message->user_receive()->attach($user);
+        $message->user_receive()->attach($user->id);
 
         $user = User::where('email', 'cristian@gmail.com')->first();
         $message = Message::where('user_id', $user->id)->first();
-        $message->user_receive()->attach($user);
+        $message->user_receive()->attach($user->id);
     }
 }

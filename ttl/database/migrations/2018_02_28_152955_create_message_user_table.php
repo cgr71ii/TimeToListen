@@ -17,8 +17,8 @@ class CreateMessageUserTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->integer('message_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('message_id')->references('id')->on('messages');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('message_id')->references('id')->on('messages')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -18,8 +18,10 @@ class CreateUserUserTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('user_friend_id')->unsigned();
             $table->foreign('user_friend_id')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamps();
 
             $table->primary(['user_id', 'user_friend_id']);
+
         });
     }
 
