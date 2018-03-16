@@ -13,4 +13,8 @@ class Song extends Model
     public function status(){
         return $this->hasMany('App\User');
     }
+
+    public function genre_song(){
+        return $this->belongsToMany('App\Genre')->withTimestamps();
+    }
 }
