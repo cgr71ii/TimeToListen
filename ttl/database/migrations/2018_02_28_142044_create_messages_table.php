@@ -24,7 +24,7 @@ class CreateMessagesTable extends Migration
             $table->timestamps();
         });
     }
-
+    //test para commit
     /**
      * Reverse the migrations.
      *
