@@ -14,12 +14,13 @@ class CreateMessageUserTable extends Migration
     public function up()
     {
         Schema::create('message_user', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id');
             $table->integer('message_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('user_id');
             $table->foreign('message_id')->references('id')->on('messages')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
+
+            $table->primary(['message_id', 'user_id']);
         });
     }
 
