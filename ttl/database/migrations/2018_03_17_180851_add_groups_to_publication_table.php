@@ -14,8 +14,8 @@ class AddGroupsToPublicationTable extends Migration
     public function up()
     {
         Schema::table('publications', function (Blueprint $table) {
-            $table->integer('group_id')->unsigned();
-            $table->foreign('group_id')->references('id')->on('groups');
+            $table->integer('group_id')->default(0);
+            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
         });
     }
 
