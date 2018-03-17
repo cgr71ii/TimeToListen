@@ -19,4 +19,9 @@ class Publication extends Model
         return $this->belongsTo('App\User');
 
     }
+
+    public function group()
+    {
+        return $this->belongsTo('App\Group');
+    }
 }
