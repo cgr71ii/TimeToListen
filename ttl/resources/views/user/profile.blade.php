@@ -16,11 +16,20 @@
             <img src="default-user.png" alt="User Image">
         </div>
         <div id="user-info-content">
-            <p>user info content</p>
+            <div id="user-info-content-wrapper">
+            <p>Name Lastname</p>
+            <p><img src="music.png"> Song Status <img src="music.png"></p>
+            <audio controls><source src="a7x - buried alive.mp3" type="audio/mp3">Audio not Available!</audio>
+            </div>
         </div>
     </div>
     <div id="write-pub">
-        <p>Write pubs</p>
+        <p>New Publication</p>
+        <form method="POST" action="">
+            {{ csrf_field() }}
+            <textarea name="publication"></textarea><br>
+            <input type="submit" value="Publicate">
+        </form>
     </div>
     <div id="publications">
         <p>Pubs</p>

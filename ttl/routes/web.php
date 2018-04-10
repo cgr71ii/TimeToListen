@@ -11,10 +11,18 @@
 |
 */
 
-Route::get('/', function () {
-    //return view('welcome');
-    return view('loginsignup', ["title" => "Time to Listen"]);
+Route::get('/', 'RootController@show');
+
+Route::post('/profile', 'UserController@login');
+
+Route::get('/user/logout', 'UserController@logout');
+
+// If this is called, is because someone is trying it manually.
+Route::get('/user/signup', function(){
+    return redirect('/');
 });
+
+Route::post('/user/signup', 'UserController@signup');
 
 Route::get('/profile', function () {
     return view('user.profile');
