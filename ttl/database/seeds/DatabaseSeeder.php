@@ -18,6 +18,9 @@ class DatabaseSeeder extends Seeder
         $this->call(PublicationsTableSeeder::class);
         $this->call(GroupTableSeeder::class);
         $this->call(GroupUserTableSeeder::class);
+        $this->call(GenreTableSeeder::class);
+        $this->call(SongTableSeeder::class);
+        $this->call(GenreSongSeeder::class);
         $this->command->info('Publication table Seeder!' );
     }
 }

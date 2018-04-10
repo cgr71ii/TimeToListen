@@ -12,5 +12,10 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    //return view('welcome');
+    return view('loginsignup', ["title" => "Time to Listen"]);
+});
+
+Route::get('/profile', function () {
+    return view('user.profile');
 });
