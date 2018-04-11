@@ -19,6 +19,8 @@ Route::get('/user/logout', 'UserController@logout');
 
 Route::post('/user/signup', 'UserController@signup');
 
+Route::post('/user/publicate', 'UserController@publicate');
+
 //Route::get('/profile', function () {
     //return view('user.profile');
 //});

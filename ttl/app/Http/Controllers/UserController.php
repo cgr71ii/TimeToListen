@@ -18,7 +18,7 @@ class UserController extends Controller
             {
                 // We update pagination recalling the methods again.
 
-                $publications = Publication::where('user_id', session('user')->id)->simplePaginate(1);
+                $publications = Publication::where('user_id', session('user')->id)->orderBy('created_at', 'desc')->simplePaginate(5);
 
                 session(['publications' => $publications]);
             }
@@ -51,7 +51,7 @@ class UserController extends Controller
                 if ($user->password === $request->password)
                 {
                     //$publications = $user->publication->paginate(1);
-                    $publications = Publication::where('user_id', $user->id)->simplePaginate(1);
+                    $publications = Publication::where('user_id', $user->id)->orderBy('created_at')->simplePaginate(5);
 
                     session([   'user' => $user,
                                 'publications' => $publications]);
@@ -104,10 +104,31 @@ class UserController extends Controller
             session(['user' => $user]);
 
             return redirect('/profile');
-            //return redirect('/profile')->with('user', $user);
         }
 
         return redirect('/')->with('signupfail', true);
+    }
+
+    public function publicate(Request $request)
+    {
+        if (session('user') === null)
+        {
+            return redirect('/');
+        }
+
+        if ($request->has('publication'))
+        {
+            $publication = new Publication([
+                'text' => $request->publication,
+                'user_id' => session('user')->id,
+                'date' => date('Y-m-d h:i:s', time())
+            ]);
+            $publication->save();
+
+            return redirect('/profile');
+        }
+
+        return redirect('/profile')->with('publicatefail', true);
     }
 
 }

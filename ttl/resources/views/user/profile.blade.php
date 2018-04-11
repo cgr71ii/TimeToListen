@@ -26,7 +26,6 @@
             @if (session('user')->song_status !== null)
             <p><img src="music.png"> {{ session('user')->song_status->name }} <img src="music.png"></p>
             @if (File::exists(session('user')->song_status->song_path))
-            <!--<audio controls><source src="user/songs/a7x - buried alive.mp3" type="audio/mp3">Audio not Available!</audio>-->
             <audio controls><source src="{{ session('user')->song_status->song_path }}" type="audio/mp3">Audio not Available!</audio>
             @else
             <p>It could not find the song!</p>
@@ -40,7 +39,7 @@
     </div>
     <div id="write-pub">
         <p>New Publication</p>
-        <form method="POST" action="">
+        <form method="POST" action="{{ action('UserController@publicate') }}">
             {{ csrf_field() }}
             <textarea name="publication"></textarea><br>
             <input type="submit" value="Publicate">

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Song extends Model
 {
+
     public function user_uploaded(){
         return $this->belongsTo('App\User');
     }
