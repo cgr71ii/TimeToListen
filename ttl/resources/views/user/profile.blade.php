@@ -37,19 +37,26 @@
             </div>
         </div>
     </div>
+    <hr>
     <div id="write-pub">
-        <p>New Publication</p>
+        <h2>New Publication</h2>
         <form method="POST" action="{{ action('UserController@publicate') }}">
             {{ csrf_field() }}
             <textarea name="publication"></textarea><br>
             <input type="submit" value="Publicate">
         </form>
     </div>
+    @if (session('publications')[0] !== null)
+    <hr>
     <div id="publications">
-        <p>Pubs</p>
+        <h2>My Publications</h2>
         @foreach (session('publications') as $pub)
-        <p>{{ $pub->text }}</p>
+        <div class="publication">
+            <p>{{ $pub->text }}</p>
+            <p style="text-align: right;">{{ $pub->date }}</p>
+        </div>
         @endforeach
         {{ session('publications')->links() }}
     </div>
+    @endif
 @endsection

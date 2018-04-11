@@ -17,8 +17,6 @@
         @include('horizontally-main-menu')
     </div>
     <div id="general-content-wrapper">
-        <h3 style="text-align: center;">Temporal border and message (this)</h3>
-        <hr>
         @yield('content')
     </div>
 </body>

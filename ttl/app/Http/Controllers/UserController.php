@@ -24,7 +24,6 @@ class UserController extends Controller
             }
 
             return view('user.profile');
-            //return view('user.profile', ['user' => session('user')]);
         }
 
         if ($request->has('username') && $request->has('password'))
@@ -51,7 +50,7 @@ class UserController extends Controller
                 if ($user->password === $request->password)
                 {
                     //$publications = $user->publication->paginate(1);
-                    $publications = Publication::where('user_id', $user->id)->orderBy('created_at')->simplePaginate(5);
+                    $publications = Publication::where('user_id', $user->id)->orderBy('created_at', 'desc')->simplePaginate(5);
 
                     session([   'user' => $user,
                                 'publications' => $publications]);

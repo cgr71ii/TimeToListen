@@ -1,17 +1,15 @@
 #user-info-wrapper
 {
-    width: 100%;
+    width: 80%;
     margin: 0 auto;
     justify-content: center;
     display: flex;
-    border: 1px solid black;
 }
 
 #user-info-img
 {
     width: 30%;
     float: left;
-    border: 1px solid black;
     text-align: center;
 }
 
@@ -26,7 +24,6 @@
     width: 70%;
     float: left;
     text-align: center;
-    border: 1px solid black;
 }
 
 #user-info-content img
@@ -38,14 +35,15 @@
 #user-info-content-wrapper
 {
     width: 100%;
-    border: 1px solid black;
-    margin-top: 30px;
+    margin-top: 50px;
 }
 
 #write-pub
 {
-    width: 100%;
-    border: 1px solid black;
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 10px;
+    text-align: center;
 }
 
 #write-pub textarea
@@ -64,6 +62,25 @@
 
 #publications
 {
+    text-align: center;
     width: 100%;
-    border: 1px solid black;
+    margin-top: 10px;
+}
+
+.publication
+{
+    width: 80%;
+    text-align: left;
+    margin-top: 10px;
+    margin-left: 10%;
+    border: 1px solid grey;
+    background-color: darkgrey;
+    border-left: 5px solid grey;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+hr
+{
+    width: 80%;
 }
