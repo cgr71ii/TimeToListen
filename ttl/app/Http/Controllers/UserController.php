@@ -26,9 +26,9 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        if  (session('username') !== null)
+        if  (session('user') !== null)
         {
-            return view('user.profile');
+            return view('user.profile', ['user' => session('user')]);
         }
 
         if ($request->has('username') && $request->has('password'))
@@ -54,7 +54,7 @@ class UserController extends Controller
 
                 if ($user->password === $request->password)
                 {
-                    session(['username' => $request->username]);
+                    session(['user' => $user]);
 
                     return view('user.profile');
                 }
@@ -68,7 +68,7 @@ class UserController extends Controller
 
     public function logout()
     {
-        session(['username' => null]);
+        session(['user' => null]);
 
         return redirect('/');
     }
@@ -101,9 +101,9 @@ class UserController extends Controller
                                 'pic_profile_path' => 'default-user.png']);
             $user->save();
 
-            session(['username' => $user->email]);
+            session(['user' => $user]);
 
-            return redirect('/profile');
+            return redirect('/profile')->with('user', $user);
         }
 
         return redirect('/')->with('signupfail', true);

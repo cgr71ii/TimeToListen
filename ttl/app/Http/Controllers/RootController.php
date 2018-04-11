@@ -15,9 +15,9 @@ class RootController extends Controller
             // Then log in with cookie credentials.
         }
 
-        if (session('username') !== null)
+        if (session('user') !== null)
         {
-            return redirect('/profile');
+            return redirect('/profile')->with('user', session('user'));
         }
 
         // Error.
