@@ -18,14 +18,19 @@ class UserController extends Controller
         {
             $user = User::where('email', $username)->first();
 
-            return view('user.profile', ["user" => $user]);
+            return view('user.profile', ['user' => $user]);
         }
 
-        return view('loginsignup', ["loginfail" => "true"]);
+        return view('loginsignup')->with('loginfail', true);
     }
 
     public function login(Request $request)
     {
+        if  (session('username') !== null)
+        {
+            return view('user.profile');
+        }
+
         if ($request->has('username') && $request->has('password'))
         {
             if ($request->has('remember'))
@@ -49,19 +54,21 @@ class UserController extends Controller
 
                 if ($user->password === $request->password)
                 {
-                    session(["username" => $request->username]);
+                    session(['username' => $request->username]);
 
                     return view('user.profile');
                 }
             }
 
-            return view('loginsignup', ["loginfail" => true]);
+            return redirect('/')->with('loginfail', true);
         }
+
+        return redirect('/');
     }
 
     public function logout()
     {
-        session(["username" => null]);
+        session(['username' => null]);
 
         return redirect('/');
     }
@@ -72,6 +79,20 @@ class UserController extends Controller
             $request->has('username') && $request->has('password') && 
             $request->has('birthday'))
         {
+            if (empty($request->name) || empty($request->lname) || 
+                empty($request->username) || empty($request->password) ||
+                empty($request->birthday))
+            {
+                return redirect('/')->with('signupfailemptyfield', true);
+            }
+
+            $count = User::where('email', $request->username)->count();
+
+            if ($count != 0)
+            {
+                return redirect('/')->with('signupfailuserexists', true);
+            }
+
             $user = new User([  'email' => $request->username, 
                                 'password' => $request->password, 
                                 'name' => $request->name,
@@ -80,12 +101,12 @@ class UserController extends Controller
                                 'pic_profile_path' => 'default-user.png']);
             $user->save();
 
-            session(["username" => $user->email]);
+            session(['username' => $user->email]);
 
-            //return redirect('/profile');
+            return redirect('/profile');
         }
 
-        return redirect('/')->with('signupfail', 'asd');
+        return redirect('/')->with('signupfail', true);
     }
 
 }

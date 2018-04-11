@@ -31,7 +31,7 @@
                     @else
                     <input type="password" class="text-input" name="password">
                     @endif
-                    @if (isset($loginfail))
+                    @if (session('loginfail') !== null)
                     <p style="color: red;">Log In failed!</p>
                     @endif
                     <p>Remember me: <input type="checkbox" name="remember"></p>
@@ -65,8 +65,12 @@
                     <input type="password" class="text-input" name="password">
                     <p>Birthday</p>
                     <input type="date" class="text-input" name="birthday">
-                    @if (isset($signupfail))
+                    @if (session('signupfail') !== null)
                     <p style="color: red;">Sign Up failed!</p>
+                    @elseif (session('signupfailuserexists') !== null)
+                    <p style="color: red;">Sign Up failed! User already exists.</p>
+                    @elseif (session('signupfailemptyfield') !== null)
+                    <p style="color: red;">Sign Up failed! Can't be empty fields.</p>
                     @endif
                     <div style="text-align: center; margin-top: 20px;">
                         <input type="submit" value="Sign Up">
