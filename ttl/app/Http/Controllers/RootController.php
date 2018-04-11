@@ -17,7 +17,8 @@ class RootController extends Controller
 
         if (session('user') !== null)
         {
-            return redirect('/profile')->with('user', session('user'));
+            return redirect('/profile');
+            //return redirect('/profile')->with('user', session('user'));
         }
 
         // Error.

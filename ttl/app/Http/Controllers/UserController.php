@@ -4,31 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Publication;
 use Cookie;
 use Redirect;
 
 class UserController extends Controller
 {
-    
-    public function show($username)
-    {
-        $count = User::where('email', $username)->count();
-
-        if ($count == 1)
-        {
-            $user = User::where('email', $username)->first();
-
-            return view('user.profile', ['user' => $user]);
-        }
-
-        return view('loginsignup')->with('loginfail', true);
-    }
 
     public function login(Request $request)
     {
         if  (session('user') !== null)
         {
-            return view('user.profile', ['user' => session('user')]);
+            {
+                // We update pagination recalling the methods again.
+
+                $publications = Publication::where('user_id', session('user')->id)->simplePaginate(1);
+
+                session(['publications' => $publications]);
+            }
+
+            return view('user.profile');
+            //return view('user.profile', ['user' => session('user')]);
         }
 
         if ($request->has('username') && $request->has('password'))
@@ -54,7 +50,11 @@ class UserController extends Controller
 
                 if ($user->password === $request->password)
                 {
-                    session(['user' => $user]);
+                    //$publications = $user->publication->paginate(1);
+                    $publications = Publication::where('user_id', $user->id)->simplePaginate(1);
+
+                    session([   'user' => $user,
+                                'publications' => $publications]);
 
                     return view('user.profile');
                 }
@@ -93,8 +93,8 @@ class UserController extends Controller
                 return redirect('/')->with('signupfailuserexists', true);
             }
 
-            $user = new User([  'email' => $request->username, 
-                                'password' => $request->password, 
+            $user = new User([  'email' => $request->username,
+                                'password' => $request->password,
                                 'name' => $request->name,
                                 'lastname' => $request->lname,
                                 'birthday' => "$request->birthday 00:00:00",
@@ -103,7 +103,8 @@ class UserController extends Controller
 
             session(['user' => $user]);
 
-            return redirect('/profile')->with('user', $user);
+            return redirect('/profile');
+            //return redirect('/profile')->with('user', $user);
         }
 
         return redirect('/')->with('signupfail', true);

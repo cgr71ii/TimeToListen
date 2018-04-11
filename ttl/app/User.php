@@ -52,4 +52,19 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Message')->withTimestamps();
     }
 
+    public function group_user()
+    {
+        return $this->belongsToMany('App\Group')->withTimestamps();
+    }
+
+    public function song()
+    {
+        return $this->hasMany('App\Song');
+    }
+
+    public function song_status()
+    {
+        return $this->belongsTo('App\Song', 'song_id');
+    }
+
 }

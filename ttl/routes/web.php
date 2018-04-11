@@ -20,14 +20,7 @@ Route::get('/user/logout', 'UserController@logout');
 Route::post('/user/signup', 'UserController@signup');
 
 //Route::get('/profile', function () {
-//    return view('user.profile');
+    //return view('user.profile');
 //});
 
 Route::get('/profile', 'UserController@login');
-
-// If this is called, is because someone is trying it manually.
-/*
-Route::get('/user/signup', function(){
-    return redirect('/');
-});
-*/

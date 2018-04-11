@@ -14,7 +14,7 @@
     <div id="user-info-wrapper">
         <div id="user-info-img">
             <!-- The conditinal it will check if session('user')->pic_profile_path exists -->
-            @if (false)
+            @if (File::exists(session('user')->pic_profile_path))
             <img src="{{ session('user')->pic_profile_path }}" alt="User Image">
             @else
             <img src="default-user.png" alt="User Image">
@@ -23,8 +23,18 @@
         <div id="user-info-content">
             <div id="user-info-content-wrapper">
             <p>{{ session('user')->name }} {{ session('user')->lastname }}</p>
-            <p><img src="music.png"> Song Status <img src="music.png"></p>
-            <audio controls><source src="a7x - buried alive.mp3" type="audio/mp3">Audio not Available!</audio>
+            @if (session('user')->song_status !== null)
+            <p><img src="music.png"> {{ session('user')->song_status->name }} <img src="music.png"></p>
+            @if (File::exists(session('user')->song_status->song_path))
+            <!--<audio controls><source src="user/songs/a7x - buried alive.mp3" type="audio/mp3">Audio not Available!</audio>-->
+            <audio controls><source src="{{ session('user')->song_status->song_path }}" type="audio/mp3">Audio not Available!</audio>
+            @else
+            <p>It could not find the song!</p>
+            @endif
+            @else
+            <p>There is no song status selected!</p>
+            <p>Click <a href="{{ URL::to('/settings') }}">here</a> to modify your profile!</p>
+            @endif
             </div>
         </div>
     </div>
@@ -38,5 +48,9 @@
     </div>
     <div id="publications">
         <p>Pubs</p>
+        @foreach (session('publications') as $pub)
+        <p>{{ $pub->text }}</p>
+        @endforeach
+        {{ session('publications')->links() }}
     </div>
 @endsection
