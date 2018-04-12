@@ -21,8 +21,10 @@ Route::post('/user/signup', 'UserController@signup');
 
 Route::post('/user/publicate', 'UserController@publicate');
 
-//Route::get('/profile', function () {
-    //return view('user.profile');
-//});
-
 Route::get('/profile', 'UserController@login');
+
+Route::get('/settings', 'SettingsController@show');
+
+Route::post('/user/update/info', 'SettingsController@update');
+
+Route::post('/user/update/image', ['as'=>'user.update.image','uses'=>'SettingsController@updateImage']);

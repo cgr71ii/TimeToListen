@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="shortcut icon" type="image/png" href="/favicon.png">
     <title>Time to Listen</title>
-    <link rel="stylesheet" type="text/css" href="css/root.css">
+    <link rel="stylesheet" type="text/css" href="/css/root.css">
+    <link rel="stylesheet" type="text/css" href="/css/app.css">
     @include('general-css')
 </head>
 <body>
@@ -22,9 +23,9 @@
                     {{ csrf_field() }}
                     <div><p>Email</p></div>
                     @if (Cookie::get('TTLusername') !== null)
-                    <input type="text" class="text-input" name="username" value="{{ Cookie::get('TTLusername') }}">
+                    <input type="email" class="text-input" name="username" value="{{ Cookie::get('TTLusername') }}" oninvalid="this.setCustomValidity('Please, insert a valid email.')">
                     @else
-                    <input type="text" class="text-input" name="username">
+                    <input type="email" class="text-input" name="username" oninvalid="this.setCustomValidity('Please, insert a valid email.')">
                     @endif
                     <p>Password</p>
                     @if (Cookie::get('TTLpassword') !== null)
@@ -61,7 +62,7 @@
                         </div>
                     </div>
                     <p>Email</p>
-                    <input type="text" class="text-input" name="username">
+                    <input type="email" class="text-input" name="username" oninvalid="this.setCustomValidity('Please, insert a valid email.')">
                     <p>Password</p>
                     <input type="password" class="text-input" name="password">
                     <p>Birthday</p>
