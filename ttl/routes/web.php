@@ -19,3 +19,7 @@ Route::get('/', function () {
 Route::get('/profile', function () {
     return view('user.profile');
 });
+
+Route::get('/songs', function () {
+    return view('user.songs');
+});
