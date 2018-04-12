@@ -23,3 +23,18 @@ Route::get('/profile', function () {
 Route::get('/songs', function () {
     return view('user.songs');
 });
+Route::get('/', 'RootController@show');
+
+Route::post('/profile', 'UserController@login');
+
+Route::get('/user/logout', 'UserController@logout');
+
+Route::post('/user/signup', 'UserController@signup');
+
+Route::post('/user/publicate', 'UserController@publicate');
+
+//Route::get('/profile', function () {
+    //return view('user.profile');
+//});
+
+Route::get('/profile', 'UserController@login');
