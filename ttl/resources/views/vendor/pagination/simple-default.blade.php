@@ -1,4 +1,7 @@
-@if ($paginator->hasPages())
+
+<!-- Adding "true ||" to next line to force to show links and don't remove original code. -->
+
+@if (true || $paginator->hasPages())
     <ul class="pagination">
         {{-- Previous Page Link --}}
         @if ($paginator->onFirstPage())

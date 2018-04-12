@@ -46,17 +46,33 @@
         </div>
     </div>
 
+    <hr>
+
+    @if (session('success') !== null)
+    <div class="alert alert-success">
+        <strong>Success!</strong> {{ session('success') }}
+    </div>
+
+    <hr>
+    @endif
+
     <div id="settings-wrapper">
         {!! Form::open(array('route' => 'user.update.image','files'=>true)) !!}
             <div class="row">
-                <div class="col-md-6">
-                    {!! Form::file('image', array('class' => 'form-control')) !!}
+                <div class="col-md-4">
+                    <p>Change Profile Image:</p>
                 </div>
-                <div class="col-md-6">
-                    <button type="submit" class="btn btn-success">Upload</button>
+                <div class="col-md-4">
+                    {!! Form::file('image') !!}
+                </div>
+                <div class="col-md-4">
+                    <!--<button type="submit" class="btn btn-success">Upload</button>-->
+                    <input type="submit" value="Upload Image">
                 </div>
             </div>
         {!! Form::close() !!}
+
+        <hr>
 
         <form method="POST" action="{{ action('SettingsController@update') }}">
             {{ csrf_field() }}
@@ -76,15 +92,15 @@
                     <input type="text" class="text-input" name="name" value="{{ session('user')->name }}">
                 </div>
                 <div class="col-md-4">
-                    <input type="text" class="text-input" name="username" value="{{ session('user')->email }}">
+                    <input type="email" class="text-input" name="username" value="{{ session('user')->email }}" oninvalid="this.setCustomValidity('Please, insert a valid email.')">
                 </div>
                 <div class="col-md-4">
-                <select multiple id="status-song">
+                <select multiple name="status_song[]">
                     @forelse (session('user')->song as $song)
                     @if ($song->id === session('user')->song_status->id)
-                    <option value="$song->name" selected>{{ $song->name }}</option>
+                    <option value="{{ $song->id }}" selected>{{ $song->name }}</option>
                     @else
-                    <option value="$song->name">{{ $song->name }}</option>
+                    <option value="{{ $song->id }}">{{ $song->name }}</option>
                     @endif
                     @empty
                     <option value="empty">No Songs Available</option>
@@ -116,5 +132,7 @@
             </div>
         </form>
     </div>
+
+    <div class="general-floor"></div>
 
 @endsection

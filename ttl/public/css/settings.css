@@ -1,5 +1,14 @@
 #settings-wrapper
 {
     width: 100%;
-    border: 1px solid black;
+}
+
+#settings-wrapper input
+{
+    width: 100%;
+}
+
+#settings-wrapper select
+{
+    width: 100%;
 }
