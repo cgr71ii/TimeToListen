@@ -23,6 +23,10 @@ class UserController extends Controller
                 session(['publications' => $publications]);
             }
 
+            if ($request->ajax()) {
+                return view('user.publications', ['publications' => session('publications')])->render();  
+            }
+
             return view('user.profile');
         }
 
@@ -54,6 +58,10 @@ class UserController extends Controller
 
                     session([   'user' => $user,
                                 'publications' => $publications]);
+
+                    if ($request->ajax()) {
+                        return view('publications', ['user.publications' => $publications])->render();  
+                    }
 
                     return view('user.profile');
                 }

@@ -24,9 +24,14 @@
             <div id="user-info-content-wrapper">
             <p>{{ session('user')->name }} {{ session('user')->lastname }}</p>
             @if (session('user')->song_status !== null)
-            <p><img src="music.png"> {{ session('user')->song_status->name }} <img src="music.png"></p>
+            <p><img src="favicon.png"> {{ session('user')->song_status->name }} <img src="favicon.png"></p>
             @if (File::exists(session('user')->song_status->song_path))
-            <audio controls><source src="{{ session('user')->song_status->song_path }}" type="audio/mp3">Audio not Available!</audio>
+            <audio controls id="myaudio"><source src="{{ session('user')->song_status->song_path }}" type="audio/mp3">Audio not Available!</audio>
+
+            <script>
+                var audio = document.getElementById("myaudio");
+                audio.volume = 0.5;
+            </script>
             @else
             <p>It could not find the song!</p>
             @endif
@@ -48,15 +53,11 @@
     </div>
     @if (session('publications')[0] !== null)
     <hr>
-    <div id="publications">
-        <h2>My Publications</h2>
-        @foreach (session('publications') as $pub)
-        <div class="publication">
-            <p>{{ $pub->text }}</p>
-            <p style="text-align: right;">{{ $pub->date }}</p>
-        </div>
-        @endforeach
-        {{ session('publications')->links() }}
+    <div id="publications" class="ajax-publication">
+        @include('user.publications')
     </div>
     @endif
+
+    @include('user.publications-ajax')
+
 @endsection
