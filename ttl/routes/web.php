@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+/*
 Route::get('/', function () {
     //return view('welcome');
     return view('loginsignup', ["title" => "Time to Listen"]);
@@ -38,3 +38,20 @@ Route::post('/user/publicate', 'UserController@publicate');
 //});
 
 Route::get('/profile', 'UserController@login');
+*/
+
+
+Route::get('/', 'RootController@show');
+Route::post('/profile', 'UserController@login');
+Route::get('/user/logout', 'UserController@logout');
+Route::post('/user/signup', 'UserController@signup');
+Route::post('/user/publicate', 'UserController@publicate');
+//Route::get('/profile', function () {
+    //return view('user.profile');
+//});
+Route::get('/profile', 'UserController@login');
+
+Route::get('/songs', function () {
+    return view('user.songs');
+});
+Route::post('/song/add_song', 'SongController@add_song');

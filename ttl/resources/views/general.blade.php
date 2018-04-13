@@ -19,11 +19,6 @@
         @include('horizontally-main-menu')
     </div>
     <div id="general-content-wrapper">
-<<<<<<< HEAD
-        <!--h3 style="text-align: center;">Temporal border and message (this)</h3-->
-        <hr>
-=======
->>>>>>> origin/cristian
         @yield('content')
     </div>
     <div id="general-footer-height"></div>
