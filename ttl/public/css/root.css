@@ -29,6 +29,16 @@
     float: left;
 }
 
+#log-in input
+{
+    width: 100%;
+}
+
+#sign-up input
+{
+    width: 100%;
+}
+
 #name-and-lname
 {
     width: 100%;

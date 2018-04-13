@@ -43,6 +43,7 @@
             <p>Set your song status here!</p>
             @endif
             </div>
+            <a href="{{ URL::to('/user/logout') }}">Sign Out</a>
         </div>
     </div>
 
@@ -58,9 +59,10 @@
 
     <div id="settings-wrapper">
         {!! Form::open(array('route' => 'user.update.image','files'=>true)) !!}
+            {{ csrf_field() }}
             <div class="row">
                 <div class="col-md-4">
-                    <p>Change Profile Image:</p>
+                    <p>Change Profile Image</p>
                 </div>
                 <div class="col-md-4">
                     {!! Form::file('image') !!}

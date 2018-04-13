@@ -33,16 +33,20 @@
                     @else
                     <input type="password" class="text-input" name="password">
                     @endif
-                    @if (session('loginfail') !== null)
-                    <p style="color: red;">Log In failed!</p>
-                    @endif
-                    <p>Remember me: <input type="checkbox" name="remember"></p>
+                    
+                    <p>Remember me: <input type="checkbox" style="width: 20px;" name="remember"></p>
                     <a href="#">I forgot my password</a>
                     <br>
                     <div style="text-align: center; margin-top: 20px;">
                         <input type="submit" value="Log In">
                     </div>
                 </form>
+                @if (session('loginfail') !== null)
+                <hr>
+                <div class="alert alert-danger">
+                    <strong>Error!</strong> Log In failed!
+                </div>
+                @endif
             </div>
         </div>
         <div id="sign-up">
@@ -67,16 +71,26 @@
                     <input type="password" class="text-input" name="password">
                     <p>Birthday</p>
                     <input type="date" class="text-input" name="birthday">
-                    @if (session('signupfail') !== null)
-                    <p style="color: red;">Sign Up failed!</p>
-                    @elseif (session('signupfailuserexists') !== null)
-                    <p style="color: red;">Sign Up failed! User already exists.</p>
-                    @elseif (session('signupfailemptyfield') !== null)
-                    <p style="color: red;">Sign Up failed! Can't be empty fields.</p>
-                    @endif
                     <div style="text-align: center; margin-top: 20px;">
                         <input type="submit" value="Sign Up">
                     </div>
+
+                    @if (session('signupfail') !== null)
+                    <hr>
+                    <div class="alert alert-danger">
+                        <strong>Error!</strong> Sign Up failed!
+                    </div>
+                    @elseif (session('signupfailuserexists') !== null)
+                    <hr>
+                    <div class="alert alert-danger">
+                        <strong>Error!</strong> Sign Up failed! User already exists.
+                    </div>
+                    @elseif (session('signupfailemptyfield') !== null)
+                    <hr>
+                    <div class="alert alert-danger">
+                        <strong>Error!</strong> Sign Up failed! Can't be empty fields.
+                    </div>
+                    @endif
                 </form>
             </div>
         </div>
