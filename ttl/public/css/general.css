@@ -77,3 +77,9 @@ a:link.general-main-menu-option
     background-color: grey;
     box-shadow: 2px 2px black;
 }
+
+.general-floor
+{
+    width: 100%;
+    height: 50px;
+}

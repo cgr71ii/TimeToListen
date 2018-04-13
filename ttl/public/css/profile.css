@@ -84,13 +84,14 @@
     margin: 0 auto;
 }
 
-hr
-{
-    width: 80%;
-}
-
-
 .link-pagination a:visited
 {
     color: black;
+}
+
+.publication-actions
+{
+    width: 80%;
+    margin: 0 auto;
+    text-align: right;
 }
