@@ -21,7 +21,7 @@ Route::post('/user/signup', 'UserController@signup');
 
 Route::post('/user/publicate', 'PublicationController@publicate');
 
-Route::post('/user/publication/remove', 'UserController@removePublication');
+Route::post('/user/publication/remove', 'PublicationController@removePublication');
 
 Route::get('/profile', 'UserController@login');
 

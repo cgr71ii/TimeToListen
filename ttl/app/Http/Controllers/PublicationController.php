@@ -25,6 +25,27 @@ class PublicationController extends Controller
         }
         return redirect('/profile')->with('publicatefail', true);
     }
+    
+    public function removePublication(Request $request)
+    {
+        if (session('user') === null)
+        {
+            return redirect('/');
+        }
+
+        if ($request->has('publication_id'))
+        {
+            $pub = Publication::find($request->publication_id);
+
+            if ($pub !== null)
+            {
+                $pub->delete();
+            }
+        }
+        
+        return redirect('/profile');
+    }
+
 
   public function show(Request $request){
         if (session('user') === null){

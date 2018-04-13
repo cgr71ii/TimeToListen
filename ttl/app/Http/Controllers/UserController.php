@@ -116,7 +116,7 @@ class UserController extends Controller
         return redirect('/')->with('signupfail', true);
     }
 
-    public function publicate(Request $request)
+   /* public function publicate(Request $request)
     {
         if (session('user') === null)
         {
@@ -156,6 +156,6 @@ class UserController extends Controller
         }
         
         return redirect('/profile');
-    }
+    }*/
 
 }
