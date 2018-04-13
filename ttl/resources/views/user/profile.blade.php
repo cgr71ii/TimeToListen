@@ -46,7 +46,7 @@
     <hr>
     <div id="write-pub">
         <h2>New Publication</h2>
-        <form method="POST" action="{{ action('UserController@publicate') }}">
+        <form method="POST" action="{{ action('PublicationController@publicate') }}">
             {{ csrf_field() }}
             <textarea name="publication"></textarea><br>
             <input type="submit" value="Publicate">

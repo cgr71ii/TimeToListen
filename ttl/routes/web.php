@@ -19,7 +19,7 @@ Route::get('/user/logout', 'UserController@logout');
 
 Route::post('/user/signup', 'UserController@signup');
 
-Route::post('/user/publicate', 'UserController@publicate');
+Route::post('/user/publicate', 'PublicationController@publicate');
 
 Route::post('/user/publication/remove', 'UserController@removePublication');
 
