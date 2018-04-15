@@ -19,14 +19,20 @@ Route::get('/user/logout', 'UserController@logout');
 
 Route::post('/user/signup', 'UserController@signup');
 
-Route::post('/user/publicate', 'PublicationController@publicate');
+Route::post('/user/publicate', 'PublicationController@create');
 
-Route::post('/user/publication/remove', 'PublicationController@removePublication');
+Route::post('/user/publication/remove', 'PublicationController@destroy');
 
 Route::get('/profile', 'UserController@login');
+
+Route::get('/user/publication/show', 'PublicationController@show');
 
 Route::get('/settings', 'SettingsController@show');
 
 Route::post('/user/update/info', 'SettingsController@update');
 
 Route::post('/user/update/image', ['as'=>'user.update.image','uses'=>'SettingsController@updateImage']);
+
+Route::get('/messages', 'MessageController@index');
+
+Route::get('messages/received', 'MessageController@received');

@@ -6,9 +6,12 @@ use Illuminate\Http\Request;
 use App\Publication;
 use App\User;
 
+use Redirect;
+
+
 class PublicationController extends Controller
 {
-    public function publicate(Request $request){
+    public function create(Request $request){
         if (session('user') === null){
             return redirect('/');
         }
@@ -26,7 +29,7 @@ class PublicationController extends Controller
         return redirect('/profile')->with('publicatefail', true);
     }
     
-    public function removePublication(Request $request)
+    public function destroy(Request $request)
     {
         if (session('user') === null)
         {
@@ -47,18 +50,18 @@ class PublicationController extends Controller
     }
 
 
-  public function show(Request $request){
+  /*public function show(Request $request){
         if (session('user') === null){
             return redirect('/');
         }
 
         $publications = Publication::where('user_id', session('user')->id)->orderBy('created_at', 'desc')->simplePaginate(5);
-        session(['publications' => $publications]);
+        /*session(['publications' => $publications]);
 
         if($request->ajax()) {
-            return view('user.publications', ['publications' => session('publications')])->render();  
+            return view('publication.publications', ['publications' => session('publications')])->render();  
         }
 
-        return view('user.profile');
-    }
+        return view('publication.publications');
+}*/
 }

@@ -22,9 +22,9 @@ class UserController extends Controller
 
                 session(['publications' => $publications]);
             }
-
+            
             if ($request->ajax()) {
-                return view('user.publications', ['publications' => session('publications')])->render();  
+                return view('publication.publications', ['publications' => session('publications')])->render();  
             }
 
             return view('user.profile');
@@ -52,15 +52,15 @@ class UserController extends Controller
                 $user = User::where('email', $request->username)->first();
 
                 if ($user->password === $request->password)
-                {
+                {                    
                     //$publications = $user->publication->paginate(1);
                     $publications = Publication::where('user_id', $user->id)->orderBy('created_at', 'desc')->simplePaginate(5);
 
                     session([   'user' => $user,
-                                'publications' => $publications]);
+                                'publications' => null]);
 
                     if ($request->ajax()) {
-                        return view('publications', ['user.publications' => $publications])->render();  
+                        return view('publications', ['publication.publications' => $publications])->render();  
                     }
 
                     return view('user.profile');
@@ -115,47 +115,4 @@ class UserController extends Controller
 
         return redirect('/')->with('signupfail', true);
     }
-
-   /* public function publicate(Request $request)
-    {
-        if (session('user') === null)
-        {
-            return redirect('/');
-        }
-
-        if ($request->has('publication'))
-        {
-            $publication = new Publication([
-                'text' => $request->publication,
-                'user_id' => session('user')->id,
-                'date' => date('Y-m-d h:i:s', time())
-            ]);
-            $publication->save();
-
-            return redirect('/profile');
-        }
-
-        return redirect('/profile')->with('publicatefail', true);
-    }
-
-    public function removePublication(Request $request)
-    {
-        if (session('user') === null)
-        {
-            return redirect('/');
-        }
-
-        if ($request->has('publication_id'))
-        {
-            $pub = Publication::find($request->publication_id);
-
-            if ($pub !== null)
-            {
-                $pub->delete();
-            }
-        }
-        
-        return redirect('/profile');
-    }*/
-
 }

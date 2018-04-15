@@ -46,7 +46,7 @@
     <hr>
     <div id="write-pub">
         <h2>New Publication</h2>
-        <form method="POST" action="{{ action('PublicationController@publicate') }}">
+        <form method="POST" action="{{ action('PublicationController@create') }}">
             {{ csrf_field() }}
             <textarea name="publication"></textarea><br>
             <input type="submit" value="Publicate">
@@ -55,10 +55,10 @@
     @if (session('publications')[0] !== null)
     <hr>
     <div id="publications" class="ajax-publication">
-        @include('user.publications')
+        @include('publication.publications')
     </div>
     @endif
 
-    @include('user.publications-ajax')
+    @include('publication.publications-ajax')
 
 @endsection
