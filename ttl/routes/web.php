@@ -35,3 +35,5 @@ Route::get('/friends','FriendsController@indexFriends');
 Route::post('/friends', 'FriendsController@addFriend');
 
 Route::get('/deleteFriend/{email}', 'FriendsController@deleteFriend');
+
+Route::post('/deleteFriend', 'FriendsController@deleteF');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use DB;
 
 class FriendsController extends Controller
 {
@@ -99,14 +100,26 @@ class FriendsController extends Controller
 
     public function deleteF(Request $request)
     {
-        if (session('user') === null)
-        {
-            return redirect('/');
-        }
+        $friend = $request->friend;
         if ($request->has('confirm')) {
-            return "OK";
             if ($request->confirm == 'Yes') {
-                return "OK";
+                $user1 = DB::table('user_user')->where('user_id','1')->where('user_friend_id',$friend);
+                $user2 = DB::table('user_user')->where('user_friend_id','1')->where('user_id',$friend);
+
+                if($user1->count()>0)
+                {
+                    foreach($user1 as $user)
+                    {
+                        return "Escribir la linea de eliminacion en el codigo";
+                    }
+                }
+                if($user2->count()>0)
+                {
+                    foreach($user2 as $user)
+                    {
+                        return "Escribir la linea de eliminacion en el codigo";
+                    }
+                }
             }
             else if ($request->confirm == 'No') {
                 return "Operation Cancelled";
