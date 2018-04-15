@@ -1,0 +1,65 @@
+#new-friend
+{
+    width: 100%;
+    margin: 0 auto;
+    resize: none;
+    display: flex;
+}
+#email
+{
+    width: 90%;
+    margin-left: 5%;
+    width: 50%;
+    float: left;
+
+}
+
+#message
+{
+    width: 50%;
+    margin-left:5%;
+    
+    float: right;
+}
+
+#text-area
+{
+    width: 100%;
+    margin: 0 auto;
+    resize: none;
+    height: 55%;
+    width: 57.5%;
+}
+
+#button
+{
+    margin-top:4%;
+    text-align: center;
+}
+
+#friend
+{
+    margin-top:4%;
+    text-align: left;
+    display: flex;
+}
+
+
+#friend-text
+{
+    width: 100%;
+    margin-top:4%;
+    margin-right:35%;
+    float: right;
+    
+
+    
+}
+#friend-image
+{
+    width: 100%;
+    margin-left: 5%;
+    float: left;
+    text-align: center;
+}
+

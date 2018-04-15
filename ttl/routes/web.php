@@ -19,3 +19,19 @@ Route::get('/', function () {
 Route::get('/profile', function () {
     return view('user.profile');
 });
+
+Route::get('/groups', 'GroupController@show');
+
+Route::post('/groups', 'GroupController@createGroup');
+
+Route::get('/groups/{id}', 'GroupController@groupPublications');
+
+Route::get('/profile/{email}', 'FriendsController@viewFriend');
+
+Route::get('/songs/{email}', 'FriendsController@viewFriendSongs');
+
+Route::get('/friends','FriendsController@indexFriends');
+
+Route::post('/friends', 'FriendsController@addFriend');
+
+Route::get('/deleteFriend/{email}', 'FriendsController@deleteFriend');

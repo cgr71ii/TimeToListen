@@ -1,0 +1,66 @@
+#new-group
+{
+    width: 90%;
+    margin: 0 auto;
+    margin-left: 5%;
+}
+
+
+
+#block
+{
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 2px solid black;
+}
+#text 
+{
+    width: 90%;
+    margin: 0 auto;
+    margin-left: 5%;
+}
+
+#selection
+{
+    width: 100%;
+    margin-top: 2.5%;
+    border: 2px solid black;
+}
+
+#list-friends
+{
+    margin-left: 5%;
+	height: 200px;
+	overflow-y: scroll;
+}
+
+
+#members
+{
+    width: 100%;
+    margin: 0 auto;
+    resize: none;
+    display: flex;
+}
+
+#add-friend
+{
+    width: 100%;
+    margin-left: 5%;
+    float: left;
+}
+
+#belong
+{
+    width: 100%;
+    margin-right: 5%;
+    float: right;
+
+}
+
+#publications
+{
+    width: 90%;
+    margin-left: 5%;
+    margin-bottom: 10%;
+
+}
