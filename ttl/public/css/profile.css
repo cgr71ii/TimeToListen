@@ -1,17 +1,15 @@
 #user-info-wrapper
 {
-    width: 100%;
+    width: 80%;
     margin: 0 auto;
     justify-content: center;
     display: flex;
-    border: 1px solid black;
 }
 
 #user-info-img
 {
     width: 30%;
     float: left;
-    border: 1px solid black;
     text-align: center;
 }
 
@@ -25,17 +23,75 @@
 {
     width: 70%;
     float: left;
-    border: 1px solid black;
+    text-align: center;
+}
+
+#user-info-content img
+{
+    width: 13px;
+    height: 13px;
+}
+
+#user-info-content-wrapper
+{
+    width: 100%;
+    margin-top: 50px;
 }
 
 #write-pub
 {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 10px;
+    text-align: center;
+}
+
+#write-pub textarea
+{
     width: 100%;
-    border: 1px solid black;
+    height: 50px;
+    resize: none;
+    box-sizing: border-box;
+}
+
+#write-pub input
+{
+    display: block;
+    margin-left: auto;
 }
 
 #publications
 {
+    text-align: center;
     width: 100%;
-    border: 1px solid black;
+    margin-top: 10px;
+}
+
+.publication
+{
+    width: 80%;
+    text-align: left;
+    margin-top: 10px;
+    margin-left: 10%;
+    border: 1px solid grey;
+    background-color: darkgrey;
+    border-left: 5px solid grey;
+}
+
+.publication-text-wrapper
+{
+    width: 97%;
+    margin: 0 auto;
+}
+
+.link-pagination a:visited
+{
+    color: black;
+}
+
+.publication-actions
+{
+    width: 80%;
+    margin: 0 auto;
+    text-align: right;
 }

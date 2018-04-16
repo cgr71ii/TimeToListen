@@ -11,6 +11,7 @@
 |
 */
 
+<<<<<<< HEAD
 Route::get('/', function () {
     //return view('welcome');
     return view('loginsignup', ["title" => "Time to Listen"]);
@@ -37,3 +38,24 @@ Route::post('/friends', 'FriendsController@addFriend');
 Route::get('/deleteFriend/{email}', 'FriendsController@deleteFriend');
 
 Route::post('/deleteFriend', 'FriendsController@deleteF');
+=======
+Route::get('/', 'RootController@show');
+
+Route::post('/profile', 'UserController@login');
+
+Route::get('/user/logout', 'UserController@logout');
+
+Route::post('/user/signup', 'UserController@signup');
+
+Route::post('/user/publicate', 'UserController@publicate');
+
+Route::post('/user/publication/remove', 'UserController@removePublication');
+
+Route::get('/profile', 'UserController@login');
+
+Route::get('/settings', 'SettingsController@show');
+
+Route::post('/user/update/info', 'SettingsController@update');
+
+Route::post('/user/update/image', ['as'=>'user.update.image','uses'=>'SettingsController@updateImage']);
+>>>>>>> cristian
