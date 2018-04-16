@@ -69,7 +69,7 @@
     @if (session('publications')[0] !== null)
     <hr>
     <div id="publications" class="ajax-publication">
-        @include('user.publications')
+        @include('user.publications', ['actions' => true])
     </div>
     @endif
 
