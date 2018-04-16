@@ -18,9 +18,9 @@
                 $.ajax({
                     url : url  
                 }).done(function (data) {
-                    $('.ajax-publication').html(data);  
+                    $("." + "{{ $class_name }}").html(data);  
                 }).fail(function () {
-                    alert('Publications could not be loaded.');
+                    alert('{{ $object_title }} could not be loaded.');
                 });
             }
         });

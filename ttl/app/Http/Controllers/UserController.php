@@ -20,11 +20,12 @@ class UserController extends Controller
 
                 $publications = Publication::where('user_id', session('user')->id)->orderBy('created_at', 'desc')->simplePaginate(5);
 
-                session(['publications' => $publications]);
+                session(['publications' => $publications,
+                'publication_session_name' => 'publications']);
             }
 
             if ($request->ajax()) {
-                return view('user.publications', ['publications' => session('publications')])->render();  
+                return view('user.publications', ['publications' => session('publications')])->render();
             }
 
             return view('user.profile');
@@ -57,11 +58,8 @@ class UserController extends Controller
                     $publications = Publication::where('user_id', $user->id)->orderBy('created_at', 'desc')->simplePaginate(5);
 
                     session([   'user' => $user,
-                                'publications' => $publications]);
-
-                    if ($request->ajax()) {
-                        return view('publications', ['user.publications' => $publications])->render();  
-                    }
+                                'publications' => $publications,
+                                'publication_session_name' => 'publications']);
 
                     return view('user.profile');
                 }
@@ -71,6 +69,43 @@ class UserController extends Controller
         }
 
         return redirect('/');
+    }
+
+    public function showFriend(Request $request, $friend_email)
+    {
+        if  (session('user') === null)
+        {
+            return redirect('/');
+        }
+
+        $count = User::where('email', $friend_email)->count();
+
+        if ($count == 1)
+        {
+            $friend = User::where('email', $friend_email)->first();
+
+            foreach (session('user')->userFriends as $f)
+            {
+                if ($f->id == $friend->id)
+                {
+                    $friend_publications = Publication::where('user_id', $friend->id)->orderBy('created_at', 'desc')->simplePaginate(5);
+
+                    session([   'friend' => $friend,
+                                'friend_publications' => $friend_publications,
+                                'publication_session_name' => 'friend_publications']);
+    
+                    if ($request->ajax()) {
+                        return view('user.publications', ['publications' => $friend_publications])->render();
+                    }
+    
+                    return view('user.friend-profile');
+                }
+            }
+
+            return back()->with('error_not_friend', true)->with('user_friend', $friend_email);
+        }
+
+        return back()->with('error_non_existent_user', true)->with('user_friend', $friend_email);
     }
 
     public function logout()
@@ -183,6 +218,7 @@ class UserController extends Controller
             {
                 $pub = Publication::where('id', $request->publication_id)->first();
                 $pub->text = $request->publication;
+                //$pub->date = date('Y-m-d h:i:s', time());
                 $pub->save();
 
                 return back();

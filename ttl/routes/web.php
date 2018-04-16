@@ -15,6 +15,8 @@ Route::get('/', 'RootController@show');
 
 Route::post('/profile', 'UserController@login');
 
+Route::get('/profile/{friend_email}', 'UserController@showFriend');
+
 Route::get('/user/logout', 'UserController@logout');
 
 Route::post('/user/signup', 'UserController@signup');

@@ -12,6 +12,15 @@
 @section('content')
     <!--All body code here.-->
 
+    @if (session('error_not_friend') !== null)
+    <div class="alert alert-danger" style="width: 80%; margin: 0 auto;">
+        <strong>Error!</strong> {{ session('user_friend') }} is not your friend!
+    </div>
+    @elseif (session('error_non_existent_user') !== null)
+    <div class="alert alert-danger" style="width: 80%; margin: 0 auto;">
+        <strong>Error!</strong> The user {{ session('user_friend') }} does not exist!
+    </div>
+    @endif
     <div id="user-info-wrapper">
         <div id="user-info-img">
             <!-- The conditinal it will check if session('user')->pic_profile_path exists -->
@@ -64,6 +73,6 @@
     </div>
     @endif
 
-    @include('user.publications-ajax')
+    @include('pagination-ajax', ['class_name' => 'ajax-publication', 'object_title' => 'Publications'])
 
 @endsection

@@ -1,4 +1,4 @@
-<h2>My Publications</h2>
+<h2>Publications</h2>
 @if (session('publication_fail') !== null)
 <div class="alert alert-danger">
     <strong>Error!</strong> Publication can not have empty fields!
@@ -8,8 +8,8 @@
     <strong>Error!</strong> Unexpected error!
 </div>
 @endif
-<span class="link-pagination">{{ session('publications')->links() }}</span>
-@foreach (session('publications') as $pub)
+<span class="link-pagination">{{ session(session('publication_session_name'))->links() }}</span>
+@foreach (session(session('publication_session_name')) as $pub)
 <div class="publication">
     <div class="publication-text-wrapper">
         <p>{{ $pub->text }}</p>
@@ -19,8 +19,6 @@
 <div class="publication-actions">
   <a href="#" data-id="{{ $pub->id }}" data-title="Modify Publication" data-toggle="modal" data-target="#modifyPublicationModal{{ $pub->id }}">Modify</a>
   <a href="#" data-id="{{ $pub->id }}" data-title="Delete Publication" data-toggle="modal" data-target="#removePublicationModal{{ $pub->id }}">Delete</a>
-
-  
 </div>
 
 <div class="modal fade" id="modifyPublicationModal{{ $pub->id }}" tabindex="-1" role="dialog" aria-labelledby="modifyPublicationModalLabel">
@@ -82,4 +80,4 @@
 
 
 @endforeach
-<span class="link-pagination">{{ session('publications')->links() }}</span>
+<span class="link-pagination">{{ session(session('publication_session_name'))->links() }}</span>
