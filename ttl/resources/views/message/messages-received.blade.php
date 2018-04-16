@@ -14,7 +14,7 @@
         <h2>Received Messages</h2>
         @foreach (session('messages') as $message)
             <div style="text-align: left;">
-                <p>Message From:</br>
+                <p>Message From: {{ $message->user_id}}</br>
                 Date: {{ $message->date }}</br>
                 Title: {{ $message->title }}</br>
                 Body of Message:</p>

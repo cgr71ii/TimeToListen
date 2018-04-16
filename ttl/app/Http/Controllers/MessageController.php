@@ -73,18 +73,21 @@ class MessageController extends Controller
             select * from messages where id IN (
                 select message_id from message_user where user_id = 2);
         */
-        
-        /*$messages = Message::whereIn('id', function($query){
-            $query->select('message_id')
-            ->from('message_user')
-            ->where('user_id', '=', session('user')->id)->get();
-        })->toSql();*/
 
         $messages = DB::table('messages')
                     ->join('message_user', function ($join) {
                         $join->on('messages.id', '=', 'message_user.message_id')
                              ->where('message_user.user_id', '=', session('user')->id);
-                    })->get();
+                    })->select('messages.*')->get();
+
+        foreach($messages as $message){
+            $user = User::where('id',$message->user_id)->first();
+            $name = $user->name;
+            $lastname = $user->lastname;
+            $email = $user->email;
+
+            $message->user_id = $name . ' ' . $lastname . ' (' . $email . ')';
+        }
         
         session(['messages' => $messages]);
 
