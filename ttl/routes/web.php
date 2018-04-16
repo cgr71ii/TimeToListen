@@ -29,4 +29,6 @@ Route::get('/settings', 'SettingsController@show');
 
 Route::post('/user/update/info', 'SettingsController@update');
 
+Route::post('/user/publication/modify', 'UserController@modifyPublication');
+
 Route::post('/user/update/image', ['as'=>'user.update.image','uses'=>'SettingsController@updateImage']);

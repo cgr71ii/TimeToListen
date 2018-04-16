@@ -38,7 +38,7 @@
     margin-top: 50px;
 }
 
-#write-pub
+.write-pub
 {
     width: 80%;
     margin: 0 auto;
@@ -46,7 +46,7 @@
     text-align: center;
 }
 
-#write-pub textarea
+.write-pub textarea
 {
     width: 100%;
     height: 50px;
@@ -54,7 +54,7 @@
     box-sizing: border-box;
 }
 
-#write-pub input
+.write-pub input
 {
     display: block;
     margin-left: auto;

@@ -44,8 +44,13 @@
         </div>
     </div>
     <hr>
-    <div id="write-pub">
+    <div class="write-pub">
         <h2>New Publication</h2>
+        @if (session('create_publication_fail') !== null)
+        <div class="alert alert-danger">
+            <strong>Error!</strong> Publication can not have empty fields!
+        </div>
+        @endif
         <form method="POST" action="{{ action('UserController@publicate') }}">
             {{ csrf_field() }}
             <textarea name="publication"></textarea><br>

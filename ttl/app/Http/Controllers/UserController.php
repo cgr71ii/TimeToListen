@@ -125,6 +125,11 @@ class UserController extends Controller
 
         if ($request->has('publication'))
         {
+            if (empty($request->publication))
+            {
+                return back()->with('create_publication_fail', true);
+            }
+
             $publication = new Publication([
                 'text' => $request->publication,
                 'user_id' => session('user')->id,
@@ -135,7 +140,7 @@ class UserController extends Controller
             return redirect('/profile');
         }
 
-        return redirect('/profile')->with('publicatefail', true);
+        return redirect('/profile')->with('unexpected_error', true);
     }
 
     public function removePublication(Request $request)
@@ -156,6 +161,35 @@ class UserController extends Controller
         }
         
         return redirect('/profile');
+    }
+
+    public function modifyPublication(Request $request)
+    {
+        if (session('user') === null)
+        {
+            return redirect('/');
+        }
+
+        if ($request->has('publication') && $request->has('publication_id'))
+        {
+            if (empty($request->publication))
+            {
+                return back()->with('publication_fail', true);
+            }
+
+            $count = Publication::where('id', $request->publication_id)->count();
+
+            if ($count == 1)
+            {
+                $pub = Publication::where('id', $request->publication_id)->first();
+                $pub->text = $request->publication;
+                $pub->save();
+
+                return back();
+            }
+        }
+        
+        return back()->with('error_unexpected', true);
     }
 
 }
