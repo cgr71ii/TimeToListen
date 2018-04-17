@@ -76,7 +76,7 @@
 
         <hr>
 
-        <form method="POST" action="{{ action('SettingsController@update') }}">
+        <form method="POST" action="{{ action('UserController@update') }}">
             {{ csrf_field() }}
             <div class="row">
                 <div class="col-md-4">

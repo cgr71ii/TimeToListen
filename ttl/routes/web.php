@@ -27,13 +27,13 @@ Route::post('/user/publication/remove', 'UserController@removePublication');
 
 Route::get('/profile', 'UserController@show');
 
-Route::get('/settings', 'SettingsController@show');
+Route::get('/settings', 'UserController@showSettings');
 
-Route::post('/user/update/info', 'SettingsController@update');
+Route::post('/user/update/info', 'UserController@update');
 
 Route::post('/user/publication/modify', 'UserController@modifyPublication');
 
-Route::post('/user/update/image', ['as'=>'user.update.image','uses'=>'SettingsController@updateImage']);
+Route::post('/user/update/image', ['as'=>'user.update.image','uses'=>'UserController@updateImage']);
 
 Route::post('/user/remove', 'UserController@remove');
 

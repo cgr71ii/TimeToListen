@@ -90,7 +90,7 @@
 <div class="modal fade" id="modifyUserModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="modifyUserModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-        <form method="POST" action="{{ action('SettingsController@update') }}">
+        <form method="POST" action="{{ action('UserController@update') }}">
             {{ csrf_field() }}
 
             <input type="hidden" name="user_id" value="{{ $user->id }}">
