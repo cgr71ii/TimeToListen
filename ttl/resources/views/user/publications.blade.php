@@ -21,7 +21,6 @@
   <a href="#" data-id="{{ $pub->id }}" data-title="Modify Publication" data-toggle="modal" data-target="#modifyPublicationModal{{ $pub->id }}">Modify</a>
   <a href="#" data-id="{{ $pub->id }}" data-title="Delete Publication" data-toggle="modal" data-target="#removePublicationModal{{ $pub->id }}">Delete</a>
 </div>
-@endif
 
 <div class="modal fade" id="modifyPublicationModal{{ $pub->id }}" tabindex="-1" role="dialog" aria-labelledby="modifyPublicationModalLabel">
   <div class="modal-dialog" role="document">
@@ -79,7 +78,7 @@
     </div>
   </div>
 </div>
-
+@endif
 
 @endforeach
 <span class="link-pagination">{{ session(session('publication_session_name'))->links() }}</span>

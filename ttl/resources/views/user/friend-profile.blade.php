@@ -44,11 +44,11 @@
     </div>
     @if (session('friend_publications')[0] !== null)
     <hr>
-    <div id="publications" class="ajax-publication-friend">
+    <div id="publications" class="ajax-publication">
         @include('user.publications', ['actions' => false])
     </div>
     @endif
 
-    @include('pagination-ajax', ['class_name' => 'ajax-publication-friend', 'object_title' => 'Friend Publications'])
+    @include('pagination-ajax', ['class_name' => 'ajax-publication', 'object_title' => 'Friend Publications'])
 
 @endsection

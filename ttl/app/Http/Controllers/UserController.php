@@ -25,7 +25,7 @@ class UserController extends Controller
             }
 
             if ($request->ajax()) {
-                return view('user.publications', ['publications' => session('publications')])->render();
+                return view('user.publications', ['publications' => session('publications'), 'actions' => true])->render();
             }
 
             return view('user.profile');
@@ -226,6 +226,14 @@ class UserController extends Controller
         }
         
         return back()->with('error_unexpected', true);
+    }
+
+    public function listUsers()
+    {
+        // We use ::where(tautology) to get a Builder object and be able to use simplePaginate().
+        $users = User::where('id', '>=', '0')->simplePaginate(5);
+
+        return view('lists.list-users', ['users' => $users]);
     }
 
 }
