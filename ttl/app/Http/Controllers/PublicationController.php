@@ -29,7 +29,7 @@ class PublicationController extends Controller
         return redirect('/profile')->with('publicatefail', true);
     }
     
-    public function destroy(Request $request)
+    public function delete(Request $request)
     {
         if (session('user') === null)
         {
@@ -46,11 +46,11 @@ class PublicationController extends Controller
             }
         }
         
-        return redirect('/profile');
+        return back();
     }
 
 
-  /*public function show(Request $request){
+    /*public function list(Request $request){
         if (session('user') === null){
             return redirect('/');
         }
@@ -63,5 +63,5 @@ class PublicationController extends Controller
         }
 
         return view('publication.publications');
-}*/
+    }*/
 }

@@ -23,6 +23,15 @@
                 <p> {{$message->text}}</p>
             </div>
             <br/>
+            
+            <div class="publication-actions">
+                <form method="POST" id="meg{{ $message->id }}" action="{{ action('MessageController@delete') }}">
+                {{ csrf_field() }}
+                <input type="hidden" name="message_id" value="{{ $message->id }}">
+                <a href="javascript:{}" onclick="document.getElementById('meg{{ $message->id }}').submit(); return false;">Delete</a>
+                </form>
+            </div>
+
         @endforeach
     </div>
 @endsection

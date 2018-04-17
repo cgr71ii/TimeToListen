@@ -48,23 +48,26 @@ class MessageController extends Controller
         }
     }
 
-    public function destroy(Request $request){
+    public function delete(Request $request){
         if (session('user') === null){
             return redirect('/');
         }
+
         if($request->has('message_id')){
-
-            $message_user = Message::where('message_id',$request->message_id)
-                                   ->where('user_id',session('user')->id)->first();
-
+            /*$message_user = Message_user::where('user_id',session('user')->id)
+                                    ->where('message_id',$request->message_id)->first();*/
+            $message_user = DB::table('message_user')->where('user_id',session('user')->id)
+                                      ->where('message_id',$request->message_id)->first();
+            
             if($message_user !== null){
-                $message_user->delete();
+                DB::table('message_user')->where('user_id',session('user')->id)
+                ->where('message_id',$request->message_id)->delete();
             }
         }
-        return redirect('/message');
+        return back();
     }
 
-    public function received(Request $request){
+    public function list(Request $request){
         if (session('user') === null){
             return redirect('/');
         }

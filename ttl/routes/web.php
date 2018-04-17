@@ -25,8 +25,6 @@ Route::post('/user/publication/remove', 'PublicationController@destroy');
 
 Route::get('/profile', 'UserController@login');
 
-Route::get('/user/publication/show', 'PublicationController@show');
-
 Route::get('/settings', 'SettingsController@show');
 
 Route::post('/user/update/info', 'SettingsController@update');
@@ -35,4 +33,6 @@ Route::post('/user/update/image', ['as'=>'user.update.image','uses'=>'SettingsCo
 
 Route::get('/messages', 'MessageController@index');
 
-Route::get('messages/received', 'MessageController@received');
+Route::get('/messages/received', 'MessageController@list');
+
+Route::post('/messages/received/remove', 'MessageController@delete');
