@@ -6,6 +6,7 @@
     <!-- All css imports or <style></style> here. -->
 
     <link rel="stylesheet" type="text/css" href="/css/profile.css">
+    <link rel="stylesheet" type="text/css" href="/css/pagination.css">
     <link rel="stylesheet" type="text/css" href="/css/app.css">
 @endsection
 
@@ -68,7 +69,7 @@
     </div>
     @if (session('publications')[0] !== null)
     <hr>
-    <div id="publications" class="ajax-publication">
+    <div id="pagination-box-style" class="ajax-publication">
         @include('user.publications', ['actions' => true])
     </div>
     @endif

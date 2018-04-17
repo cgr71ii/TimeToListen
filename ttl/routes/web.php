@@ -36,3 +36,5 @@ Route::post('/user/publication/modify', 'UserController@modifyPublication');
 Route::post('/user/update/image', ['as'=>'user.update.image','uses'=>'SettingsController@updateImage']);
 
 Route::get('/list/users', 'UserController@listUsers');
+
+Route::post('/user/remove', 'UserController@remove');

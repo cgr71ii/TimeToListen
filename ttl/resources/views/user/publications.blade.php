@@ -1,4 +1,6 @@
+
 <h2>Publications</h2>
+
 @if (session('publication_fail') !== null)
 <div class="alert alert-danger">
     <strong>Error!</strong> Publication can not have empty fields!
@@ -8,16 +10,23 @@
     <strong>Error!</strong> Unexpected error!
 </div>
 @endif
-<span class="link-pagination">{{ session(session('publication_session_name'))->links() }}</span>
+
+<span class="link-pagination">
+  {{ session(session('publication_session_name'))->links() }}
+</span>
+
 @foreach (session(session('publication_session_name')) as $pub)
-<div class="publication">
-    <div class="publication-text-wrapper">
+<div class="pagination-element-box-style">
+    <div class="pagination-content-wrapper">
         <p>{{ $pub->text }}</p>
-        <p style="text-align: right;">{{ $pub->date }}</p>
+        @if ($pub->created_at != $pub->updated_at)
+        <p style="text-align: right;">Updated at: {{ $pub->updated_at }}</p>
+        @endif
+        <p style="text-align: right;">Created at: {{ $pub->created_at }}</p>
     </div>
 </div>
 @if (isset($actions) && $actions)
-<div class="publication-actions">
+<div class="pagination-actions">
   <a href="#" data-id="{{ $pub->id }}" data-title="Modify Publication" data-toggle="modal" data-target="#modifyPublicationModal{{ $pub->id }}">Modify</a>
   <a href="#" data-id="{{ $pub->id }}" data-title="Delete Publication" data-toggle="modal" data-target="#removePublicationModal{{ $pub->id }}">Delete</a>
 </div>
@@ -54,7 +63,7 @@
 <div class="modal fade" id="removePublicationModal{{ $pub->id }}" tabindex="-1" role="dialog" aria-labelledby="removePublicationModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <form method="POST" id="pub{{ $pub->id }}" action="{{ action('UserController@removePublication') }}">
+      <form method="POST" action="{{ action('UserController@removePublication') }}">
         {{ csrf_field() }}
 
         <input type="hidden" name="publication_id" value="{{ $pub->id }}">
@@ -81,4 +90,7 @@
 @endif
 
 @endforeach
-<span class="link-pagination">{{ session(session('publication_session_name'))->links() }}</span>
+
+<span class="link-pagination">
+  {{ session(session('publication_session_name'))->links() }}
+</span>

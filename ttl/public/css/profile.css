@@ -59,39 +59,3 @@
     display: block;
     margin-left: auto;
 }
-
-#publications
-{
-    text-align: center;
-    width: 100%;
-    margin-top: 10px;
-}
-
-.publication
-{
-    width: 80%;
-    text-align: left;
-    margin-top: 10px;
-    margin-left: 10%;
-    border: 1px solid grey;
-    background-color: darkgrey;
-    border-left: 5px solid grey;
-}
-
-.publication-text-wrapper
-{
-    width: 97%;
-    margin: 0 auto;
-}
-
-.link-pagination a:visited
-{
-    color: black;
-}
-
-.publication-actions
-{
-    width: 80%;
-    margin: 0 auto;
-    text-align: right;
-}

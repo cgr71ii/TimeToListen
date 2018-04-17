@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Song;
+use App\User;
 
 class SettingsController extends Controller
 {
@@ -32,6 +33,11 @@ class SettingsController extends Controller
         }
 
         $user = session('user');
+
+        if ($request->has('user_id'))
+        {
+            $user = User::find($request->user_id);
+        }
 
         if ($request->has('name') && !empty($request->name))
         {
@@ -70,7 +76,10 @@ class SettingsController extends Controller
 
         $user->save();
 
-        session(['user' => $user]);
+        if (!$request->has('user_id') || $request->user_id == session('user')->id)
+        {
+            session(['user' => $user]);
+        }
 
         return back()->with('success', 'You have successfully changed your information.');
     }

@@ -24,7 +24,8 @@ class UserController extends Controller
                 'publication_session_name' => 'publications']);
             }
 
-            if ($request->ajax()) {
+            if ($request->ajax())
+            {
                 return view('user.publications', ['publications' => session('publications'), 'actions' => true])->render();
             }
 
@@ -94,7 +95,8 @@ class UserController extends Controller
                                 'friend_publications' => $friend_publications,
                                 'publication_session_name' => 'friend_publications']);
     
-                    if ($request->ajax()) {
+                    if ($request->ajax())
+                    {
                         return view('user.publications', ['publications' => $friend_publications])->render();
                     }
     
@@ -228,12 +230,48 @@ class UserController extends Controller
         return back()->with('error_unexpected', true);
     }
 
-    public function listUsers()
+    public function listUsers(Request $request)
     {
-        // We use ::where(tautology) to get a Builder object and be able to use simplePaginate().
+        /*
+         * We use ::where(tautology) to get a Builder object and be able to use simplePaginate().
+         * If we use ::get() then it returns a collection of objects and it is not possible to use simplePaginate().
+         */
         $users = User::where('id', '>=', '0')->simplePaginate(5);
 
+        if ($request->ajax())
+        {
+            return view('lists.pag.users', ['users' => $users])->render();
+        }
+
         return view('lists.list-users', ['users' => $users]);
+    }
+
+    public function remove(Request $request)
+    {
+        if (session('user') === null)
+        {
+            return redirect('/');
+        }
+
+        $my_id = session('user')->id;
+
+        $user = session('user');
+
+        if ($request->has('user_id'))
+        {
+            $user = User::find($request->user_id);
+        }
+        
+        $user->delete();
+
+        if ($my_id == $request->user_id)
+        {
+            session(['user' => null]);
+
+            return redirect('/');
+        }
+
+        return back();
     }
 
 }
