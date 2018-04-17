@@ -49,13 +49,12 @@ Route::post('/user/publicate', 'UserController@publicate');
 //});
 Route::get('/profile', 'UserController@login');
 
-Route::get('/songs', function () {
-    return view('user.songs');
-});
-Route::post('/song/add_song', 'SongController@add_song');
+Route::get('/songs', 'SongController@songs');
+Route::post('/song/add_song', ['as'=>'song.add_song','uses'=>'SongController@add_song']);
 
 Route::get('/settings', 'SettingsController@show');
 
 Route::post('/user/update/info', 'SettingsController@update');
 
 Route::post('/user/update/image', ['as'=>'user.update.image','uses'=>'SettingsController@updateImage']);
+Route::post('/user/publication/remove', 'UserController@removePublication');

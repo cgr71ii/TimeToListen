@@ -14,7 +14,8 @@
     <div>
         <h3 style="text-align: center;"> Add Songs </h3>
 
-        <form method="POST" action="{{ action('SongController@add_song') }}" class="container" name="add_song" enctype="multipart/form-data">
+        <!--form method="POST" action="{{ action('SongController@add_song') }}" class="container" name="add_song" enctype="multipart/form-data"-->
+        {!! Form::open(array('route' => 'song.add_song','files'=>true)) !!}
         {{ csrf_field() }}
             <div class="row">
                 <div class="col-md-3 col-md-offset-3">
@@ -22,20 +23,16 @@
                     <input type="text" class="text-input" name="song_name">
                     <p><br> Song (mp3 format): </p>
                     <div>
-                        <input type="file" name="song_file" accept=".mp3">
+                        {!! Form::file('file') !!}
+                        <!--input type="file" name="song_file" accept=".mp3"-->
                     </div>
                 </div>
                 <div class="col-md-5 col-md-offset-1">
                     <p><br> Genre: </p>
-                    <select name="genres" size="4" multiple>
-                        <option value ="rock"> Rock </option>
-                        <option value ="synthwave"> Synthwave </option>
-                        <option value ="outrun"> Outrun </option>
-                        <option value ="pop"> Pop </option>
-                        <option value ="rap"> Rap </option>
-                        <option value ="hip-hop"> Hip-Hop </option>
-                        <option value ="metalcore"> Metalcore </option>
-                        <option value ="electroswing"> Electroswing </option>
+                    <select name="chosen_genres[]" size="6" multiple>
+                        @foreach (session('genres') as $genre)
+                        <option value ="{{ $genre->id }}"> {{ $genre->name }} </option>
+                        @endforeach
                     </select>
                     <p>Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</p>
                 </div>
@@ -53,19 +50,37 @@
             <div class="alert alert-danger">
                 <h5> There were errors with the song upload petition: </h5>
                 <ul>
-                    <li> The file format must be mp3. </li>
+                    <li> The file format must be wav. </li>
                 </ul>
+            </div>
+            @endif
+            @if (session('success') !== null)
+            <div class="alert alert-success">
+                <h5> The song has been successfuly uploaded! </h5>
             </div>
             @endif
 
             <div align="center">
                 <input type="submit" value="Upload Song">
             </div>
-        </form>
+
+        {!! Form::close() !!}
+        <!--/form-->
     </div>
 
     <div>
         <h3 style="text-align: center;"> My Songs </h3>
-
+            @if (session('songs') !== null)
+                @foreach (session('songs') as $song)
+                    <p><br> {{ $song->name }} </p>
+                    <audio controls id="{{ $song->id }}"><source src="{{ $song->song_path }}" type="audio/wav">Audio not Available!</audio>
+                    <script>
+                        var audio = document.getElementById("{{ $song->id }}");
+                        audio.volume = 0.5;
+                    </script>
+                @endforeach
+            @else
+                <h4> You haven't uploaded any songs yet! Give it a try! </h4>
+            @endif
     </div>
 @endsection
