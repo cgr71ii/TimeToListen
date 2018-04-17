@@ -17,6 +17,14 @@
     border-left: 5px solid grey;
 }
 
+.pagination-element-box-non-style
+{
+    width: 80%;
+    text-align: left;
+    margin-top: 10px;
+    margin-left: 10%;
+}
+
 .pagination-content-wrapper
 {
     width: 97%;

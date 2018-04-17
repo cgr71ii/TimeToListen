@@ -1,8 +1,55 @@
-<h2>List of Users</h2>
 
+<div class="pagination-element-box-non-style">
+    <form id="order-form" method="GET" action="{{ action('UserController@listUsers') }}">
+        <select name="field" form="order-form">
+            <option value="created_at">Created At</option>
+            <option value="name">Name</option>
+            <option value="lastname">Lastname</option>
+            <option value="email">Email</option>
+            <option value="birthday">Birthday</option>
+        </select>
+
+        <select name="direction" form="order-form">
+            <option value="asc">Ascendent</option>
+            <option value="desc">Descendent</option>
+        </select>
+        
+        <input type="submit" value="Order">
+    </form>
+</div>
+
+<hr>
+
+<div class="pagination-element-box-non-style">
+    <form id="find-form" method="GET" action="{{ action('UserController@listUsers') }}">
+        <p>Email contains <input type="text" name="email_contains" value="{{ old('email_contains') }}"></p>
+        <p>Years between <input type="number" name="min_age" min="0" max="150" style="width: 70px;"> and <input type="number" name="max_age" min="0" max="150" style="width: 70px;"></p>
+        <p>
+            Order by 
+            <select name="field" form="find-form">
+                <option value="created_at">Created At</option>
+                <option value="name">Name</option>
+                <option value="lastname">Lastname</option>
+                <option value="email">Email</option>
+                <option value="birthday">Birthday</option>
+            </select>
+
+            <select name="direction" form="find-form">
+                <option value="asc">Ascendent</option>
+                <option value="desc">Descendent</option>
+            </select>
+        </p>
+        <input type="submit" value="Find">
+    </form>
+</div>
+
+<hr>
+
+@if (count($users) != 0)
 <span class="link-pagination">
     {{ $users->links() }}
 </span>
+@endif
 
 @foreach ($users as $user)
 <div class="pagination-element-box-style">
@@ -72,7 +119,7 @@
                         <th>
                             <select multiple name="status_song[]" style="width: 100%;">
                                 @forelse ($user->song as $song)
-                                @if ($song->id === session('user')->song_status->id)
+                                @if (session('user')->song_status !== null && $song->id === session('user')->song_status->id)
                                 <option value="{{ $song->id }}" selected>{{ $song->name }}</option>
                                 @else
                                 <option value="{{ $song->id }}">{{ $song->name }}</option>
@@ -126,6 +173,8 @@
 
 @endforeach
 
+@if (count($users) != 0)
 <span class="link-pagination">
     {{ $users->links() }}
 </span>
+@endif

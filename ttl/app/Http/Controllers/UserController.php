@@ -236,7 +236,30 @@ class UserController extends Controller
          * We use ::where(tautology) to get a Builder object and be able to use simplePaginate().
          * If we use ::get() then it returns a collection of objects and it is not possible to use simplePaginate().
          */
-        $users = User::where('id', '>=', '0')->simplePaginate(5);
+        $users = User::where('id', '>=', '0');
+
+        if ($request->has('field') && $request->has('direction'))
+        {
+            $users = $users->orderBy($request->field, $request->direction);
+        }
+
+        if ($request->has('min_age') && $request->has('max_age') && (!empty($request->min_age) || $request->min_age == '0') && (!empty($request->max_age) || $request->max_age == '0') && $request->min_age <= $request->max_age)
+        {
+            $today = strtotime(date("Y-m-d"));
+            $current_year = substr(date("Y-m-d"), 0, 4);
+
+            $min_date = ($current_year - $request->max_age).substr(date("Y-m-d"), 4, 10);
+            $max_date = ($current_year - $request->min_age).substr(date("Y-m-d"), 4, 10);
+
+            $users = $users->whereBetween('birthday', array($min_date, $max_date));
+        }
+
+        if ($request->has('email_contains') && !empty($request->email_contains))
+        {
+            $users = $users->where('email', 'like', '%' . $request->email_contains . '%');
+        }
+
+        $users = $users->simplePaginate(5);
 
         if ($request->ajax())
         {
