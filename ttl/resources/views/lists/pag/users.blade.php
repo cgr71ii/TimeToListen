@@ -1,8 +1,10 @@
 
 <div class="pagination-element-box-non-style">
     <form id="order-form" method="GET" action="{{ action('UserController@listUsers') }}">
+        {{ csrf_field() }}
         <select name="field" form="order-form">
             <option value="created_at">Created At</option>
+            <option value="updated_at">Updated At</option>
             <option value="name">Name</option>
             <option value="lastname">Lastname</option>
             <option value="email">Email</option>
@@ -14,6 +16,7 @@
             <option value="desc">Descendent</option>
         </select>
         
+        <input type="hidden" name="order-form">
         <input type="submit" value="Order">
     </form>
 </div>
@@ -22,7 +25,8 @@
 
 <div class="pagination-element-box-non-style">
     <form id="find-form" method="GET" action="{{ action('UserController@listUsers') }}">
-        <p>Email contains <input type="text" name="email_contains" value="{{ old('email_contains') }}"></p>
+        {{ csrf_field() }}
+        <p>Email contains <input type="text" name="email_contains"></p>
         <p>Years between <input type="number" name="min_age" min="0" max="150" style="width: 70px;"> and <input type="number" name="max_age" min="0" max="150" style="width: 70px;"></p>
         <p>
             Order by 
@@ -39,6 +43,8 @@
                 <option value="desc">Descendent</option>
             </select>
         </p>
+
+        <input type="hidden" name="find-form">
         <input type="submit" value="Find">
     </form>
 </div>

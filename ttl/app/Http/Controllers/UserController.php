@@ -7,6 +7,7 @@ use App\User;
 use App\Publication;
 use Cookie;
 use Redirect;
+use Session;
 
 class UserController extends Controller
 {
@@ -15,13 +16,65 @@ class UserController extends Controller
     {
         if  (session('user') !== null)
         {
+
             {
                 // We update pagination recalling the methods again.
 
-                $publications = Publication::where('user_id', session('user')->id)->orderBy('created_at', 'desc')->simplePaginate(5);
+                $publications = Publication::where('user_id', session('user')->id);
 
-                session(['publications' => $publications,
-                'publication_session_name' => 'publications']);
+                if ($request->has('order-form') || $request->has('find-form'))
+                {
+                    session([   'pub_data_field' => null, 
+                                'pub_data_direction' => null,
+                                'pub_data_min_date' => null,
+                                'pub_data_max_date' => null,
+                                'pub_data_pub_contains' => null,
+                                'pub_data_date_field' => null]);
+                }
+
+                if (session('pub_data_field') !== null)
+                {
+                    $publications = $publications->orderBy(session('pub_data_field'), session('pub_data_direction'));
+                }
+                else if ($request->has('field') && $request->has('direction'))
+                {
+                    $publications = $publications->orderBy($request->field, $request->direction);
+
+                    session([   'pub_data_field' => $request->field,
+                                'pub_data_direction' => $request->direction]);
+                }
+
+                if (session('pub_data_pub_contains') !== null)
+                {
+                    $publications = $publications->where('text', 'like', '%' . session('pub_data_pub_contains') . '%');
+                }
+                else if ($request->has('pub_contains') && !empty($request->pub_contains))
+                {
+                    $publications = $publications->where('text', 'like', '%' . $request->pub_contains . '%');
+                    
+                    session(['pub_data_pub_contains' => $request->pub_contains]);
+                }
+
+                if (session('pub_data_min_date') !== null)
+                {
+                    $publications = $publications->whereBetween(session('pub_data_date_field'), array(session('pub_data_min_date'), session('pub_data_max_date')));
+                }
+                else if ($request->has('min_date') && $request->has('max_date') && $request->has('date_field') && !empty($request->min_date) && !empty($request->max_date) && strtotime($request->min_date) <= strtotime($request->max_date))
+                {
+                    $min_date = "$request->min_date 00:00:00";
+                    $max_date = "$request->max_date 23:59:59";
+
+                    $publications = $publications->whereBetween($request->date_field, array($min_date, $max_date));
+
+                    session([   'pub_data_min_date' => $min_date,
+                                'pub_data_max_date' => $max_date,
+                                'pub_data_date_field' => $request->date_field]);
+                }
+
+                $publications = $publications->simplePaginate(5);
+
+                session([   'publications' => $publications,
+                            'publication_session_name' => 'publications']);
             }
 
             if ($request->ajax())
@@ -89,7 +142,58 @@ class UserController extends Controller
             {
                 if ($f->id == $friend->id)
                 {
-                    $friend_publications = Publication::where('user_id', $friend->id)->orderBy('created_at', 'desc')->simplePaginate(5);
+                    $friend_publications = Publication::where('user_id', $friend->id);
+
+                    if ($request->has('order-form') || $request->has('find-form'))
+                    {
+                        session([   'friend_data_field' => null, 
+                                    'friend_data_direction' => null,
+                                    'friend_data_min_date' => null,
+                                    'friend_data_max_date' => null,
+                                    'friend_data_pub_contains' => null,
+                                    'friend_data_date_field' => null]);
+                    }
+
+                    if (session('friend_data_field') !== null)
+                    {
+                        $friend_publications = $friend_publications->orderBy(session('friend_data_field'), session('friend_data_direction'));
+                    }
+                    else if ($request->has('field') && $request->has('direction'))
+                    {
+                        $friend_publications = $friend_publications->orderBy($request->field, $request->direction);
+
+                        session([   'friend_data_field' => $request->field,
+                                    'friend_data_direction' => $request->direction]);
+                    }
+
+                    if (session('friend_data_pub_contains') !== null)
+                    {
+                        $friend_publications = $friend_publications->where('text', 'like', '%' . session('friend_data_pub_contains') . '%');
+                    }
+                    else if ($request->has('pub_contains') && !empty($request->pub_contains))
+                    {
+                        $friend_publications = $friend_publications->where('text', 'like', '%' . $request->pub_contains . '%');
+                        
+                        session(['friend_data_pub_contains' => $request->pub_contains]);
+                    }
+
+                    if (session('friend_data_min_date') !== null)
+                    {
+                        $friend_publications = $friend_publications->whereBetween(session('friend_data_date_field'), array(session('friend_data_min_date'), session('friend_data_max_date')));
+                    }
+                    else if ($request->has('min_date') && $request->has('max_date') && $request->has('date_field') && !empty($request->min_date) && !empty($request->max_date) && strtotime($request->min_date) <= strtotime($request->max_date))
+                    {
+                        $min_date = "$request->min_date 00:00:00";
+                        $max_date = "$request->max_date 23:59:59";
+
+                        $friend_publications = $friend_publications->whereBetween($request->date_field, array($min_date, $max_date));
+
+                        session([   'friend_data_min_date' => $min_date,
+                                    'friend_data_max_date' => $max_date,
+                                    'friend_data_date_field' => $request->date_field]);
+                    }
+
+                    $friend_publications = $friend_publications->simplePaginate(5);
 
                     session([   'friend' => $friend,
                                 'friend_publications' => $friend_publications,
@@ -112,7 +216,8 @@ class UserController extends Controller
 
     public function logout()
     {
-        session(['user' => null]);
+        //session(['user' => null]);
+        Session::flush();
 
         return redirect('/');
     }
@@ -238,12 +343,32 @@ class UserController extends Controller
          */
         $users = User::where('id', '>=', '0');
 
-        if ($request->has('field') && $request->has('direction'))
+        if ($request->has('order-form') || $request->has('find-form'))
         {
+            session([   'list_user_field' => null, 
+                        'list_user_direction' => null,
+                        'list_user_min_date' => null,
+                        'list_user_max_date' => null,
+                        'list_user_email_contains' => null]);
+        }
+
+        if (session('list_user_field') !== null)
+        {
+            $users = $users->orderBy(session('list_user_field'), session('list_user_direction'));
+        }
+        else if ($request->has('field') && $request->has('direction'))
+        {
+            session([   'list_user_field' => $request->field,
+                        'list_user_direction' => $request->direction]);
+
             $users = $users->orderBy($request->field, $request->direction);
         }
 
-        if ($request->has('min_age') && $request->has('max_age') && (!empty($request->min_age) || $request->min_age == '0') && (!empty($request->max_age) || $request->max_age == '0') && $request->min_age <= $request->max_age)
+        if (session('list_user_min_date') !== null)
+        {
+            $users = $users->whereBetween('birthday', array(session('list_user_min_date'), session('list_user_max_date')));
+        }
+        else if ($request->has('min_age') && $request->has('max_age') && (!empty($request->min_age) || $request->min_age == '0') && (!empty($request->max_age) || $request->max_age == '0') && $request->min_age <= $request->max_age)
         {
             $today = strtotime(date("Y-m-d"));
             $current_year = substr(date("Y-m-d"), 0, 4);
@@ -251,11 +376,20 @@ class UserController extends Controller
             $min_date = ($current_year - $request->max_age).substr(date("Y-m-d"), 4, 10);
             $max_date = ($current_year - $request->min_age).substr(date("Y-m-d"), 4, 10);
 
+            session([   'list_user_min_date' => $request->min_date,
+                        'list_user_max_date' => $request->max_date]);
+
             $users = $users->whereBetween('birthday', array($min_date, $max_date));
         }
 
-        if ($request->has('email_contains') && !empty($request->email_contains))
+        if (session('list_user_email_contains') !== null)
         {
+            $users = $users->where('email', 'like', '%' . session('list_user_email_contains') . '%');
+        }
+        else if ($request->has('email_contains') && !empty($request->email_contains))
+        {
+            session(['list_user_email_contains' => $request->email_contains]);
+
             $users = $users->where('email', 'like', '%' . $request->email_contains . '%');
         }
 

@@ -1,6 +1,65 @@
 
 <h2>Publications</h2>
 
+<hr>
+
+<div class="pagination-element-box-non-style">
+  @if (session('publication_session_name') !== null && session('publication_session_name') == 'publications')
+  <form id="order-form" method="GET" action="{{ action('UserController@login') }}">
+  @else
+  <form id="order-form" method="GET" action="{{ action('UserController@showFriend', ['friend_email' => Request::segment(2)]) }}">
+  @endif
+    {{ csrf_field() }}
+    <select name="field" form="order-form">
+      <option value="created_at">Created At</option>
+      <option value="updated_at">Updated At</option>
+    </select>
+
+    <select name="direction" form="order-form">
+      <option value="asc">Ascendent</option>
+      <option value="desc">Descendent</option>
+    </select>
+    
+    <input type="hidden" name="order-form">
+    <input type="submit" value="Order">
+  </form>
+</div>
+
+<hr>
+
+<div class="pagination-element-box-non-style">
+  @if (session('publication_session_name') !== null && session('publication_session_name') == 'publications')
+  <form id="find-form" method="GET" action="{{ action('UserController@login') }}">
+  @else
+  <form id="find-form" method="GET" action="{{ action('UserController@showFriend', ['friend_email' => Request::segment(2)]) }}">
+  @endif
+    {{ csrf_field() }}
+    <p>Publication contains <input type="text" name="pub_contains"></p>
+    <p>
+      Publication between <input type="date" name="min_date"> and <input type="date" name="max_date">
+      (<input type="radio" name="date_field" value="created_at" checked>Created 
+      <input type="radio" name="date_field" value="updated_at">Updated)
+    </p>
+    <p>
+      Order by 
+      <select name="field" form="find-form">
+        <option value="created_at">Created At</option>
+        <option value="updated_at">Updated At</option>
+      </select>
+
+      <select name="direction" form="find-form">
+        <option value="asc">Ascendent</option>
+        <option value="desc">Descendent</option>
+      </select>
+    </p>
+
+    <input type="hidden" name="find-form">
+    <input type="submit" value="Find">
+  </form>
+</div>
+
+<hr>
+
 @if (session('publication_fail') !== null)
 <div class="alert alert-danger">
     <strong>Error!</strong> Publication can not have empty fields!
