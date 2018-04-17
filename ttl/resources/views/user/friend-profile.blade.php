@@ -46,7 +46,7 @@
     @if (session('friend_publications')[0] !== null)
     <hr>
     <div id="pagination-box-style" class="ajax-publication">
-        @include('user.publications', ['actions' => false])
+        @include('publication.publications', ['actions' => false])
     </div>
     @endif
 

@@ -122,7 +122,7 @@
 <div class="modal fade" id="removePublicationModal{{ $pub->id }}" tabindex="-1" role="dialog" aria-labelledby="removePublicationModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <form method="POST" action="{{ action('UserController@removePublication') }}">
+      <form method="POST" action="{{ action('PublicationController@delete') }}">
         {{ csrf_field() }}
 
         <input type="hidden" name="publication_id" value="{{ $pub->id }}">

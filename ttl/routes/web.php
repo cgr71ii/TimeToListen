@@ -21,9 +21,9 @@ Route::get('/user/logout', 'UserController@logout');
 
 Route::post('/user/signup', 'UserController@signup');
 
-Route::post('/user/publicate', 'UserController@publicate');
+Route::post('/user/publicate', 'PublicationController@create');
 
-Route::post('/user/publication/remove', 'UserController@removePublication');
+Route::post('/user/publication/remove', 'PublicationController@delete');
 
 Route::get('/profile', 'UserController@show');
 
@@ -44,3 +44,9 @@ Route::get('/list/genres', 'GenreController@listGenres');
 Route::post('/genres/update', 'GenreController@update');
 
 Route::post('/genres/remove', 'GenreController@remove');
+
+Route::get('/messages', 'MessageController@index');
+
+Route::get('/messages/received', 'MessageController@list');
+
+Route::post('/messages/received/remove', 'MessageController@delete');

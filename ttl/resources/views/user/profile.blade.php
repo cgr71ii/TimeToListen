@@ -61,7 +61,7 @@
             <strong>Error!</strong> Publication can not have empty fields!
         </div>
         @endif
-        <form method="POST" action="{{ action('UserController@publicate') }}">
+        <form method="POST" action="{{ action('PublicationController@create') }}">
             {{ csrf_field() }}
             <textarea name="publication"></textarea><br>
             <input type="submit" value="Publicate">
@@ -70,7 +70,7 @@
     @if (session('publications')[0] !== null)
     <hr>
     <div id="pagination-box-style" class="ajax-publication">
-        @include('user.publications', ['actions' => true])
+        @include('publication.publications', ['actions' => true])
     </div>
     @endif
 
