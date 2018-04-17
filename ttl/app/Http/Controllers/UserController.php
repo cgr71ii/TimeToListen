@@ -12,7 +12,7 @@ use Session;
 class UserController extends Controller
 {
 
-    public function login(Request $request)
+    public function show(Request $request)
     {
         if  (session('user') !== null)
         {

@@ -1,4 +1,8 @@
 
+<h2>List of Users</h2>
+
+<hr>
+
 <div class="pagination-element-box-non-style">
     <form id="order-form" method="GET" action="{{ action('UserController@listUsers') }}">
         {{ csrf_field() }}

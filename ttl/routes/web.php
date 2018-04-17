@@ -13,7 +13,7 @@
 
 Route::get('/', 'RootController@show');
 
-Route::post('/profile', 'UserController@login');
+Route::post('/profile', 'UserController@show');
 
 Route::get('/profile/{friend_email}', 'UserController@showFriend');
 
@@ -25,7 +25,7 @@ Route::post('/user/publicate', 'UserController@publicate');
 
 Route::post('/user/publication/remove', 'UserController@removePublication');
 
-Route::get('/profile', 'UserController@login');
+Route::get('/profile', 'UserController@show');
 
 Route::get('/settings', 'SettingsController@show');
 
@@ -35,6 +35,12 @@ Route::post('/user/publication/modify', 'UserController@modifyPublication');
 
 Route::post('/user/update/image', ['as'=>'user.update.image','uses'=>'SettingsController@updateImage']);
 
+Route::post('/user/remove', 'UserController@remove');
+
 Route::get('/list/users', 'UserController@listUsers');
 
-Route::post('/user/remove', 'UserController@remove');
+Route::get('/list/genres', 'GenreController@listGenres');
+
+Route::post('/genres/update', 'GenreController@update');
+
+Route::post('/genres/remove', 'GenreController@remove');

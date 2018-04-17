@@ -5,7 +5,7 @@
 
 <div class="pagination-element-box-non-style">
   @if (session('publication_session_name') !== null && session('publication_session_name') == 'publications')
-  <form id="order-form" method="GET" action="{{ action('UserController@login') }}">
+  <form id="order-form" method="GET" action="{{ action('UserController@show') }}">
   @else
   <form id="order-form" method="GET" action="{{ action('UserController@showFriend', ['friend_email' => Request::segment(2)]) }}">
   @endif
@@ -29,7 +29,7 @@
 
 <div class="pagination-element-box-non-style">
   @if (session('publication_session_name') !== null && session('publication_session_name') == 'publications')
-  <form id="find-form" method="GET" action="{{ action('UserController@login') }}">
+  <form id="find-form" method="GET" action="{{ action('UserController@show') }}">
   @else
   <form id="find-form" method="GET" action="{{ action('UserController@showFriend', ['friend_email' => Request::segment(2)]) }}">
   @endif
