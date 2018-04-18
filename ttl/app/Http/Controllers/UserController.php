@@ -32,6 +32,10 @@ class UserController extends Controller
                                 'pub_data_pub_contains' => null,
                                 'pub_data_date_field' => null]);
                 }
+                else
+                {
+                    $publications = $publications->orderBy('created_at', 'desc');
+                }
 
                 if (session('pub_data_field') !== null)
                 {
@@ -153,6 +157,10 @@ class UserController extends Controller
                                     'friend_data_max_date' => null,
                                     'friend_data_pub_contains' => null,
                                     'friend_data_date_field' => null]);
+                    }
+                    else
+                    {
+                        $friend_publications = $friend_publications->orderBy('created_at', 'desc');
                     }
 
                     if (session('friend_data_field') !== null)

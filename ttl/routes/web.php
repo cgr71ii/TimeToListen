@@ -11,6 +11,10 @@
 |
 */
 
+Route::get('/songs', function () {
+    return view('user.songs');
+});
+
 Route::get('/', 'RootController@show');
 
 Route::post('/profile', 'UserController@show');
@@ -50,3 +54,9 @@ Route::get('/messages', 'MessageController@index');
 Route::get('/messages/received', 'MessageController@list');
 
 Route::post('/messages/received/remove', 'MessageController@delete');
+
+Route::get('/songs', 'SongController@songs');
+
+Route::post('/song/add_song', ['as'=>'song.add_song','uses'=>'SongController@add_song']);
+
+Route::post('/user/song/remove', 'SongController@removeSong');

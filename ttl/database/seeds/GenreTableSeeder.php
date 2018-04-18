@@ -14,6 +14,12 @@ class GenreTableSeeder extends Seeder
     {
         DB::table('genres')->delete();
 
+        $genre = new Genre(['name' => 'Synthwave']);
+        $genre->save();
+
+        $genre = new Genre(['name' => 'Electroswing']);
+        $genre->save();
+
         $genre = new Genre(['name' => 'Metalcore']);
         $genre->save();
 

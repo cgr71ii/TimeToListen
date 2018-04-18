@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Song extends Model
 {
 
+    protected $fillable = ['id', 'name', 'song_path', 'created_at', 'updated_at', 'user_id'];
+
     public function user_uploaded(){
         return $this->belongsTo('App\User');
     }
