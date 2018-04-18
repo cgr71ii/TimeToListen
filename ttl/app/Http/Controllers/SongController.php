@@ -13,6 +13,9 @@ class SongController extends Controller
 {
 
     public function songs(Request $request){
+        if (session('user') === null){
+            return redirect('/');
+        }
 
         $genres = Genre::all();
 
@@ -25,10 +28,15 @@ class SongController extends Controller
         return view('user.songs');
     }
 
-    public function add_song(Request $request)
-    {
+    public function add_song(Request $request){
+        if (session('user') === null){
+            return redirect('/');
+        }
+
         $request->validate([
             'file' => 'max:102400',
+        ], [
+            'file.max:102400' => 'The file exceeds the upload maximum (100MB).',
         ]);
 
         if (empty($request->song_name) || empty($request->file) || empty($request->chosen_genres)){
@@ -66,5 +74,27 @@ class SongController extends Controller
         }
 
         return back();
+    }
+
+    public function removeSong(Request $request){
+        if (session('user') === null){
+            return redirect('/');
+        }
+
+        if ($request->has('song_id')){
+            $song = Song::find($request->song_id);
+
+            if ($song !== null){
+                $song->delete();
+            }
+        }
+
+        return back();
+    }
+
+    public function showSongs(Request $request){
+        $songs = Song::all();
+
+        session(['songs' => $songs]);
     }
 }

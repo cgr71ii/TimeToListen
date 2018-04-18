@@ -21,7 +21,7 @@
                 <div class="col-md-3 col-md-offset-3">
                     <p> Name: </p>
                     <input type="text" class="text-input" name="song_name">
-                    <p><br> Song (mp3 format): </p>
+                    <p><br> Song (wav format): </p>
                     <div>
                         {!! Form::file('file') !!}
                         <!--input type="file" name="song_file" accept=".mp3"-->
@@ -38,6 +38,16 @@
                 </div>
             </div>
             
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                <div class="alert alert-danger">
+                    <h5> There were errors with the song upload petition: </h5>
+                    <ul>
+                        <li> {{$error}} </li>
+                    </ul>
+                </div>
+                @endforeach
+            @endif
             @if (session('emptyfields') !== null)
             <div class="alert alert-danger">
                 <h5> There were errors with the song upload petition: </h5>
@@ -74,6 +84,13 @@
                 @foreach (session('songs') as $song)
                     <p><br> {{ $song->name }} </p>
                     <audio controls id="{{ $song->id }}"><source src="{{ $song->song_path }}" type="audio/wav">Audio not Available!</audio>
+                    
+                    <form method="POST" id="song{{ $song->id }}" action="{{ action('SongController@removeSong') }}">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="song_id" value="{{ $song->id }}">
+                        <a href="javascript:{}" onclick="document.getElementById('song{{ $song->id }}').submit(); return false;">Delete</a>
+                    </form>
+
                     <script>
                         var audio = document.getElementById("{{ $song->id }}");
                         audio.volume = 0.5;
