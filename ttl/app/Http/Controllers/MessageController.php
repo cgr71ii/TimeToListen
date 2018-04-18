@@ -16,36 +16,62 @@ class MessageController extends Controller
         return view('message.messages');
 
     }
-    public function create(Request $request){
+    public function send(){
+        $users = array();
         if (session('user') === null){
             return redirect('/');
         }
-        if(empty($request->receptor)){
-            return redirect('/message')->with('createfailemptyfield', true);
+        $id = session('user')->id;
+        $user1 = User::find($id)->users()->get();
+        $user2 = User::find($id)->userFriends()->get();
+        foreach ($user1 as $u)
+        {
+            array_push($users, $u);
         }
-        if($request->has('message')){
-            
-            $count = User::where('email', $request->receiver)->count();
-            if($count == 1){
-                $user = User::where('email', $request->receiver)->first();
-            
-                $message_user = new Message_user([
-                    'user_id' => $user->id
-                ]);
-                $message = new Message([
-                    'user_id' => session('user')->id,
-                    'title' => $request->title,
-                    'text' => $request->text,
-                    'read' => false,
-                    'date' => date('Y-m-d h:i:s', time())
-                ]);
-
-                $message_user->save();
-                $message->save();
-             }
-
-            return redirect('/message');
+        foreach ($user2 as $u)
+        {
+            array_push($users, $u);
         }
+
+        $friends = array();
+        foreach ($users as $aux){
+            $friend_u = User::find($aux->id);
+            array_push($friends, $friend_u);
+        }
+        
+        session(['friends' => $friends]);
+        
+        return view('message.messages-send');
+
+    }
+    public function create(Request $request){
+
+        if (session('user') === null){
+            return redirect('/');
+        }
+        
+        $data = request()->all();
+        $title = $data['title'];
+        $body = $data['body'];
+        $users = $data['receptors'];
+
+        $message = new Message([
+            'user_id' => session('user')->id,
+            'title' => $title,
+            'text' => $body,
+            'read' => false,
+            'date' => date('Y-m-d h:i:s', time())
+        ]);
+        echo $message->id;
+        $message->save();
+
+      /*  foreach($users as $receptor){
+            if($receptor === 'all'){
+
+            } else {
+
+            }
+        }*/
     }
 
     public function delete(Request $request){
@@ -95,6 +121,5 @@ class MessageController extends Controller
         session(['messages' => $messages]);
 
         return view('message.messages-received');
-
     }
 }

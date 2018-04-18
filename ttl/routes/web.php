@@ -36,3 +36,7 @@ Route::get('/messages', 'MessageController@index');
 Route::get('/messages/received', 'MessageController@list');
 
 Route::post('/messages/received/remove', 'MessageController@delete');
+
+Route::get('/messages/send', 'MessageController@send');
+
+Route::post('/message/send/create', 'MessageController@create');
