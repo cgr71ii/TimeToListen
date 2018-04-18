@@ -48,9 +48,15 @@ class UserUserTableSeeder extends Seeder
         $user = User::where('email', 'cristian@gmail.com')->firstOrFail();
         $user->users()->attach($friend_id);
 
-        $friend_id = User::where('email', 'tudor@gmail.com')->firstOrFail()->id;
+        $friend_id = User::where('email', 'mike@gmail.com')->firstOrFail()->id;
 
-        $user = User::where('email', 'cristian@gmail.com')->firstOrFail();
+        $user = User::where('email', 'a1@gmail.com')->firstOrFail();
+        $user->users()->attach($friend_id);
+
+        $user = User::where('email', 'a2@gmail.com')->firstOrFail();
+        $user->users()->attach($friend_id);
+
+        $user = User::where('email', 'a3@gmail.com')->firstOrFail();
         $user->users()->attach($friend_id);
 
     }

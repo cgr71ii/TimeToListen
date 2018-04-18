@@ -59,6 +59,33 @@ class UserTableSeeder extends Seeder
                             'pic_profile_path' => 'storage/app/cristian@gmail.com_pic_profile',
                             'song_id' => '1']);
         $user->save();
+
+        $user = new User([  'email' => 'a1@gmail.com', 
+                            'password' => 'a1', 
+                            'name' => 'a1',
+                            'lastname' => 'a1',
+                            'birthday' => '2018-02-26 20:46:51',
+                            'pic_profile_path' => 'storage/app/cristian@gmail.com_pic_profile',
+                            'song_id' => '1']);
+        $user->save();
+
+        $user = new User([  'email' => 'a2@gmail.com', 
+                            'password' => 'a2', 
+                            'name' => 'a2',
+                            'lastname' => 'a2',
+                            'birthday' => '2018-02-26 20:46:51',
+                            'pic_profile_path' => 'storage/app/cristian@gmail.com_pic_profile',
+                            'song_id' => '1']);
+        $user->save();
+
+        $user = new User([  'email' => 'a3@gmail.com', 
+                            'password' => 'a3', 
+                            'name' => 'a3',
+                            'lastname' => 'a3',
+                            'birthday' => '2018-02-26 20:46:51',
+                            'pic_profile_path' => 'storage/app/cristian@gmail.com_pic_profile',
+                            'song_id' => '1']);
+        $user->save();
         
         /*
         $user->teams()->saveMany(

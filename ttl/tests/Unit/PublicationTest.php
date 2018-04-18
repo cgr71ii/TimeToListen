@@ -70,8 +70,7 @@ class PublicationTest extends TestCase
         $user2 = $publication->user()->first();
         $this->assertEquals($user,$user2);
      
-        $user_publications=Publication::find(5);
-        $this->assertNull($user_publications);
+
 
 
     }

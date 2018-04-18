@@ -11,9 +11,31 @@
 |
 */
 
-Route::get('/songs', function () {
-    return view('user.songs');
-});
+Route::get('/groups', 'GroupController@show');
+
+Route::post('/groups', 'GroupController@createGroup');
+
+Route::get('/groups/{id}', 'GroupController@groupPublications');
+
+Route::get('/groups/{id}/exit', 'GroupController@exit');
+
+Route::get('/groups/{id}/changeName','GroupController@showChangeName');
+
+Route::post('/groups/{id}/changeName', 'GroupController@changeName')->name('changeGN');
+
+Route::post('/groups/{id}', 'GroupController@addFriend')->name('my_route');
+
+//Route::get('/profile/{email}', 'FriendsController@viewFriend');
+
+//Route::get('/songs/{email}', 'FriendsController@viewFriendSongs');
+
+Route::get('/friends','FriendsController@indexFriends');
+
+Route::post('/friends', 'FriendsController@addFriend');
+
+Route::get('/deleteFriend/{email}', 'FriendsController@deleteFriend');
+
+Route::post('/deleteFriend', 'FriendsController@deleteF');
 
 Route::get('/', 'RootController@show');
 

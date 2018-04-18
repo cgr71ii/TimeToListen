@@ -67,4 +67,9 @@ class User extends Authenticatable
         return $this->belongsTo('App\Song', 'song_id');
     }
 
+    public function have_created()
+    {
+        return $this->hasMany('App\Groups');
+    }
+
 }

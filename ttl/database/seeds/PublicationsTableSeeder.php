@@ -46,5 +46,35 @@ class PublicationsTableSeeder extends Seeder
 
         $publication->save();
 
+
+        //From here we are creating publications with groups
+
+        $publication = new Publication([
+            'text' => 'TestGrupo',
+            'user_id' => '1',
+            'date' => '2015-11-08 22:23:20.120',
+            'group_id' => '1'
+        ]);
+
+        $publication->save();
+
+        $publication = new Publication([
+            'text' => 'TestGrupo',
+            'user_id' => '3',
+            'date' => '2015-11-08 22:23:20.120',
+            'group_id' => '2'
+        ]);
+
+        $publication->save();
+
+        $publication = new Publication([
+            'text' => 'TestGrupo',
+            'user_id' => '3',
+            'date' => '2015-11-08 22:23:20.120',
+            'group_id' => '3'
+        ]);
+
+        $publication->save();
+
     }
 }
