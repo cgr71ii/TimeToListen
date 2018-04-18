@@ -28,7 +28,7 @@
             <p>{{ session('user')->name }} {{ session('user')->lastname }}</p>
             @if (session('user')->song_status !== null)
             <p><img src="favicon.png"> {{ session('user')->song_status->name }} <img src="favicon.png"></p>
-            @if (File::exists(session('user')->song_status->song_path))
+            @if (session('user')->song_status !== null && File::exists(session('user')->song_status->song_path))
             <audio controls id="myaudio"><source src="{{ session('user')->song_status->song_path }}" type="audio/mp3">Audio not Available!</audio>
 
             <script>
@@ -99,7 +99,7 @@
                 <div class="col-md-4">
                 <select multiple name="status_song[]">
                     @forelse (session('user')->song as $song)
-                    @if ($song->id === session('user')->song_status->id)
+                    @if (session('user')->song_status !== null && $song->id === session('user')->song_status->id)
                     <option value="{{ $song->id }}" selected>{{ $song->name }}</option>
                     @else
                     <option value="{{ $song->id }}">{{ $song->name }}</option>

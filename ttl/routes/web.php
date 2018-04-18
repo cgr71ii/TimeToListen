@@ -45,6 +45,8 @@ Route::get('/list/users', 'UserController@listUsers');
 
 Route::get('/list/genres', 'GenreController@listGenres');
 
+Route::get('/list/songs', 'SongController@listSongs');
+
 Route::post('/genres/update', 'GenreController@update');
 
 Route::post('/genres/remove', 'GenreController@remove');
@@ -60,3 +62,7 @@ Route::get('/songs', 'SongController@songs');
 Route::post('/song/add_song', ['as'=>'song.add_song','uses'=>'SongController@add_song']);
 
 Route::post('/user/song/remove', 'SongController@removeSong');
+
+//Route::post('/song/remove', 'SongController@removeSong');
+
+Route::post('/song/update', 'SongController@update');

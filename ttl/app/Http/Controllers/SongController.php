@@ -86,15 +86,70 @@ class SongController extends Controller
 
             if ($song !== null){
                 $song->delete();
+
+                if (session('user')->song_status !== null && session('user')->song_status->id == $request->song_id)
+                {
+                    session('user')->song_status()->associate(null);
+                    session('user')->save();
+                }
             }
         }
 
         return back();
     }
 
-    public function showSongs(Request $request){
-        $songs = Song::all();
+    public function listSongs(Request $request){
+        $songs = Song::where('id', '>=', '0');
 
-        session(['songs' => $songs]);
+        if ($request->has('order-form'))
+        {
+            session([   'song_field' => null, 
+                        'song_direction' => null]);
+        }
+
+        if (session('song_field') !== null)
+        {
+            $songs = $songs->orderBy(session('song_field'), session('song_direction'));
+        }
+        else if ($request->has('field') && $request->has('direction'))
+        {
+            session([   'song_field' => $request->field,
+                        'song_direction' => $request->direction]);
+
+            $songs = $songs->orderBy($request->field, $request->direction);
+        }
+
+        $songs = $songs->simplePaginate(5);
+
+        if ($request->ajax())
+        {
+            return view('lists.pag.songs', ['songs' => $songs])->render();
+        }
+
+        return view('lists.list-songs', ['songs' => $songs]);
+    }
+
+    public function update(Request $request)
+    {
+        if (session('user') === null)
+        {
+            return redirect('/');
+        }
+
+        if ($request->has('song_id') && $request->has('name') && !empty($request->name))
+        {
+            $song = Song::find($request->song_id);
+
+            $song->name = $request->name;
+
+            $song->save();
+        }
+
+        if (session('user')->song_status !== null && session('user')->song_status->id == $song->id)
+        {
+            session('user')->song_status = $song;
+        }
+
+        return back();
     }
 }
