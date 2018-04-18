@@ -176,6 +176,15 @@ class GroupController extends Controller
 
     public function groupPublications($id)
     {
+        if(Group::where('id',$id)->where('creator_id',session('user')->id)->count()>0)
+        {
+            $changeP=true; 
+        }
+        else
+        {
+            $changeP=false; 
+        }
+
         if (session('user') === null)
         {
             return redirect('/');
@@ -202,11 +211,11 @@ class GroupController extends Controller
         
                 $friends = $this->getFriends(session('user')->id);    
 
-                return view('groups.groupPublications',compact('group','friends','members','publications'));
+                return view('groups.groupPublications',compact('group','friends','members','publications','changeP'));
             }
         }
 
-        return redirect('/groups');
+        return redirect('/groups',compact('changeP'));
         
     }
 
@@ -229,6 +238,33 @@ class GroupController extends Controller
         }
 
         return redirect('/groups');
+    }
+
+    public function showChangeName($id) 
+    {
+        $count = Group::where('id',$id)->where('creator_id',session('user')->id)->count();
+
+        if($count<1)
+        {
+            
+            return redirect('groups/'.$id);
+        }        
+
+        return view('groups.groupNameModification',compact('id'));
+    }
+
+    public function changeName(Request $request)
+    {
+        if( $request->newgroupname!=null)
+        {
+            $group = Group::find($request->id);
+            if($group!=null)
+            {
+                $group->fill(['name' => $request->newgroupname])->save();
+            }
+        }
+        return redirect('groups/'.$request->id);
+        
     }
 
 }

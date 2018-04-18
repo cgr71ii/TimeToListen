@@ -13,7 +13,14 @@
 @section('content')
     <!--All body code here.-->
     <div>
-        <h3 style="text-align: center;margin-bottom: 4%">{{ $group->name }}</h3>
+        <h3 style="text-align: center;">
+            {{ $group->name }}
+        </h3>
+        <p style="margin-bottom: 4%;text-align: center;">
+            @if( $changeP  == true)
+                <a href="{{ URL::to('/groups')}}/{{$group->id}}/changeName" style="font-size:75%;color: red;" > Change Name </a>
+            @endif
+        </p>
     </div>
 
     <div id="members">

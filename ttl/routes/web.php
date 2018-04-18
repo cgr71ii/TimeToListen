@@ -28,6 +28,10 @@ Route::get('/groups/{id}', 'GroupController@groupPublications');
 
 Route::get('/groups/{id}/exit', 'GroupController@exit');
 
+Route::get('/groups/{id}/changeName','GroupController@showChangeName');
+
+Route::post('/groups/{id}/changeName', 'GroupController@changeName')->name('changeGN');
+
 Route::post('/groups/{id}', 'GroupController@addFriend')->name('my_route');
 
 Route::get('/profile/{email}', 'FriendsController@viewFriend');
