@@ -16,22 +16,26 @@ class GroupTableSeeder extends Seeder
 
 
         $group = new Group([
-            'name' => 'Grupo1'
+            'name' => 'Grupo1',
+            'creator_id' => '1'
         ]);
         $group->save();
 
         $group = new Group([
-            'name' => 'Grupo2'
+            'name' => 'Grupo2',
+            'creator_id' => '2'
         ]);
         $group->save();
 
         $group = new Group([
-            'name' => 'Grupo3'
+            'name' => 'Grupo3',
+            'creator_id' => '2'
         ]);
         $group->save();
 
         $group = new Group([
-            'name' => 'Grupo4'
+            'name' => 'Grupo4',
+            'creator_id' => '3'
         ]);
         $group->save();
         

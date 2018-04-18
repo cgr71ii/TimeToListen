@@ -7,27 +7,28 @@
 
 
 
-#block
+.block
 {
     background: rgba(0, 0, 0, 0.2);
     border-bottom: 2px solid black;
 }
-#text 
+.text 
 {
     width: 90%;
     margin: 0 auto;
     margin-left: 5%;
 }
 
-#selection
+.selection
 {
     width: 100%;
     margin-top: 2.5%;
     border: 2px solid black;
 }
 
-#list-friends
+.list-friends
 {
+    width: 100%;
     margin-left: 5%;
 	height: 200px;
 	overflow-y: scroll;
@@ -61,6 +62,4 @@
 {
     width: 90%;
     margin-left: 5%;
-    margin-bottom: 10%;
-
 }

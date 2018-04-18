@@ -7,48 +7,61 @@
 
     <link rel="stylesheet" type="text/css" href="/css/general.css">
     <link rel="stylesheet" type="text/css" href="/css/groups.css">
+    <link rel="stylesheet" type="text/css" href="/css/app.css">
 @endsection
 
 @section('content')
     <!--All body code here.-->
     <div>
-        <h3 style="text-align: center;">{{ $group->name }}</h3>
+        <h3 style="text-align: center;margin-bottom: 4%">{{ $group->name }}</h3>
     </div>
 
     <div id="members">
         <div id="add-friend">
             <h4 style="text-align: center;">Add Friend</h4>
-            <div id="selection"> 
-                <div id="block">
-                    <p id="text">Select Friends</p>
+            <form method="POST" action="{{ route('my_route',['id' => $group->id ]) }}">
+            {{ csrf_field() }} 
+
+            <input type="hidden" name="group_id" value = {{ $group->id }}></input>
+            <div class="selection"> 
+                <div class="block">
+                    <p class="text">Select Friends</p>
                 </div>
-                <div id="list-friends">
-                    @forelse ($friends as $friend)
-                        <div id="friend">
-                            <p>{{ $friend->name }} {{$friend->lastname}} ({{ $friend->email }})</p>
-                        </div>
+                <select multiple name="friend_list[]" style="width: 100%;height: 200px;">
+                    <div class="list-friends">
+                        @forelse ($friends as $friend)
+                            <div>
+                                <option value="{{ $friend->id }}" selected>{{ $friend->name }} {{$friend->lastname}}  ({{ $friend->email }})</option>
+                            </div>
+                            
+                        @empty  
+                            <li>You Don't Have Any Friend</li>
                         
-                    @empty  
-                        <li>You Don't Have Any Friend</li>
-                    
-                    @endforelse
-                    <p> All Friends </p>
-                </div>
+                        @endforelse
+                        <option value="allfriends" selected> All Friends </option>
+                    </div>
+                </select>
             </div>
             <div style="text-align: center;margin-top: 5%;">
-                <button id="button"> Send </button>
+                <button type="sumbmit" id="button"> Send </button>
             </div>
+            </form>
         </div>
         <div id="belong">
             <h4 style="text-align: center;">Belong To The Group</h4>
-            <div id="selection"> 
-                <div id="block">
-                    <p id="text">Friends</p>
+            <div class="selection"> 
+                <div class="block">
+                    <p class="text">Friends</p>
                 </div>
-                <div id="list-friends">
+                <div class="list-friends">
                     @forelse ($members as $member)
-                        <div id="friend">
-                            <p><a href="{{ URL::to('/profile') }}/{{$member->email }}">{{ $member->name }} {{$member->lastname}} ({{ $member->email }})</a></p>
+                        <div>
+                            @if ($member->id == session('user')->id)
+                                <p><a href="{{ URL::to('/profile') }}">{{ $member->name }} {{$member->lastname}} ({{ $member->email }})</a></p>
+                            @else
+                                <p><a href="{{ URL::to('/profile') }}/{{$member->email }}">{{ $member->name }} {{$member->lastname}} ({{ $member->email }})</a></p>
+                        
+                            @endif
                         </div>
                         
                     @empty  
@@ -56,6 +69,9 @@
                     
                     @endforelse
                 </div>
+            </div>
+            <div style="text-align: center;margin-top: 5%;">
+                <a href="{{ URL::to('/groups')}}/{{$group->id}}/exit" style="margin-left: 10%;color: red"> Click here to leave the group </a>
             </div>
         </div>
     </div>
@@ -75,7 +91,7 @@
                 </div>
                 
             @empty  
-                <li>You Don't Have Any Friend</li>
+                <li>You Don't Have Any Publication</li>
             
             @endforelse
     </div>
