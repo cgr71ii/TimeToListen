@@ -16,9 +16,9 @@
     <form method="POST" action="{{ action('MessageController@create') }}">
         {{ csrf_field() }}
         <select name="receptors[]" multiple class="publication-text-wrapper">
-            <option value="all">All Friends</option>
+            <!--<option value="all">All Friends</option>-->
             @foreach(session('friends')  as $friend)
-                <option value={{$friend->id}}>{{$friend->name}}</option>
+                <option value='{{$friend->id}}'>{{$friend->name}} {{$friend->lastname}}</option>
             @endforeach
         </select>
         <span style="float:left;">Title</span> </br>

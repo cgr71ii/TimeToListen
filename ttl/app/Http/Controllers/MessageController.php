@@ -12,6 +12,7 @@ use App\User;
 
 class MessageController extends Controller
 {
+
     public function index(){
         return view('message.messages');
 
@@ -44,34 +45,36 @@ class MessageController extends Controller
         return view('message.messages-send');
 
     }
+
     public function create(Request $request){
 
         if (session('user') === null){
             return redirect('/');
         }
-        
-        $data = request()->all();
-        $title = $data['title'];
-        $body = $data['body'];
-        $users = $data['receptors'];
 
-        $message = new Message([
-            'user_id' => session('user')->id,
-            'title' => $title,
-            'text' => $body,
-            'read' => false,
-            'date' => date('Y-m-d h:i:s', time())
-        ]);
-        echo $message->id;
-        $message->save();
+        if($request->has('receptors') && count($request->receptors) >= 1){
+            $message = new Message([
+                'user_id' => session('user')->id,
+                'title' => $request->title,
+                'text' => $request->body,
+                'read' => false,
+                'date' => date('Y-m-d h:i:s', time())
+            ]);
+            $message->save();
+            $m_id = DB::table('messages')->count();
+            $t = date('Y-m-d h:i:s', time());
 
-      /*  foreach($users as $receptor){
-            if($receptor === 'all'){
-
-            } else {
-
+            foreach($request->receptors as $receptor){
+                    DB::table('message_user')->insert(
+                        array('message_id' => $m_id, 
+                              'user_id' => $receptor,
+                              'created_at' => $t,
+                              'updated_at' => $t)
+                    );                
             }
-        }*/
+            return back();
+        }
+        return back();
     }
 
     public function delete(Request $request){
