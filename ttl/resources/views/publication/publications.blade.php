@@ -8,7 +8,7 @@
     </div>
 </div>
 <div class="publication-actions">
-    <form method="POST" id="pub{{ $pub->id }}" action="{{ action('PublicationController@destroy') }}">
+    <form method="POST" id="pub{{ $pub->id }}" action="{{ action('PublicationController@delete') }}">
         {{ csrf_field() }}
         <input type="hidden" name="publication_id" value="{{ $pub->id }}">
         <a href="javascript:{}" onclick="document.getElementById('pub{{ $pub->id }}').submit(); return false;">Delete</a>

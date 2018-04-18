@@ -19,9 +19,7 @@ Route::get('/user/logout', 'UserController@logout');
 
 Route::post('/user/signup', 'UserController@signup');
 
-Route::post('/user/publicate', 'PublicationController@create');
 
-Route::post('/user/publication/remove', 'PublicationController@destroy');
 
 Route::get('/profile', 'UserController@login');
 
@@ -30,6 +28,13 @@ Route::get('/settings', 'SettingsController@show');
 Route::post('/user/update/info', 'SettingsController@update');
 
 Route::post('/user/update/image', ['as'=>'user.update.image','uses'=>'SettingsController@updateImage']);
+
+
+// Rutas añadidas o modificadas
+
+Route::post('/user/publicate', 'PublicationController@create');
+
+Route::post('/user/publication/remove', 'PublicationController@delete');
 
 Route::get('/messages', 'MessageController@index');
 
