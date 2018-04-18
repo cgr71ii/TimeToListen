@@ -5,7 +5,8 @@
 @section('css')
     <!-- All css imports or <style></style> here. -->
 
-    <link rel="stylesheet" type="text/css" href="css/profile-songs.css">
+    <link rel="stylesheet" type="text/css" href="/css/profile-songs.css">
+    <link rel="stylesheet" type="text/css" href="/css/pagination.css">
 @endsection
 
 @section('content')
@@ -78,26 +79,13 @@
         <!--/form-->
     </div>
 
-    <div>
-        <h3 style="text-align: center;"> My Songs </h3>
-            @if (session('songs') !== null)
-                @foreach (session('songs') as $song)
-                    <p><br> {{ $song->name }} </p>
-                    <audio controls id="{{ $song->id }}"><source src="{{ $song->song_path }}" type="audio/wav">Audio not Available!</audio>
-                    
-                    <form method="POST" id="song{{ $song->id }}" action="{{ action('SongController@removeSong') }}">
-                        {{ csrf_field() }}
-                        <input type="hidden" name="song_id" value="{{ $song->id }}">
-                        <a href="javascript:{}" onclick="document.getElementById('song{{ $song->id }}').submit(); return false;">Delete</a>
-                    </form>
-
-                    <script>
-                        var audio = document.getElementById("{{ $song->id }}");
-                        audio.volume = 0.5;
-                    </script>
-                @endforeach
-            @else
-                <h4> You haven't uploaded any songs yet! Give it a try! </h4>
-            @endif
+    @if (session('songs')[0] !== null)
+    <hr>
+    <div id="pagination-box-style" class="ajax-publication">
+        @include('song.songs-pag', ['songs' => session('songs')])
     </div>
+    @endif
+
+    @include('pagination-ajax', ['class_name' => 'ajax-publication', 'object_title' => 'Publications'])
+
 @endsection

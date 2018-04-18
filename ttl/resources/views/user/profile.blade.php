@@ -36,7 +36,7 @@
             <p>{{ session('user')->name }} {{ session('user')->lastname }}</p>
             @if (session('user')->song_status !== null)
             <p><img src="favicon.png"> {{ session('user')->song_status->name }} <img src="favicon.png"></p>
-            @if (File::exists(session('user')->song_status->song_path))
+            @if (session('user')->song_status !== null && File::exists(session('user')->song_status->song_path))
             <audio controls id="myaudio"><source src="{{ session('user')->song_status->song_path }}" type="audio/mp3">Audio not Available!</audio>
 
             <script>

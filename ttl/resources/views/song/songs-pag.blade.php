@@ -4,7 +4,7 @@
 <hr>
 
 <div class="pagination-element-box-non-style">
-    <form id="order-form" method="GET" action="{{ action('SongController@listSongs') }}">
+    <form id="order-form" method="GET" action="{{ action('SongController@show') }}">
         {{ csrf_field() }}
         <select name="field" form="order-form">
             <option value="created_at">Created At</option>
@@ -33,8 +33,19 @@
 @foreach ($songs as $song)
 <div class="pagination-element-box-style">
     <div class="pagination-content-wrapper">
-        <p>Id: {{ $song->id }}</p>
         <p>Name: {{ $song->name }}</p>
+        
+        @if (File::exists($song->song_path))
+        <audio controls id="myaudio"><source src="{{ $song->song_path }}" type="audio/mp3">Audio not Available!</audio>
+
+        <script>
+            var audio = document.getElementById("myaudio");
+            audio.volume = 0.5;
+        </script>
+        @else
+        <p>It could not find the song!</p>
+        @endif
+
         @if ($song->created_at != $song->updated_at)
         <p style="text-align: right;">Updated at: {{ $song->updated_at }}</p>
         @endif
@@ -43,46 +54,7 @@
 </div>
 
 <div class="pagination-actions">
-    <a href="#" data-id="{{ $song->id }}" data-title="Modify Song" data-toggle="modal" data-target="#modifySongModal{{ $song->id }}">Modify</a>
     <a href="#" data-id="{{ $song->id }}" data-title="Delete Song" data-toggle="modal" data-target="#removeSongModal{{ $song->id }}">Delete</a>
-</div>
-
-<div class="modal fade" id="modifySongModal{{ $song->id }}" tabindex="-1" role="dialog" aria-labelledby="modifySongModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-        <form method="POST" action="{{ action('SongController@update') }}">
-            {{ csrf_field() }}
-
-            <input type="hidden" name="song_id" value="{{ $song->id }}">
-
-            <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            <h4 class="modal-title" id="modifySongModalLabel">Modify Song</h4>
-            </div>
-            <div class="modal-body write-pub">
-            <p>Changing {{ $song->name }} Song</p>
-                <table style="margin: 0 auto;">
-                    <tr>
-                        <th>Name&nbsp;</th>
-                        <th><input type="text" name="name" value="{{ $song->name }}"></th>
-                    <tr>
-                    <tr>
-                        <th>Path&nbsp;</th>
-                        <th><input type="text" name="song_path" value="{{ $song->song_path }}"></th>
-                    </tr>
-                </table>
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <span class="pull-right">
-                <button type="submit" class="btn btn-primary">Modify</button>
-            </span>
-            </div>
-        </form>
-        </div>
-    </div>
 </div>
 
 <div class="modal fade" id="removeSongModal{{ $song->id }}" tabindex="-1" role="dialog" aria-labelledby="removeSongModalLabel">

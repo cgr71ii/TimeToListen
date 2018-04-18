@@ -57,12 +57,10 @@ Route::get('/messages/received', 'MessageController@list');
 
 Route::post('/messages/received/remove', 'MessageController@delete');
 
-Route::get('/songs', 'SongController@songs');
+Route::get('/songs', 'SongController@show');
 
 Route::post('/song/add_song', ['as'=>'song.add_song','uses'=>'SongController@add_song']);
 
 Route::post('/user/song/remove', 'SongController@removeSong');
-
-//Route::post('/song/remove', 'SongController@removeSong');
 
 Route::post('/song/update', 'SongController@update');
