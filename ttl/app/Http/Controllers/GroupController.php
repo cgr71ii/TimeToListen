@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Group;
+use App\Publication;
 use DB;
 
 class GroupController extends Controller
 {
+
     private function getFriends($id)
     {
         $users = array();
@@ -43,6 +45,7 @@ class GroupController extends Controller
             return redirect('/');
         }
 
+        /*
         if(request()->has('empty'))
         {
             $friends=[];
@@ -58,6 +61,29 @@ class GroupController extends Controller
             
             
         }
+        */
+
+        $friends = session('user')->following()->get();
+        $groups = session('user')->group_user();
+
+        if (session('group_field') !== null)
+        {
+            $groups = $groups->orderBy(session('group_field'), session('group_direction'));
+        }
+        else if ($request->has('field') && $request->has('direction'))
+        {
+            session([   'group_field' => $request->field,
+                        'group_direction' => $request->direction]);
+
+            $groups = $groups->orderBy($request->field, $request->direction);
+        }
+
+        $groups = $groups->simplePaginate(5);
+
+        if ($request->ajax())
+        {
+            return view('groups.groups-pag', ['groups' => $groups])->render();
+        }
         
         return view('groups.groups',compact('friends','groups'));
 
@@ -65,31 +91,30 @@ class GroupController extends Controller
 
     public function createGroup(Request $request)
     {
-        if($request->friend_list == null || $request->newgroupname==null)
+        if($request->friend_list == null || $request->newgroupname == null)
         {
-            return 'ERROR. Campos vacios';
+            return back()->with('Error');
         }
 
-        //Comprueba que el usuario no tiene un grupo con el mmismo nombre
         $g = Group::where('name',$request->newgroupname)->first();
-        if($g!=null)
+
+        if($g != null)
         {
             $count = DB::table('group_user')->where('user_id',session('user')->id)->where('group_id',$g->id)->count();
-
         }
         else
         {
             $count = 0;
         }
         
-        if($count>0)
+        if($count != 0)
         {
-            return 'Ya existe el grupo';
+            return back()->with('Error');
         }
 
         if (in_array("allfriends", $request->friend_list))
         {
-            $friends = $this->getFriends(session('user')->id);
+            $friends = session('user')->following()->get();
 
             $group = new Group([
                 'creator_id' => session('user')->id,
@@ -125,8 +150,6 @@ class GroupController extends Controller
                 $user->group_user()->attach($group->id);
             }
         }
-
-        
         
         session('user')->group_user()->attach($group->id);
 
@@ -136,12 +159,11 @@ class GroupController extends Controller
     public function addFriend(Request $request)
     {
 
-        $group = Group::where('id',$request->group_id)->First();
-
+        $group = Group::where('id',$request->group_id)->first();
 
         if (in_array("allfriends", $request->friend_list))
         {
-            $friends = $this->getFriends(session('user')->id);
+            $friends = session('user')->following()->get();
 
             foreach($friends as $friend)
             {
@@ -149,7 +171,7 @@ class GroupController extends Controller
 
                 $count = DB::table('group_user')->where('user_id',$friend->id)->where('group_id',$request->group_id)->count();
                 
-                if($count<1)
+                if($count < 1)
                 {
                     $user->group_user()->attach($group->id);
                 }
@@ -171,56 +193,90 @@ class GroupController extends Controller
             }
         }
         
-        return redirect('groups/'.$group->id);
+        return back();
     }
 
-    public function groupPublications($id)
+    public function groupPublications(Request $request)
     {
-        if(Group::where('id',$id)->where('creator_id',session('user')->id)->count()>0)
+        if ($request->has('group_id'))
         {
-            $changeP=true; 
-        }
-        else
-        {
-            $changeP=false; 
+            session(['group_id' => $request->group_id]);
         }
 
+        $id = session('group_id');
+
+        $group = Group::find($id);
+
+        $friends = session('user')->following()->get();
+
+        $members = $group->users()->get();
+
+        //$group = $group->get()[0];
+
+        $publications = Publication::where('group_id', $id);
+
+        if ($request->has('order-form'))
+        {
+            session([   'group_field' => null, 
+                        'group_direction' => null]);
+        }
+
+        if (session('group_field') !== null)
+        {
+            $publications = $publications->orderBy(session('group_field'), session('group_direction'));
+        }
+        else if ($request->has('field') && $request->has('direction'))
+        {
+            session([   'group_field' => $request->field,
+                        'group_direction' => $request->direction]);
+
+            $publications = $publications->orderBy($request->field, $request->direction);
+        }
+
+        $publications = $publications->simplePaginate(5);
+
+        if ($request->ajax())
+        {
+            return view('groups.group-publications-pag', ['publications' => $publications])->render();
+            //return view('groups.groupPublications', ['group' => $group, 'group_id' => $id, 'friends' => $friends, 'members' => $members, 'publications' => $publications]);
+        }
+
+        return view('groups.groupPublications', ['group' => $group, 'group_id' => $id, 'friends' => $friends, 'members' => $members, 'publications' => $publications]);
+    }
+
+    public function exit(Request $request, $id)
+    {
         if (session('user') === null)
         {
             return redirect('/');
         }
 
-        $group = Group::find($id);
-
-        if($group == null )
+        if ($request->has('group_id'))
         {
-            return 'The Group Does Not Exist';
-        }
+            //$group = Group::find($request->group_id);
+            $group = Group::where('id', $request->group_id);
 
-        $members = DB::table('group_user')->where('group_id',$id)->join('users',function($join){
-            $join->on('id','user_id');
-        })->get();
-
-        foreach($members as $member)
-        {
-            if($member->id == session('user')->id)
+            $count = $group->get()->count();
+            
+            if ($count == 1)
             {
-                $publications = DB::table('publications')->where('group_id',$id)->join('users',function($join){
-                    $join->on('publications.user_id','users.id');
-                })->get();
-        
-                $friends = $this->getFriends(session('user')->id);    
+                if ($group->get()[0]->creator_id == session('user')->id)
+                {
+                    $group->delete();
+                }
+                else
+                {
+                    session('user')->group_user()->detach($request->group_id);
+                }
 
-                return view('groups.groupPublications',compact('group','friends','members','publications','changeP'));
+                $groups = session('user')->group_user();
+
+                return back()->with(['groups' => $groups]);
             }
         }
 
-        return redirect('/groups',compact('changeP'));
-        
-    }
-
-    public function exit($id)
-    {
+        return back()->with('Error');
+        /*
         $toDelete = DB::table('group_user')->where('user_id',session('user')->id)->where('group_id',$id)->first();
         $user = User::where('id',session('user')->id)->FirstOrFail();
         if($toDelete==null)
@@ -236,6 +292,23 @@ class GroupController extends Controller
             $group = Group::find($id);
             $group->delete();
         }
+
+        return redirect('/groups');
+        */
+    }
+
+    public function updateOnlyName(Request $request)
+    {
+        if (session('user') === null)
+        {
+            return redirect('/');
+        }
+
+        $group = Group::find($request->group_id);
+
+        $group->name = $request->name;
+
+        $group->save();
 
         return redirect('/groups');
     }

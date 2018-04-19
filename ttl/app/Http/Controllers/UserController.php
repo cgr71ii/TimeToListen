@@ -143,7 +143,7 @@ class UserController extends Controller
         {
             $friend = User::where('email', $friend_email)->first();
 
-            foreach (session('user')->userFriends as $f)
+            foreach (session('user')->following()->get() as $f)
             {
                 if ($f->id == $friend->id)
                 {

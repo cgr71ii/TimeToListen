@@ -5,13 +5,12 @@
     margin-left: 5%;
 }
 
-
-
 .block
 {
     background: rgba(0, 0, 0, 0.2);
     border-bottom: 2px solid black;
 }
+
 .text 
 {
     width: 90%;

@@ -13,17 +13,19 @@
 
 Route::get('/groups', 'GroupController@show');
 
-Route::post('/groups', 'GroupController@createGroup');
+Route::post('/groups/create', 'GroupController@createGroup');
 
-Route::get('/groups/{id}', 'GroupController@groupPublications');
+Route::get('/groups/publications', 'GroupController@groupPublications');
 
-Route::get('/groups/{id}/exit', 'GroupController@exit');
+Route::post('/groups/{id}/exit', 'GroupController@exit');
 
 Route::get('/groups/{id}/changeName','GroupController@showChangeName');
 
-Route::post('/groups/{id}/changeName', 'GroupController@changeName')->name('changeGN');
+//Route::post('/groups/{id}/changeName', 'GroupController@changeName')->name('changeGN');
 
-Route::post('/groups/{id}', 'GroupController@addFriend')->name('my_route');
+Route::post('/groups/updateName', 'GroupController@updateOnlyName');
+
+Route::post('/groups/add/{id}', 'GroupController@addFriend')->name('my_route');
 
 //Route::get('/profile/{email}', 'FriendsController@viewFriend');
 

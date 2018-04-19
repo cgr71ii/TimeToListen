@@ -13,7 +13,7 @@
     <!--All body code here.-->
 
     <div>
-        <h3 style="text-align: center;"> Add Songs </h3>
+        <h2 style="text-align: center;"> Add Songs </h2>
 
         <!--form method="POST" action="{{ action('SongController@add_song') }}" class="container" name="add_song" enctype="multipart/form-data"-->
         {!! Form::open(array('route' => 'song.add_song','files'=>true)) !!}

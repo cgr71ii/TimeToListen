@@ -55,7 +55,7 @@ class FriendsController extends Controller
         }
         */
 
-        $friends = User::find(session('user')->id)->followers();
+        $friends = User::find(session('user')->id)->following();
 
         if (session('friends_field') !== null)
         {
@@ -142,7 +142,7 @@ class FriendsController extends Controller
         }
         */
 
-        $friends = User::find(session('user')->id)->followers()->get();
+        $friends = User::find(session('user')->id)->following()->get();
 
         foreach($friends as $friend)
         {
@@ -204,7 +204,7 @@ class FriendsController extends Controller
             }
         }
 
-        session('user')->followers()->attach($friend[0]->id);
+        session('user')->following()->attach($friend[0]->id);
         
         return back();
 
