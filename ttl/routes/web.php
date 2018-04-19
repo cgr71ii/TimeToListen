@@ -21,15 +21,9 @@ Route::post('/groups/{id}/exit', 'GroupController@exit');
 
 Route::get('/groups/{id}/changeName','GroupController@showChangeName');
 
-//Route::post('/groups/{id}/changeName', 'GroupController@changeName')->name('changeGN');
-
 Route::post('/groups/updateName', 'GroupController@updateOnlyName');
 
 Route::post('/groups/add/{id}', 'GroupController@addFriend')->name('my_route');
-
-//Route::get('/profile/{email}', 'FriendsController@viewFriend');
-
-//Route::get('/songs/{email}', 'FriendsController@viewFriendSongs');
 
 Route::get('/friends','FriendsController@indexFriends');
 
@@ -48,8 +42,6 @@ Route::get('/profile/{friend_email}', 'UserController@showFriend');
 Route::get('/user/logout', 'UserController@logout');
 
 Route::post('/user/signup', 'UserController@signup');
-
-Route::post('/user/publicate', 'PublicationController@create');
 
 Route::post('/user/publication/remove', 'PublicationController@delete');
 
@@ -75,6 +67,10 @@ Route::post('/genres/update', 'GenreController@update');
 
 Route::post('/genres/remove', 'GenreController@remove');
 
+Route::post('/user/publicate', 'PublicationController@create');
+
+Route::post('/user/publication/remove', 'PublicationController@delete');
+
 Route::get('/messages', 'MessageController@index');
 
 Route::get('/messages/received', 'MessageController@list');
@@ -88,3 +84,7 @@ Route::post('/song/add_song', ['as'=>'song.add_song','uses'=>'SongController@add
 Route::post('/user/song/remove', 'SongController@removeSong');
 
 Route::post('/song/update', 'SongController@update');
+
+Route::get('/messages/send', 'MessageController@send');
+
+Route::post('/message/send/create', 'MessageController@create');
