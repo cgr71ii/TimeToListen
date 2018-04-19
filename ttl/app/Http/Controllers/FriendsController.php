@@ -19,8 +19,8 @@ class FriendsController extends Controller
             return null;
         }
 
-        $user1 = User::find($id)->users()->get();
-        $user2 = User::find($id)->userFriends()->get();
+        $user1 = User::find($id)->following()->get();
+        $user2 = User::find($id)->followers()->get();
 
         foreach ($user1 as $u)
         {
@@ -55,7 +55,7 @@ class FriendsController extends Controller
         }
         */
 
-        $friends = User::find(session('user')->id)->userFriends();
+        $friends = User::find(session('user')->id)->followers();
 
         if (session('friends_field') !== null)
         {
@@ -142,7 +142,7 @@ class FriendsController extends Controller
         }
         */
 
-        $friends = User::find(session('user')->id)->userFriends()->get();
+        $friends = User::find(session('user')->id)->followers()->get();
 
         foreach($friends as $friend)
         {
@@ -180,7 +180,7 @@ class FriendsController extends Controller
             }
         }
 
-        session('user')->users()->attach($toAdd[0]->id);
+        session('user')->following()->attach($toAdd[0]->id);
         
         return redirect('/friends');
         */
@@ -194,7 +194,7 @@ class FriendsController extends Controller
             return back()->with("The user $request->email does not exist.");
         }
 
-        $my_friends = session('user')->users;
+        $my_friends = session('user')->following;
 
         foreach ($my_friends as $my_friend)
         {
@@ -204,7 +204,7 @@ class FriendsController extends Controller
             }
         }
 
-        session('user')->userFriends()->attach($friend[0]->id);
+        session('user')->followers()->attach($friend[0]->id);
         
         return back();
 
@@ -222,7 +222,7 @@ class FriendsController extends Controller
                 {
                     foreach($user1 as $user)
                     {
-                        session('user')->users()->detach($friend);
+                        session('user')->following()->detach($friend);
                     }
                 }
                 if($user2->count()>0)
@@ -230,7 +230,7 @@ class FriendsController extends Controller
                     foreach($user2 as $user)
                     {
                         $u=User::find($user->user_id);
-                        $u->users()->detach(session('user'));
+                        $u->following()->detach(session('user'));
                     }
                 }
             }

@@ -18,8 +18,8 @@ class GroupController extends Controller
             return null;
         }
 
-        $user1 = User::find($id)->users()->get();
-        $user2 = User::find($id)->userFriends()->get();
+        $user1 = User::find($id)->following()->get();
+        $user2 = User::find($id)->followers()->get();
 
         foreach ($user1 as $u)
         {
