@@ -1,6 +1,6 @@
 @extends('general')
 
-@section('title', 'List of Received Messages')
+@section('title', 'List of Sent Messages')
 
 @section('css')
     <!-- All css imports or <style></style> here. -->
@@ -13,7 +13,7 @@
     <!--All body code here.-->
 
     <div id="pagination-box-style" class="ajax-pagination">
-    @include('message.messages-received-pag')
+        @include('message.messages-sent-pag')
     </div>
 
     @include('pagination-ajax', ['class_name' => 'ajax-pagination', 'object_title' => 'List of Genres'])

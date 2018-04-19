@@ -13,10 +13,92 @@ use App\User;
 class MessageController extends Controller
 {
 
-    public function index(){
-        return view('message.messages');
+    public function show(Request $request)
+    {
+        if (session('user') === null)
+        {
+            return redirect('/');
+        }
 
+        $id = session('user')->id;
+
+        $friends = User::find(session('user')->id)->following()->get();
+
+        $messages_sent_count = User::find($id)->message()->count();
+
+        $messages_recv_count = User::find($id)->message_user()->where('message_user.user_id', $id)->count();
+
+        return view('message.messages')->with('friends', $friends)->with('messages_sent_count', $messages_sent_count)->with('messages_recv_count', $messages_recv_count);
     }
+
+    public function listSentMessages(Request $request)
+    {
+        $id = session('user')->id;
+
+        $messages_sent = User::find($id)->message();
+
+        if ($request->has('order-form'))
+        {
+            session([   'message_sent_field' => null, 
+                        'message_sent_direction' => null]);
+        }
+
+        if (session('message_sent_field') !== null)
+        {
+            $messages_sent = $messages_sent->orderBy(session('message_sent_field'), session('message_sent_direction'));
+        }
+        else if ($request->has('field') && $request->has('direction'))
+        {
+            session([   'message_sent_field' => $request->field,
+                        'message_sent_direction' => $request->direction]);
+
+            $messages_sent = $messages_sent->orderBy($request->field, $request->direction);
+        }
+
+        $messages_sent = $messages_sent->simplePaginate(5);
+
+        if ($request->ajax())
+        {
+            return view('message.messages-sent-pag', ['messages_sent' => $messages_sent])->render();
+        }
+
+        return view('message.messages-sent', ['messages_sent' => $messages_sent]);
+    }
+
+    public function listReceivedMessages(Request $request)
+    {
+        $id = session('user')->id;
+
+        $messages_received = User::find($id)->message_user()->where('message_user.user_id', $id);
+
+        if ($request->has('order-form'))
+        {
+            session([   'message_received_field' => null, 
+                        'message_received_direction' => null]);
+        }
+
+        if (session('message_received_field') !== null)
+        {
+            $messages_received = $messages_received->orderBy(session('message_received_field'), session('message_sent_direction'));
+        }
+        else if ($request->has('field') && $request->has('direction'))
+        {
+            session([   'message_received_field' => $request->field,
+                        'message_received_direction' => $request->direction]);
+
+            $messages_received = $messages_received->orderBy($request->field, $request->direction);
+        }
+
+        $messages_received = $messages_received->simplePaginate(5);
+
+        if ($request->ajax())
+        {
+            return view('message.messages-received-pag', ['messages_received' => $messages_received])->render();
+        }
+
+        return view('message.messages-received', ['messages_received' => $messages_received]);
+    }
+
     public function send(){
         $users = array();
         if (session('user') === null){
@@ -79,13 +161,13 @@ class MessageController extends Controller
     }
 
     public function delete(Request $request){
-        if (session('user') === null){
+        if (session('user') === null)
+        {
             return redirect('/');
         }
 
+        /*
         if($request->has('message_id')){
-            /*$message_user = Message_user::where('user_id',session('user')->id)
-                                    ->where('message_id',$request->message_id)->first();*/
             $message_user = DB::table('message_user')->where('user_id',session('user')->id)
                                       ->where('message_id',$request->message_id)->first();
             
@@ -94,6 +176,15 @@ class MessageController extends Controller
                 ->where('message_id',$request->message_id)->delete();
             }
         }
+        */
+
+        if ($request->has('message_id'))
+        {
+            $message = Message::find($request->message_id);
+
+            $message->delete();
+        }
+        
         return back();
     }
 

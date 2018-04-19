@@ -71,9 +71,11 @@ Route::post('/user/publicate', 'PublicationController@create');
 
 Route::post('/user/publication/remove', 'PublicationController@delete');
 
-Route::get('/messages', 'MessageController@index');
+Route::get('/messages', 'MessageController@show');
 
-Route::get('/messages/received', 'MessageController@list');
+Route::get('/messages/sent', 'MessageController@listSentMessages');
+
+Route::get('/messages/received', 'MessageController@listReceivedMessages');
 
 Route::post('/messages/received/remove', 'MessageController@delete');
 
