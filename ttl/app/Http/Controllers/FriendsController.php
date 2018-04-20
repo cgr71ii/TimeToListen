@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Message;
 use DB;
 
 class FriendsController extends Controller
@@ -166,6 +167,24 @@ class FriendsController extends Controller
         return 'This User Is Not Your Friend';  
     }
 
+    private function send_hello_message($text, $me, $receptor)
+    {
+        $message = new Message([
+            'user_id' => session('user')->id,
+            'title' => "Hello, i'am $me->name $me->lastname",
+            'text' => "I'm following you! $text",
+            'read' => false,
+            'date' => date('Y-m-d h:i:s', time())
+        ]);
+        
+        $message->save();
+
+        DB::table('message_user')->insert(
+            array('message_id' => $message->id, 
+                    'user_id' => $receptor->id)
+        );
+    }
+
     public function addFriend(Request $request)
     {
         /*
@@ -220,6 +239,15 @@ class FriendsController extends Controller
         }
 
         session('user')->following()->attach($friend[0]->id);
+
+        if ($request->has('additional'))
+        {
+            $this->send_hello_message($request->additional, session('user'), $friend[0]);
+        }
+        else
+        {
+            $this->send_hello_message('', session('user'), $friend[0]);
+        }
         
         return back();
 

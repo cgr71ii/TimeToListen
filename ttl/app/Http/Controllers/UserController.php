@@ -253,12 +253,14 @@ class UserController extends Controller
                 return redirect('/')->with('signupfailuserexists', true);
             }
 
+            $time = time();
+
             $user = new User([  'email' => $request->username,
                                 'password' => $request->password,
                                 'name' => $request->name,
                                 'lastname' => $request->lname,
                                 'birthday' => "$request->birthday 00:00:00",
-                                'pic_profile_path' => 'default-user.png']);
+                                'pic_profile_path' => "user/pic_profile/$request->username - $time.png"]);
             $user->save();
 
             session(['user' => $user]);

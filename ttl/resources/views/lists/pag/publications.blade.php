@@ -59,6 +59,8 @@
 @foreach ($publications as $pub)
 <div class="pagination-element-box-style">
     <div class="pagination-content-wrapper">
+        <p>User: {{ $pub->user->email }}</p>
+        <hr>
         @if ($pub->group_id != 0 && $pub->group !== null)
         <p>Group: {{ $pub->group->name }}</p>
         <hr>

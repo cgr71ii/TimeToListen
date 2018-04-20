@@ -97,6 +97,9 @@ class SongController extends Controller
                 $song->save();
             }
 
+            $user = User::find(session('user')->id);
+            session(['user' => $user]);
+
             return back()->with('success', true);
         }
         else{

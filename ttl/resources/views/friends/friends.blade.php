@@ -22,8 +22,8 @@
         <div id="email">
             <div style="width: 50%;float: right;">
                 <p>Email</p>
-                <input type="email" name="email" id="emailInput"> </input></br></br>
-                <input type="checkbox" id="cbox" value="send_hello"> Send Message Saying "Hello"</label>
+                <input type="email" name="email" id="emailInput"><br><br>
+                <input type="checkbox" id="cbox" value="send_hello" disabled checked> Send Message Saying "Hello"
             </div>
         </div>
         <div id="message">
@@ -32,7 +32,7 @@
         </div>
     </div>
     <div id=button>
-            <button type="submit" value"Send Message">Send</button>
+            <button type="submit">Send</button>
     </div>
     </form>
 

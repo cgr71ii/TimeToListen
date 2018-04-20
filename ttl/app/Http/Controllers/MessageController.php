@@ -209,7 +209,7 @@ class MessageController extends Controller
                     DB::table('message_user')->insert(
                         array('message_id' => $message->id, 
                                 'user_id' => $receptor->id)
-                    );                
+                    );
                 }
             }
             else
