@@ -34,7 +34,14 @@
 <div class="pagination-element-box-style">
     <div class="pagination-content-wrapper">
         @if ($message->user_receive()->count() != 0)
-        <p>To: {{ $message->user_receive()->first()->email }}</p>
+        <p>To: 
+        @foreach ($message->user_receive()->get() as $to_user)
+        {{ $to_user->email }}
+        @if (!$loop->last)
+        , 
+        @endif
+        @endforeach
+        </p>
         @endif
         <p>Title: {{ $message->title }}</p>
         <p>Body of Message: {{ $message->text }}</p>

@@ -35,11 +35,14 @@
         <p>Id: {{ $group->id }}</p>
         <p>Creator: {{ $group->creator()->first()->email }}</p>
         <p>Name: {{ $group->name }}</p>
-        <p>Users: {
+        <p>Users: 
         @foreach($group->users()->get() as $member)
-        {{ $member->email }}, 
+        {{ $member->email }}
+        @if (!$loop->last)
+        , 
+        @endif
         @endforeach
-        }</p>
+        </p>
         @if ($group->created_at != $group->updated_at)
         <p style="text-align: right;">Updated at: {{ $group->updated_at }}</p>
         @endif

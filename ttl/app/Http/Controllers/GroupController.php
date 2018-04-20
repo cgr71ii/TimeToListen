@@ -144,7 +144,14 @@ class GroupController extends Controller
             return back()->with('Error');
         }
 
-        $g = Group::where('name',$request->newgroupname)->first();
+        $g = Group::where('name',$request->newgroupname);
+
+        if ($g->count() != 0)
+        {
+            return back()->with('Error');
+        }
+
+        $g = $g->first();
 
         if($g != null)
         {
@@ -201,7 +208,11 @@ class GroupController extends Controller
         
         session('user')->group_user()->attach($group->id);
 
-        return redirect('/groups');
+        $update_user = User::find(session('user')->id);
+
+        session(['user' => $update_user]);
+
+        return back();
     }
 
     public function addFriend(Request $request)
@@ -377,7 +388,7 @@ class GroupController extends Controller
 
     public function delete(Request $request)
     {
-        $group = Group::find($request->group_id)->first();
+        $group = Group::find($request->group_id);
 
         $group->delete();
 

@@ -171,7 +171,7 @@ class FriendsController extends Controller
     {
         $message = new Message([
             'user_id' => session('user')->id,
-            'title' => "Hello, i'am $me->name $me->lastname",
+            'title' => "Hello, i'm $me->name $me->lastname",
             'text' => "I'm following you! $text",
             'read' => false,
             'date' => date('Y-m-d h:i:s', time())

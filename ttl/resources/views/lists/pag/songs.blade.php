@@ -35,6 +35,14 @@
     <div class="pagination-content-wrapper">
         <p>Id: {{ $song->id }}</p>
         <p>Name: {{ $song->name }}</p>
+        <p>Genres: 
+        @foreach ($song->genres as $genre)
+        {{ $genre->name }}
+        @if (!$loop->last)
+        , 
+        @endif
+        @endforeach
+        </p>
         @if ($song->created_at != $song->updated_at)
         <p style="text-align: right;">Updated at: {{ $song->updated_at }}</p>
         @endif

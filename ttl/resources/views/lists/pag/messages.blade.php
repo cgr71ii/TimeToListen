@@ -34,11 +34,14 @@
     <div class="pagination-content-wrapper">
         <p>Id: {{ $message->id }}</p>
         <p>From: {{ $message->user->email }}</p>
-        <p>To: {
+        <p>To: 
         @foreach ($message->user_receive()->get() as $member)
-        {{ $member->email }}, 
+        {{ $member->email }}
+        @if (!$loop->last)
+        , 
+        @endif
         @endforeach
-        }</p>
+        </p>
         <p>Title: {{ $message->title }}</p>
         <p>Body of Message: {{ $message->text }}</p>
         @if ($message->created_at != $message->updated_at)
