@@ -42,6 +42,11 @@ class MessageController extends Controller
             session([   'message_sent_field' => null, 
                         'message_sent_direction' => null]);
         }
+        else if (session('message_sent_field') === null || (session('message_sent_field') == 'created_at' && session('message_sent_direction') == 'desc'))
+        {
+            session([   'message_sent_field' => 'created_at',
+                        'message_sent_direction' => 'desc']);
+        }
 
         if (session('message_sent_field') !== null)
         {
@@ -75,6 +80,11 @@ class MessageController extends Controller
         {
             session([   'message_received_field' => null, 
                         'message_received_direction' => null]);
+        }
+        else if (session('message_received_field') === null || (session('message_received_field') == 'created_at' && session('message_received_direction') == 'desc'))
+        {
+            session([   'message_received_field' => 'created_at',
+                        'message_received_direction' => 'desc']);
         }
 
         if (session('message_received_field') !== null)
@@ -137,6 +147,11 @@ class MessageController extends Controller
         {
             session([   'messages_field' => null, 
                         'messages_direction' => null]);
+        }
+        else if (session('messages_field') === null || (session('messages_field') == 'created_at' && session('messages_direction') == 'desc'))
+        {
+            session([   'messages_field' => 'created_at',
+                        'messages_direction' => 'desc']);
         }
 
         if (session('messages_field') !== null)

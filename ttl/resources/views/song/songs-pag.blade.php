@@ -54,7 +54,42 @@
 </div>
 
 <div class="pagination-actions">
+    <a href="#" data-id="{{ $song->id }}" data-title="Modify Song" data-toggle="modal" data-target="#modifySongModal{{ $song->id }}">Modify</a>
     <a href="#" data-id="{{ $song->id }}" data-title="Delete Song" data-toggle="modal" data-target="#removeSongModal{{ $song->id }}">Delete</a>
+</div>
+
+<div class="modal fade" id="modifySongModal{{ $song->id }}" tabindex="-1" role="dialog" aria-labelledby="modifySongModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <form method="POST" action="{{ action('SongController@update') }}">
+            {{ csrf_field() }}
+
+            <input type="hidden" name="song_id" value="{{ $song->id }}">
+
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="modifySongModalLabel">Modify Song</h4>
+            </div>
+            <div class="modal-body write-pub">
+            <p>Changing {{ $song->name }} Song</p>
+                <table style="margin: 0 auto;">
+                    <tr>
+                        <th>Name&nbsp;</th>
+                        <th><input type="text" name="name" value="{{ $song->name }}"></th>
+                    <tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <span class="pull-right">
+                <button type="submit" class="btn btn-primary">Modify</button>
+            </span>
+            </div>
+        </form>
+        </div>
+    </div>
 </div>
 
 <div class="modal fade" id="removeSongModal{{ $song->id }}" tabindex="-1" role="dialog" aria-labelledby="removeSongModalLabel">

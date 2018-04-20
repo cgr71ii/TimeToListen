@@ -57,6 +57,17 @@ class FriendsController extends Controller
 
         $friends = User::find(session('user')->id)->following();
 
+        if ($request->has('order-form'))
+        {
+            session([   'friends_field' => null, 
+                        'friends_direction' => null]);
+        }
+        else if (session('friends_field') === null || (session('friends_field') == 'created_at' && session('friends_direction') == 'desc'))
+        {
+            session([   'friends_field' => 'created_at',
+                        'friends_direction' => 'desc']);
+        }
+
         if (session('friends_field') !== null)
         {
             $friends = $friends->orderBy(session('friends_field'), session('friends_direction'));
@@ -192,6 +203,10 @@ class FriendsController extends Controller
         if($count == 0)
         {
             return back()->with("The user $request->email does not exist.");
+        }
+        else if ($friend[0]->id == session('user')->id)
+        {
+            return back()->with('error_self_friend', true);
         }
 
         $my_friends = session('user')->following;

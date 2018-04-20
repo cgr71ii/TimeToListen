@@ -66,6 +66,17 @@ class GroupController extends Controller
         $friends = session('user')->following()->get();
         $groups = session('user')->group_user();
 
+        if ($request->has('order-form'))
+        {
+            session([   'group_field' => null, 
+                        'group_direction' => null]);
+        }
+        else if (session('group_field') === null || (session('group_field') == 'created_at' && session('group_direction') == 'desc'))
+        {
+            session([   'group_field' => 'created_at',
+                        'group_direction' => 'desc']);
+        }
+
         if (session('group_field') !== null)
         {
             $groups = $groups->orderBy(session('group_field'), session('group_direction'));
@@ -95,18 +106,23 @@ class GroupController extends Controller
 
         if ($request->has('order-form'))
         {
-            session([   'group_field' => null, 
-                        'group_direction' => null]);
+            session([   'list_group_field' => null, 
+                        'list_group_direction' => null]);
+        }
+        else if (session('list_group_field') === null || (session('list_group_field') == 'created_at' && session('list_group_direction') == 'desc'))
+        {
+            session([   'list_group_field' => 'created_at',
+                        'list_group_direction' => 'desc']);
         }
 
-        if (session('group_field') !== null)
+        if (session('list_group_field') !== null)
         {
-            $groups = $groups->orderBy(session('group_field'), session('group_direction'));
+            $groups = $groups->orderBy(session('list_group_field'), session('list_group_direction'));
         }
         else if ($request->has('field') && $request->has('direction'))
         {
-            session([   'group_field' => $request->field,
-                        'group_direction' => $request->direction]);
+            session([   'list_group_field' => $request->field,
+                        'list_group_direction' => $request->direction]);
 
             $groups = $groups->orderBy($request->field, $request->direction);
         }
@@ -190,6 +206,10 @@ class GroupController extends Controller
 
     public function addFriend(Request $request)
     {
+        if (!$request->has('friend_list') || count($request->friend_list) == 0)
+        {
+            return back()->with('erroremptyfield', true);
+        }
 
         $group = Group::where('id',$request->group_id)->first();
 
@@ -249,18 +269,23 @@ class GroupController extends Controller
 
         if ($request->has('order-form'))
         {
-            session([   'group_field' => null, 
-                        'group_direction' => null]);
+            session([   'group_pub_field' => null, 
+                        'group_pub_direction' => null]);
+        }
+        else if (session('group_pub_field') === null || (session('group_pub_field') == 'created_at' && session('group_pub_direction') == 'desc'))
+        {
+            session([   'group_pub_field' => 'created_at',
+                        'group_pub_direction' => 'desc']);
         }
 
-        if (session('group_field') !== null)
+        if (session('group_pub_field') !== null)
         {
-            $publications = $publications->orderBy(session('group_field'), session('group_direction'));
+            $publications = $publications->orderBy(session('group_pub_field'), session('group_pub_direction'));
         }
         else if ($request->has('field') && $request->has('direction'))
         {
-            session([   'group_field' => $request->field,
-                        'group_direction' => $request->direction]);
+            session([   'group_pub_field' => $request->field,
+                        'group_pub_direction' => $request->direction]);
 
             $publications = $publications->orderBy($request->field, $request->direction);
         }
@@ -334,6 +359,11 @@ class GroupController extends Controller
         if (session('user') === null)
         {
             return redirect('/');
+        }
+
+        if (!$request->has('name') || empty($request->name))
+        {
+            return back()->with('erroremptyfield', true);
         }
 
         $group = Group::find($request->group_id);

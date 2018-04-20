@@ -28,6 +28,11 @@ class SongController extends Controller
             session([   'song_field' => null, 
                         'song_direction' => null]);
         }
+        else if (session('song_field') === null || (session('song_field') == 'created_at' && session('song_direction') == 'desc'))
+        {
+            session([   'song_field' => 'created_at',
+                        'song_direction' => 'desc']);
+        }
 
         if (session('song_field') !== null)
         {
@@ -132,6 +137,11 @@ class SongController extends Controller
             session([   'song_list_field' => null, 
                         'song_list_direction' => null]);
         }
+        else if (session('song_list_field') === null || (session('song_list_field') == 'created_at' && session('song_list_direction') == 'desc'))
+        {
+            session([   'song_list_field' => 'created_at',
+                        'song_list_direction' => 'desc']);
+        }
 
         if (session('song_list_field') !== null)
         {
@@ -162,19 +172,26 @@ class SongController extends Controller
             return redirect('/');
         }
 
-        if ($request->has('song_id') && $request->has('name') && $request->has('song_path') && !empty($request->name) && !empty($request->song_path))
+        if ($request->has('song_id'))
         {
             $song = Song::find($request->song_id);
 
-            $song->name = $request->name;
-            $song->song_path = $request->song_path;
+            if ($request->has('name') && !empty($request->name))
+            {
+                $song->name = $request->name;
+            }
+
+            if ($request->has('song_path') && !empty($request->song_path))
+            {
+                $song->song_path = $request->song_path;
+            }
 
             $song->save();
-        }
-
-        if (session('user')->song_status !== null && session('user')->song_status->id == $song->id)
-        {
-            session('user')->song_status = $song;
+    
+            if (session('user')->song_status !== null && session('user')->song_status->id == $song->id)
+            {
+                session('user')->song_status = $song;
+            }
         }
 
         return back();

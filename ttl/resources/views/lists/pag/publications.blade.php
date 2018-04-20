@@ -1,14 +1,10 @@
 
-<h2>Publications</h2>
+<h2>List of Publications</h2>
 
 <hr>
 
 <div class="pagination-element-box-non-style">
-  @if (session('publication_session_name') !== null && session('publication_session_name') == 'publications')
-  <form id="order-form" method="GET" action="{{ action('UserController@show') }}">
-  @else
-  <form id="order-form" method="GET" action="{{ action('UserController@showFriend', ['friend_email' => Request::segment(2)]) }}">
-  @endif
+  <form id="order-form" method="GET" action="{{ action('PublicationController@listPublications') }}">
     {{ csrf_field() }}
     <select name="field" form="order-form">
       <option value="created_at">Created At</option>
@@ -28,11 +24,7 @@
 <hr>
 
 <div class="pagination-element-box-non-style">
-  @if (session('publication_session_name') !== null && session('publication_session_name') == 'publications')
-  <form id="find-form" method="GET" action="{{ action('UserController@show') }}">
-  @else
-  <form id="find-form" method="GET" action="{{ action('UserController@showFriend', ['friend_email' => Request::segment(2)]) }}">
-  @endif
+  <form id="find-form" method="GET" action="{{ action('PublicationController@listPublications') }}">
     {{ csrf_field() }}
     <p>Publication contains <input type="text" name="pub_contains"></p>
     <p>
@@ -60,24 +52,14 @@
 
 <hr>
 
-@if (session('publication_fail') !== null)
-<div class="alert alert-danger">
-    <strong>Error!</strong> Publication can not have empty fields!
-</div>
-@elseif (session('error_unexpected') !== null)
-<div class="alert alert-danger">
-    <strong>Error!</strong> Unexpected error!
-</div>
-@endif
-
 <span class="link-pagination">
-  {{ session(session('publication_session_name'))->links() }}
+  {{ $publications->links() }}
 </span>
 
-@foreach (session(session('publication_session_name')) as $pub)
+@foreach ($publications as $pub)
 <div class="pagination-element-box-style">
     <div class="pagination-content-wrapper">
-        @if (isset($group_notify) && $group_notify && $pub->group_id != 0 && $pub->group !== null)
+        @if ($pub->group_id != 0 && $pub->group !== null)
         <p>Group: {{ $pub->group->name }}</p>
         <hr>
         @endif
@@ -88,7 +70,7 @@
         <p style="text-align: right;">Created at: {{ $pub->created_at }}</p>
     </div>
 </div>
-@if (isset($actions) && $actions)
+
 <div class="pagination-actions">
   <a href="#" data-id="{{ $pub->id }}" data-title="Modify Publication" data-toggle="modal" data-target="#modifyPublicationModal{{ $pub->id }}">Modify</a>
   <a href="#" data-id="{{ $pub->id }}" data-title="Delete Publication" data-toggle="modal" data-target="#removePublicationModal{{ $pub->id }}">Delete</a>
@@ -109,8 +91,8 @@
           <h4 class="modal-title" id="modifyPublicationModalLabel">Modify Publication</h4>
         </div>
         <div class="modal-body write-pub">
-          <p>Insert your new publication</p>
-          <textarea name="publication">{{ $pub->text }}</textarea>
+          <p>Insert the new publication</p>
+          <textarea style="resize: none; width: 100%;" name="publication">{{ $pub->text }}</textarea>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -150,10 +132,9 @@
     </div>
   </div>
 </div>
-@endif
 
 @endforeach
 
 <span class="link-pagination">
-  {{ session(session('publication_session_name'))->links() }}
+  {{ $publications->links() }}
 </span>

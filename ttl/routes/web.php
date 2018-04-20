@@ -69,6 +69,8 @@ Route::get('/list/groups', 'GroupController@listGroups');
 
 Route::get('/list/messages', 'MessageController@listMessages');
 
+Route::get('/list/publications', 'PublicationController@listPublications');
+
 Route::post('/genres/update', 'GenreController@update');
 
 Route::post('/genres/remove', 'GenreController@remove');

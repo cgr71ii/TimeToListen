@@ -13,10 +13,15 @@ class GenreController extends Controller
     {
         $genres = Genre::where('id', '>=', '0');
 
-        if ($request->has('order-form'))
+        if ($request->has('order-form') || session('genre_field') !== null)
         {
             session([   'genre_field' => null, 
                         'genre_direction' => null]);
+        }
+        else if (session('genre_field') === null || (session('genre_field') == 'created_at' && session('genre_direction') == 'desc'))
+        {
+            session([   'genre_field' => 'created_at',
+                        'genre_direction' => 'desc']);
         }
 
         if (session('genre_field') !== null)

@@ -20,7 +20,7 @@ class UserController extends Controller
 
             {
                 // We update pagination recalling the methods again.
-
+                
                 $publications = Publication::where('user_id', session('user')->id);
 
                 if ($request->has('order-form') || $request->has('find-form'))
@@ -32,9 +32,10 @@ class UserController extends Controller
                                 'pub_data_pub_contains' => null,
                                 'pub_data_date_field' => null]);
                 }
-                else
+                else if (session('pub_data_field') === null || (session('pub_data_field') == 'created_at' && session('pub_data_direction') == 'desc'))
                 {
-                    $publications = $publications->orderBy('created_at', 'desc');
+                    session([   'pub_data_field' => 'created_at',
+                                'pub_data_direction' => 'desc']);
                 }
 
                 if (session('pub_data_field') !== null)
@@ -84,10 +85,10 @@ class UserController extends Controller
 
             if ($request->ajax())
             {
-                return view('publication.publications', ['publications' => session('publications'), 'actions' => true])->render();  
+                return view('publication.publications', ['publications' => session('publications'), 'actions' => true, 'group_notify' => true])->render();  
             }
 
-            return view('user.profile');
+            return view('user.profile', ['group_notify' => true]);
         }
 
         if ($request->has('username') && $request->has('password'))
@@ -147,7 +148,7 @@ class UserController extends Controller
             {
                 if ($f->id == $friend->id)
                 {
-                    $friend_publications = Publication::where('user_id', $friend->id);
+                    $friend_publications = Publication::where('user_id', $friend->id)->where('group_id', '0');
 
                     if ($request->has('order-form') || $request->has('find-form'))
                     {
@@ -158,9 +159,10 @@ class UserController extends Controller
                                     'friend_data_pub_contains' => null,
                                     'friend_data_date_field' => null]);
                     }
-                    else
+                    else if (session('friend_data_field') === null || (session('friend_data_field') == 'created_at' && session('friend_data_direction') == 'desc'))
                     {
-                        $friend_publications = $friend_publications->orderBy('created_at', 'desc');
+                        session([   'friend_data_field' => 'created_at',
+                                    'friend_data_direction' => 'desc']);
                     }
 
                     if (session('friend_data_field') !== null)
@@ -284,7 +286,7 @@ class UserController extends Controller
             }
         }
         
-        return redirect('/profile');
+        return back();
     }
 
     public function modifyPublication(Request $request)
@@ -332,6 +334,11 @@ class UserController extends Controller
                         'list_user_min_date' => null,
                         'list_user_max_date' => null,
                         'list_user_email_contains' => null]);
+        }
+        else if (session('list_user_field') === null || (session('list_user_field') == 'created_at' && session('list_user_direction') == 'desc'))
+        {
+            session([   'list_user_field' => 'created_at',
+                        'list_user_direction' => 'desc']);
         }
 
         if (session('list_user_field') !== null)

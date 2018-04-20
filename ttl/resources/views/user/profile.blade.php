@@ -64,13 +64,22 @@
         <form method="POST" action="{{ action('PublicationController@create') }}">
             {{ csrf_field() }}
             <textarea name="publication"></textarea><br>
+            <select name="publication_group" style="float: left;">
+                <option value="own_publication">Own Publication</option>
+                @foreach (session('user')->group_user as $group)
+                <option value="{{ $group->id }}">{{ $group->name }}</option>
+                @endforeach
+                @if (count(session('user')->group_user) != 0)
+                <option value="all_groups">All Groups</option>
+                @endif
+            </select>
             <input type="submit" value="Publicate">
         </form>
     </div>
     @if (session('publications')[0] !== null)
     <hr>
     <div id="pagination-box-style" class="ajax-publication">
-        @include('publication.publications', ['actions' => true])
+        @include('publication.publications', ['actions' => true, 'group_notify' => true])
     </div>
     @endif
 
