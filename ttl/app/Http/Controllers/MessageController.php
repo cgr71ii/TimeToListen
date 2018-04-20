@@ -28,6 +28,11 @@ class MessageController extends Controller
 
         $messages_recv_count = User::find($id)->message_user()->where('message_user.user_id', $id)->count();
 
+        if ($request->has('friend_email'))
+        {
+            return view('message.messages')->with('friends', $friends)->with('messages_sent_count', $messages_sent_count)->with('messages_recv_count', $messages_recv_count)->with('friend_email', $request->friend_email);
+        }
+
         return view('message.messages')->with('friends', $friends)->with('messages_sent_count', $messages_sent_count)->with('messages_recv_count', $messages_recv_count);
     }
 

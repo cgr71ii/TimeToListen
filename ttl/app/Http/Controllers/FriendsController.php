@@ -36,7 +36,7 @@ class FriendsController extends Controller
     }
     */
 
-    public function indexFriends(Request $request)
+    public function show(Request $request)
     {
 
         if (session('user') === null)

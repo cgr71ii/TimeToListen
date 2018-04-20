@@ -21,9 +21,20 @@
             <select name="receptors[]" multiple class="pagination-content-wrapper">
                 <!--<option value="all">All Friends</option>-->
                 @foreach($friends as $friend)
+                @if (isset($friend_email) && $friend->email == $friend_email)
+
+                $text = str_replace(' ', '_', $text);
+                <option value='{{$friend->id}}' selected>{{$friend->name}} {{$friend->lastname}}</option>
+                @else
                 <option value='{{$friend->id}}'>{{$friend->name}} {{$friend->lastname}}</option>
+                @endif
                 @endforeach
+                
+                @if (isset($friend_email))
+                <option value="all_friends">All Friends</option>
+                @else
                 <option value="all_friends" selected>All Friends</option>
+                @endif
             </select>
             <span style="float:left;">Title</span>
             <br>

@@ -57,9 +57,9 @@
                 <div class="list-friends">
                 @foreach ($members as $member)
                 @if ($member->id == session('user')->id)
-                <p><a href="{{ URL::to('/profile') }}">{{ $member->name }} {{$member->lastname}} ({{ $member->email }})</a></p>
+                <p><a href="{{ action('UserController@show') }}">{{ $member->name }} {{$member->lastname}} ({{ $member->email }})</a></p>
                 @else
-                <p><a href="{{ URL::to('/profile') }}/{{$member->email }}">{{ $member->name }} {{$member->lastname}} ({{ $member->email }})</a></p>
+                <p><a href="{{ action('UserController@showFriend', ['email' => $member->email]) }}">{{ $member->name }} {{$member->lastname}} ({{ $member->email }})</a></p>
                 @endif
                 @endforeach
                 </div>

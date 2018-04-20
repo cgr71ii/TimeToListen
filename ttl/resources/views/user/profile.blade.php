@@ -48,7 +48,7 @@
             @endif
             @else
             <p>There is no song status selected!</p>
-            <p>Click <a href="{{ URL::to('/settings') }}">here</a> to modify your profile!</p>
+            <p>Click <a href="{{ action('UserController@showSettings') }}">here</a> to modify your profile!</p>
             @endif
             </div>
         </div>

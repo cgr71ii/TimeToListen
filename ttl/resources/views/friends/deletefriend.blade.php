@@ -1,6 +1,6 @@
 @extends('general')
 
-@section('title', "Profile")
+@section('title', "Friends")
 
 @section('css')
     <!-- All css imports or <style></style> here. -->

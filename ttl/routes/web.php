@@ -27,7 +27,7 @@ Route::post('/groups/add/{id}', 'GroupController@addFriend')->name('my_route');
 
 Route::post('/group/remove', 'GroupController@delete');
 
-Route::get('/friends','FriendsController@indexFriends');
+Route::get('/friends','FriendsController@show');
 
 Route::post('/friends', 'FriendsController@addFriend');
 

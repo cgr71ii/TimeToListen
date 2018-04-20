@@ -4,7 +4,7 @@
 <hr>
 
 <div class="pagination-element-box-non-style">
-    <form id="order-form" method="GET" action="{{ action('FriendsController@indexFriends') }}">
+    <form id="order-form" method="GET" action="{{ action('FriendsController@show') }}">
         {{ csrf_field() }}
         <select name="field" form="order-form">
             <option value="created_at">Created At</option>
@@ -42,9 +42,9 @@
             @endif
         </div>
         <div class="friend-text">
-            <p><a href="{{ URL::to('/profile') }}/{{$friend->email }}">{{ $friend->name }} {{$friend->lastname}}</a></p>
+            <p><a href="{{ action('UserController@showFriend', ['email' => $friend->email]) }}">{{ $friend->name }} {{$friend->lastname}}</a></p>
             <p>{{ $friend->email }}</p>
-            <p><a href="{{ URL::to('/message/send')}}">Send Message</a></p>
+            <p><a href="{{ action('MessageController@show', ['friend_email' => $friend->email]) }}">Send Message</a></p>
             <p><a href="{{ action('FriendsController@deleteFriend', ['friend' => $friend->email]) }}">Delete Friend</a></p>
         </div>
         

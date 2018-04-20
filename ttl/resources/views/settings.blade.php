@@ -43,7 +43,7 @@
             <p>Set your song status here!</p>
             @endif
             </div>
-            <a href="{{ URL::to('/user/logout') }}">Sign Out</a>
+            <a href="{{ action('UserController@logout') }}">Sign Out</a>
         </div>
     </div>
 
