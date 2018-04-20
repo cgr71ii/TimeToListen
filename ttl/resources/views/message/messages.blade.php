@@ -21,8 +21,9 @@
             <select name="receptors[]" multiple class="pagination-content-wrapper">
                 <!--<option value="all">All Friends</option>-->
                 @foreach($friends as $friend)
-                    <option value='{{$friend->id}}'>{{$friend->name}} {{$friend->lastname}}</option>
+                <option value='{{$friend->id}}'>{{$friend->name}} {{$friend->lastname}}</option>
                 @endforeach
+                <option value="all_friends" selected>All Friends</option>
             </select>
             <span style="float:left;">Title</span>
             <br>

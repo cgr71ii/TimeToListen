@@ -1,12 +1,11 @@
 
-<h2>List of Messages Received</h2>
+<h2>List of Messages</h2>
 
 <hr>
 
 <div class="pagination-element-box-non-style">
-    <form id="order-form" method="GET" action="{{ action('MessageController@listReceivedMessages') }}">
+    <form id="order-form" method="GET" action="{{ action('MessageController@listMessages') }}">
         {{ csrf_field() }}
-
         <select name="field" form="order-form">
             <option value="created_at">Created At</option>
             <option value="updated_at">Updated At</option>
@@ -24,18 +23,22 @@
 
 <hr>
 
-@if (count($messages_received) != 0)
+@if (count($messages) != 0)
 <span class="link-pagination">
-    {{ $messages_received->links() }}
+    {{ $messages->links() }}
 </span>
 @endif
 
-@foreach ($messages_received as $message)
+@foreach ($messages as $message)
 <div class="pagination-element-box-style">
     <div class="pagination-content-wrapper">
-        @if ($message->user()->count() != 0)
-        <p>From: {{ $message->user()->first()->email }}</p>
-        @endif
+        <p>Id: {{ $message->id }}</p>
+        <p>From: {{ $message->user->email }}</p>
+        <p>To: {
+        @foreach ($message->user_receive()->get() as $member)
+        {{ $member->email }}, 
+        @endforeach
+        }</p>
         <p>Title: {{ $message->title }}</p>
         <p>Body of Message: {{ $message->text }}</p>
         @if ($message->created_at != $message->updated_at)
@@ -79,8 +82,8 @@
 
 @endforeach
 
-@if (count($messages_received) != 0)
+@if (count($messages) != 0)
 <span class="link-pagination">
-    {{ $messages_received->links() }}
+    {{ $messages->links() }}
 </span>
 @endif

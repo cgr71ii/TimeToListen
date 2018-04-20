@@ -79,7 +79,7 @@ class MessageController extends Controller
 
         if (session('message_received_field') !== null)
         {
-            $messages_received = $messages_received->orderBy(session('message_received_field'), session('message_sent_direction'));
+            $messages_received = $messages_received->orderBy(session('message_received_field'), session('message_received_direction'));
         }
         else if ($request->has('field') && $request->has('direction'))
         {
@@ -129,13 +129,46 @@ class MessageController extends Controller
 
     }
 
+    public function listMessages(Request $request)
+    {
+        $messages = Message::where('id', '>=', '0');
+
+        if ($request->has('order-form'))
+        {
+            session([   'messages_field' => null, 
+                        'messages_direction' => null]);
+        }
+
+        if (session('messages_field') !== null)
+        {
+            $messages = $messages->orderBy(session('messages_field'), session('messages_direction'));
+        }
+        else if ($request->has('field') && $request->has('direction'))
+        {
+            session([   'messages_field' => $request->field,
+                        'messages_direction' => $request->direction]);
+
+            $messages = $messages->orderBy($request->field, $request->direction);
+        }
+
+        $messages = $messages->simplePaginate(5);
+
+        if ($request->ajax())
+        {
+            return view('lists.pag.messages', ['messages' => $messages])->render();
+        }
+
+        return view('lists.list-messages', ['messages' => $messages]);
+    }
+
     public function create(Request $request){
 
         if (session('user') === null){
             return redirect('/');
         }
 
-        if($request->has('receptors') && count($request->receptors) >= 1){
+        if($request->has('receptors') && count($request->receptors) >= 1 && $request->has('title') && $request->has('body') && !empty($request->title) && !empty($request->body))
+        {
             $message = new Message([
                 'user_id' => session('user')->id,
                 'title' => $request->title,
@@ -143,20 +176,36 @@ class MessageController extends Controller
                 'read' => false,
                 'date' => date('Y-m-d h:i:s', time())
             ]);
+            
             $message->save();
-            $m_id = DB::table('messages')->count();
-            $t = date('Y-m-d h:i:s', time());
 
-            foreach($request->receptors as $receptor){
+            if (in_array('all_friends', $request->receptors))
+            {
+                $receptors = session('user')->following()->get();
+
+
+                foreach($receptors as $receptor)
+                {
                     DB::table('message_user')->insert(
-                        array('message_id' => $m_id, 
-                              'user_id' => $receptor,
-                              'created_at' => $t,
-                              'updated_at' => $t)
+                        array('message_id' => $message->id, 
+                                'user_id' => $receptor->id)
                     );                
+                }
             }
-            return back();
+            else
+            {
+                $receptors = $request->receptors;
+
+                foreach($receptors as $receptor)
+                {
+                    DB::table('message_user')->insert(
+                        array('message_id' => $message->id, 
+                                'user_id' => $receptor)
+                    );                
+                }
+            }
         }
+        
         return back();
     }
 

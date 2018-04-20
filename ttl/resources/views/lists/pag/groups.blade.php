@@ -1,12 +1,11 @@
 
-<h2>List of Messages Received</h2>
+<h2>List of Groups</h2>
 
 <hr>
 
 <div class="pagination-element-box-non-style">
-    <form id="order-form" method="GET" action="{{ action('MessageController@listReceivedMessages') }}">
+    <form id="order-form" method="GET" action="{{ action('GroupController@listGroups') }}">
         {{ csrf_field() }}
-
         <select name="field" form="order-form">
             <option value="created_at">Created At</option>
             <option value="updated_at">Updated At</option>
@@ -24,47 +23,50 @@
 
 <hr>
 
-@if (count($messages_received) != 0)
+@if (count($groups) != 0)
 <span class="link-pagination">
-    {{ $messages_received->links() }}
+    {{ $groups->links() }}
 </span>
 @endif
 
-@foreach ($messages_received as $message)
+@foreach ($groups as $group)
 <div class="pagination-element-box-style">
     <div class="pagination-content-wrapper">
-        @if ($message->user()->count() != 0)
-        <p>From: {{ $message->user()->first()->email }}</p>
+        <p>Id: {{ $group->id }}</p>
+        <p>Creator: {{ $group->creator()->first()->email }}</p>
+        <p>Name: {{ $group->name }}</p>
+        <p>Users: {
+        @foreach($group->users()->get() as $member)
+        {{ $member->email }}, 
+        @endforeach
+        }</p>
+        @if ($group->created_at != $group->updated_at)
+        <p style="text-align: right;">Updated at: {{ $group->updated_at }}</p>
         @endif
-        <p>Title: {{ $message->title }}</p>
-        <p>Body of Message: {{ $message->text }}</p>
-        @if ($message->created_at != $message->updated_at)
-        <p style="text-align: right;">Updated at: {{ $message->updated_at }}</p>
-        @endif
-        <p style="text-align: right;">Created at: {{ $message->created_at }}</p>
+        <p style="text-align: right;">Created at: {{ $group->created_at }}</p>
     </div>
 </div>
 
 <div class="pagination-actions">
-    <a href="#" data-id="{{ $message->id }}" data-title="Delete Message" data-toggle="modal" data-target="#removeMessageModal{{ $message->id }}">Delete</a>
+    <a href="#" data-id="{{ $group->id }}" data-title="Delete Group" data-toggle="modal" data-target="#removeGroupModal{{ $group->id }}">Delete</a>
 </div>
 
-<div class="modal fade" id="removeMessageModal{{ $message->id }}" tabindex="-1" role="dialog" aria-labelledby="removeMessageModalLabel">
+<div class="modal fade" id="removeGroupModal{{ $group->id }}" tabindex="-1" role="dialog" aria-labelledby="removeGroupModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-        <form method="POST" action="{{ action('MessageController@delete') }}">
+        <form method="POST" action="{{ action('GroupController@delete') }}">
             {{ csrf_field() }}
 
-            <input type="hidden" name="message_id" value="{{ $message->id }}">
+            <input type="hidden" name="group_id" value="{{ $group->id }}">
 
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            <h4 class="modal-title" id="removeMessageModalLabel">Remove Message</h4>
+            <h4 class="modal-title" id="removeGroupModalLabel">Remove Group</h4>
             </div>
             <div class="modal-body write-pub">
-            Are you sure you want to delete this message?
+            Are you sure you want to delete this group?
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -79,8 +81,8 @@
 
 @endforeach
 
-@if (count($messages_received) != 0)
+@if (count($groups) != 0)
 <span class="link-pagination">
-    {{ $messages_received->links() }}
+    {{ $groups->links() }}
 </span>
 @endif

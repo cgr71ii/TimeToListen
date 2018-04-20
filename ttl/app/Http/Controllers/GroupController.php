@@ -89,6 +89,38 @@ class GroupController extends Controller
 
     }
 
+    public function listGroups(Request $request)
+    {
+        $groups = Group::where('id', '>=', '0');
+
+        if ($request->has('order-form'))
+        {
+            session([   'group_field' => null, 
+                        'group_direction' => null]);
+        }
+
+        if (session('group_field') !== null)
+        {
+            $groups = $groups->orderBy(session('group_field'), session('group_direction'));
+        }
+        else if ($request->has('field') && $request->has('direction'))
+        {
+            session([   'group_field' => $request->field,
+                        'group_direction' => $request->direction]);
+
+            $groups = $groups->orderBy($request->field, $request->direction);
+        }
+
+        $groups = $groups->simplePaginate(5);
+
+        if ($request->ajax())
+        {
+            return view('lists.pag.groups', ['groups' => $groups])->render();
+        }
+        
+        return view('lists.list-groups', ['groups' => $groups]);
+    }
+
     public function createGroup(Request $request)
     {
         if($request->friend_list == null || $request->newgroupname == null)
@@ -311,6 +343,15 @@ class GroupController extends Controller
         $group->save();
 
         return redirect('/groups');
+    }
+
+    public function delete(Request $request)
+    {
+        $group = Group::find($request->group_id)->first();
+
+        $group->delete();
+
+        return back();
     }
 
     public function showChangeName($id) 

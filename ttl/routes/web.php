@@ -25,6 +25,8 @@ Route::post('/groups/updateName', 'GroupController@updateOnlyName');
 
 Route::post('/groups/add/{id}', 'GroupController@addFriend')->name('my_route');
 
+Route::post('/group/remove', 'GroupController@delete');
+
 Route::get('/friends','FriendsController@indexFriends');
 
 Route::post('/friends', 'FriendsController@addFriend');
@@ -62,6 +64,10 @@ Route::get('/list/users', 'UserController@listUsers');
 Route::get('/list/genres', 'GenreController@listGenres');
 
 Route::get('/list/songs', 'SongController@listSongs');
+
+Route::get('/list/groups', 'GroupController@listGroups');
+
+Route::get('/list/messages', 'MessageController@listMessages');
 
 Route::post('/genres/update', 'GenreController@update');
 
