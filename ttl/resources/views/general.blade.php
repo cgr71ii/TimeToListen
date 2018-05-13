@@ -15,9 +15,11 @@
     </title>
 </head>
 <body>
+    @if (!isset($menu) || $menu == true)
     <div id="general-main-menu-wrapper">
         @include('horizontally-main-menu')
     </div>
+    @endif
     <div id="general-content-wrapper">
         @yield('content')
     </div>

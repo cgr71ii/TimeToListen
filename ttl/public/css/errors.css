@@ -1,0 +1,19 @@
+
+#error-container
+{
+    width: 100%;
+}
+
+#error404container
+{
+    width: 60%;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 40px;
+}
+
+#error404container img
+{
+    width: 13px;
+    height: 13px;
+}
