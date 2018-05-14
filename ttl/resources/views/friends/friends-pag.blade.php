@@ -34,8 +34,8 @@
 @foreach ($friends as $friend)
     <div class="friend">
         <div style="margin-left: 15%;text-align: center;float: left;width: 50%;">
-            <!-- The conditinal it will check if session('user')->pic_profile_path exists -->
-            @if (File::exists(session('user')->pic_profile_path))
+            <!-- The conditinal it will check if Auth::user()->pic_profile_path exists -->
+            @if (File::exists(Auth::user()->pic_profile_path))
             <img src="{{ asset($friend->pic_profile_path) }}" alt="User Image" class="friend-image">
             @else
             <img src="{{ asset('default-user.png') }}" alt="User Image" class="friend-image">

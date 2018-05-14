@@ -16,7 +16,7 @@
 
     <h2 style="text-align: center;">{{ $group->name }}</h2>
     
-    @if (session('user')->id == $group->creator_id)
+    @if (Auth::user()->id == $group->creator_id)
     <p style="margin-bottom: 4%;text-align: center;">
         <a href="{{ action('GroupController@showChangeName', ['id' => $group->id]) }}" style="font-size:75%;color: red;" >Change Name</a>
     </p>
@@ -56,7 +56,7 @@
                 </div>
                 <div class="list-friends">
                 @foreach ($members as $member)
-                @if ($member->id == session('user')->id)
+                @if ($member->id == Auth::user()->id)
                 <p><a href="{{ action('UserController@show') }}">{{ $member->name }} {{$member->lastname}} ({{ $member->email }})</a></p>
                 @else
                 <p><a href="{{ action('UserController@showFriend', ['email' => $member->email]) }}">{{ $member->name }} {{$member->lastname}} ({{ $member->email }})</a></p>

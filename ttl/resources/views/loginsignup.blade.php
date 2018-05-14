@@ -19,7 +19,7 @@
             <div id="log-in-content">
                 <h3 style="text-align: center;">Log In</h3>
 
-                <form method="POST" action="{{ action('UserController@show') }}">
+                <form method="POST" action="{{ action('UserController@showAfterLogin') }}">
                     {{ csrf_field() }}
                     <div><p>Email</p></div>
                     @if (Cookie::get('TTLusername') !== null)

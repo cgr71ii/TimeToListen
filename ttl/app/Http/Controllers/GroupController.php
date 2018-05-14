@@ -8,6 +8,8 @@ use App\Group;
 use App\Publication;
 use DB;
 
+use Auth;
+
 class GroupController extends Controller
 {
 
@@ -39,12 +41,6 @@ class GroupController extends Controller
 
     public function show(Request $request)
     {
-
-        if (session('user') === null)
-        {
-            return redirect('/');
-        }
-
         /*
         if(request()->has('empty'))
         {
@@ -63,8 +59,8 @@ class GroupController extends Controller
         }
         */
 
-        $friends = session('user')->following()->get();
-        $groups = session('user')->group_user();
+        $friends = Auth::user()->following()->get();
+        $groups = Auth::user()->group_user();
 
         if ($request->has('order-form'))
         {
@@ -155,7 +151,7 @@ class GroupController extends Controller
 
         if($g != null)
         {
-            $count = DB::table('group_user')->where('user_id',session('user')->id)->where('group_id',$g->id)->count();
+            $count = DB::table('group_user')->where('user_id',Auth::user()->id)->where('group_id',$g->id)->count();
         }
         else
         {
@@ -169,10 +165,10 @@ class GroupController extends Controller
 
         if (in_array("allfriends", $request->friend_list))
         {
-            $friends = session('user')->following()->get();
+            $friends = Auth::user()->following()->get();
 
             $group = new Group([
-                'creator_id' => session('user')->id,
+                'creator_id' => Auth::user()->id,
                 'name' => $request->newgroupname
             ]);
 
@@ -191,7 +187,7 @@ class GroupController extends Controller
             $friends = $request->friend_list; 
 
             $group = new Group([
-                'creator_id' => session('user')->id,
+                'creator_id' => Auth::user()->id,
                 'name' => $request->newgroupname
             ]);
 
@@ -206,11 +202,11 @@ class GroupController extends Controller
             }
         }
         
-        session('user')->group_user()->attach($group->id);
+        Auth::user()->group_user()->attach($group->id);
 
-        $update_user = User::find(session('user')->id);
+        $update_user = User::find(Auth::user()->id);
 
-        session(['user' => $update_user]);
+        //session(['user' => $update_user]);
 
         return back();
     }
@@ -226,7 +222,7 @@ class GroupController extends Controller
 
         if (in_array("allfriends", $request->friend_list))
         {
-            $friends = session('user')->following()->get();
+            $friends = Auth::user()->following()->get();
 
             foreach($friends as $friend)
             {
@@ -270,7 +266,7 @@ class GroupController extends Controller
 
         $group = Group::find($id);
 
-        $friends = session('user')->following()->get();
+        $friends = Auth::user()->following()->get();
 
         $members = $group->users()->get();
 
@@ -314,11 +310,6 @@ class GroupController extends Controller
 
     public function exit(Request $request, $id)
     {
-        if (session('user') === null)
-        {
-            return redirect('/');
-        }
-
         if ($request->has('group_id'))
         {
             //$group = Group::find($request->group_id);
@@ -328,16 +319,16 @@ class GroupController extends Controller
             
             if ($count == 1)
             {
-                if ($group->get()[0]->creator_id == session('user')->id)
+                if ($group->get()[0]->creator_id == Auth::user()->id)
                 {
                     $group->delete();
                 }
                 else
                 {
-                    session('user')->group_user()->detach($request->group_id);
+                    Auth::user()->group_user()->detach($request->group_id);
                 }
 
-                $groups = session('user')->group_user();
+                $groups = Auth::user()->group_user();
 
                 return back()->with(['groups' => $groups]);
             }
@@ -367,11 +358,6 @@ class GroupController extends Controller
 
     public function updateOnlyName(Request $request)
     {
-        if (session('user') === null)
-        {
-            return redirect('/');
-        }
-
         if (!$request->has('name') || empty($request->name))
         {
             return back()->with('erroremptyfield', true);
@@ -397,7 +383,7 @@ class GroupController extends Controller
 
     public function showChangeName($id) 
     {
-        $count = Group::where('id',$id)->where('creator_id',session('user')->id)->count();
+        $count = Group::where('id',$id)->where('creator_id',Auth::user()->id)->count();
 
         if($count<1)
         {

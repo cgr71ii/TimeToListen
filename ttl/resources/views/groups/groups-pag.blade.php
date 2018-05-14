@@ -40,7 +40,7 @@
         </form>
     </div>
     <div class="col-md-6" style="text-align: center;">
-        @if ($group->creator_id == session('user')->id)
+        @if ($group->creator_id == Auth::user()->id)
         <a href="#" data-id="{{ $group->id }}" data-title="Delete Group" style="margin-left: 10%;color: red" data-toggle="modal" data-target="#removeGroupModal{{ $group->id }}">Click here to remove the group</a>
         @else
         <a href="#" data-id="{{ $group->id }}" data-title="Delete Group" style="margin-left: 10%;color: red" data-toggle="modal" data-target="#removeGroupModal{{ $group->id }}">Click here to leave the group</a>

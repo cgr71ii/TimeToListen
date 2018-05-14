@@ -11,29 +11,29 @@
 |
 */
 
-Route::get('/groups', 'GroupController@show');
+Route::get('/groups', 'GroupController@show')->middleware('auth');
 
-Route::post('/groups/create', 'GroupController@createGroup');
+Route::post('/groups/create', 'GroupController@createGroup')->middleware('auth');
 
-Route::get('/groups/publications', 'GroupController@groupPublications');
+Route::get('/groups/publications', 'GroupController@groupPublications')->middleware('auth');
 
-Route::post('/groups/{id}/exit', 'GroupController@exit');
+Route::post('/groups/{id}/exit', 'GroupController@exit')->middleware('auth');
 
-Route::get('/groups/{id}/changeName','GroupController@showChangeName');
+Route::get('/groups/{id}/changeName','GroupController@showChangeName')->middleware('auth');
 
-Route::post('/groups/updateName', 'GroupController@updateOnlyName');
+Route::post('/groups/updateName', 'GroupController@updateOnlyName')->middleware('auth');
 
-Route::post('/groups/add/{id}', 'GroupController@addFriend')->name('my_route');
+Route::post('/groups/add/{id}', 'GroupController@addFriend')->name('my_route')->middleware('auth');
 
-Route::post('/group/remove', 'GroupController@delete');
+Route::post('/group/remove', 'GroupController@delete')->middleware('auth');
 
-Route::get('/friends','FriendsController@show');
+Route::get('/friends','FriendsController@show')->middleware('auth');
 
-Route::post('/friends', 'FriendsController@addFriend');
+Route::post('/friends', 'FriendsController@addFriend')->middleware('auth');
 
-Route::get('/deleteFriend/{email}', 'FriendsController@deleteFriend');
+Route::get('/deleteFriend/{email}', 'FriendsController@deleteFriend')->middleware('auth');
 
-Route::post('/deleteFriend', 'FriendsController@deleteF');
+Route::post('/deleteFriend', 'FriendsController@deleteF')->middleware('auth');
 
 //Route::get('/', 'RootController@show');
 //Route::get('/', ['as' => 'login', 'uses' => 'RootController@show'])->middleware('notauth');
@@ -41,13 +41,14 @@ Route::get('/', ['as' => 'login', 'uses' => 'RootController@show']);
 
 Route::post('/profile', 'UserController@showAfterLogin');
 
-Route::get('/profile/{friend_email}', 'UserController@showFriend');
+Route::get('/profile/{friend_email}', 'UserController@showFriend')->middleware('auth');
 
-Route::get('/user/logout', 'UserController@logout');
+Route::get('/user/logout', 'UserController@logout')->middleware('auth');
 
+//Route::post('/user/signup', 'UserController@signup')->middleware('noauth');
 Route::post('/user/signup', 'UserController@signup');
 
-Route::post('/user/publication/remove', 'PublicationController@delete');
+Route::post('/user/publication/remove', 'PublicationController@delete')->middleware('auth');
 
 Route::get('/profile', 'UserController@show')->middleware('auth');
 
@@ -55,48 +56,48 @@ Route::get('/settings', 'UserController@showSettings')->middleware('auth');
 
 Route::post('/user/update/info', 'UserController@update')->middleware('auth');
 
-Route::post('/user/publication/modify', 'UserController@modifyPublication');
+Route::post('/user/publication/modify', 'UserController@modifyPublication')->middleware('auth');
 
 Route::post('/user/update/image', ['as'=>'user.update.image','uses'=>'UserController@updateImage'])->middleware('auth');
 
-Route::post('/user/remove', 'UserController@remove');
+Route::post('/user/remove', 'UserController@remove')->middleware('auth');
 
-Route::get('/list/users', 'UserController@listUsers');
+Route::get('/list/users', 'UserController@listUsers')->middleware('auth');
 
-Route::get('/list/genres', 'GenreController@listGenres');
+Route::get('/list/genres', 'GenreController@listGenres')->middleware('auth');
 
 Route::get('/list/songs', 'SongController@listSongs')->middleware('auth');
 
-Route::get('/list/groups', 'GroupController@listGroups');
+Route::get('/list/groups', 'GroupController@listGroups')->middleware('auth');
 
-Route::get('/list/messages', 'MessageController@listMessages');
+Route::get('/list/messages', 'MessageController@listMessages')->middleware('auth');
 
-Route::get('/list/publications', 'PublicationController@listPublications');
+Route::get('/list/publications', 'PublicationController@listPublications')->middleware('auth');
 
-Route::post('/genres/update', 'GenreController@update');
+Route::post('/genres/update', 'GenreController@update')->middleware('auth');
 
-Route::post('/genres/remove', 'GenreController@remove');
+Route::post('/genres/remove', 'GenreController@remove')->middleware('auth');
 
-Route::post('/user/publicate', 'PublicationController@create');
+Route::post('/user/publicate', 'PublicationController@create')->middleware('auth');
 
-Route::post('/user/publication/remove', 'PublicationController@delete');
+Route::post('/user/publication/remove', 'PublicationController@delete')->middleware('auth');
 
-Route::get('/messages', 'MessageController@show');
+Route::get('/messages', 'MessageController@show')->middleware('auth');
 
-Route::get('/messages/sent', 'MessageController@listSentMessages');
+Route::get('/messages/sent', 'MessageController@listSentMessages')->middleware('auth');
 
-Route::get('/messages/received', 'MessageController@listReceivedMessages');
+Route::get('/messages/received', 'MessageController@listReceivedMessages')->middleware('auth');
 
-Route::post('/messages/received/remove', 'MessageController@delete');
+Route::post('/messages/received/remove', 'MessageController@delete')->middleware('auth');
 
-Route::get('/songs', 'SongController@show');
+Route::get('/songs', 'SongController@show')->middleware('auth');
 
-Route::post('/song/add_song', ['as'=>'song.add_song','uses'=>'SongController@add_song']);
+Route::post('/song/add_song', ['as'=>'song.add_song','uses'=>'SongController@add_song'])->middleware('auth');
 
-Route::post('/user/song/remove', 'SongController@removeSong');
+Route::post('/user/song/remove', 'SongController@removeSong')->middleware('auth');
 
-Route::post('/song/update', 'SongController@update');
+Route::post('/song/update', 'SongController@update')->middleware('auth');
 
-Route::get('/messages/send', 'MessageController@send');
+Route::get('/messages/send', 'MessageController@send')->middleware('auth');
 
-Route::post('/message/send/create', 'MessageController@create');
+Route::post('/message/send/create', 'MessageController@create')->middleware('auth');

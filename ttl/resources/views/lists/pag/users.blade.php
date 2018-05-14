@@ -129,7 +129,7 @@
                         <th>
                             <select multiple name="status_song[]" style="width: 100%;">
                                 @forelse ($user->song as $song)
-                                @if (session('user')->song_status !== null && $song->id === session('user')->song_status->id)
+                                @if (Auth::user()->song_status !== null && $song->id === Auth::user()->song_status->id)
                                 <option value="{{ $song->id }}" selected>{{ $song->name }}</option>
                                 @else
                                 <option value="{{ $song->id }}">{{ $song->name }}</option>

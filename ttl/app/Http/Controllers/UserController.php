@@ -16,6 +16,20 @@ use Hash;
 class UserController extends Controller
 {
 
+    private function initializationLogin(Request $request)
+    {
+        $credentials = ['email' => $request->username, 'password' => $request->password];
+
+        if (Auth::attempt($credentials))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public function showAfterLogin(Request $request)
     {
         if ($request->has('username') && $request->has('password'))
@@ -33,9 +47,7 @@ class UserController extends Controller
 
             // Checking if user is valid.
 
-            $credentials = ['email' => $request->username, 'password' => $request->password];
-
-            if (Auth::attempt($credentials))
+            if ($this->initializationLogin($request))
             {
                 $user = User::where('email', $request->username)->first();
                 $publications = Publication::where('user_id', $user->id)->orderBy('created_at', 'desc')->simplePaginate(5);
@@ -128,18 +140,13 @@ class UserController extends Controller
 
     public function showFriend(Request $request, $friend_email)
     {
-        if  (session('user') === null)
-        {
-            return redirect('/');
-        }
-
         $count = User::where('email', $friend_email)->count();
 
         if ($count == 1)
         {
             $friend = User::where('email', $friend_email)->first();
 
-            foreach (session('user')->following()->get() as $f)
+            foreach (Auth::user()->following()->get() as $f)
             {
                 if ($f->id == $friend->id)
                 {
@@ -255,12 +262,22 @@ class UserController extends Controller
                                 'name' => $request->name,
                                 'lastname' => $request->lname,
                                 'birthday' => "$request->birthday 00:00:00",
-                                'pic_profile_path' => "user/pic_profile/$request->username - $time.png"]);
+                                'pic_profile_path' => "default-user.png"]);
             $user->save();
 
-            session(['user' => $user]);
+            //session(['user' => $user]);
 
-            return redirect('/profile');
+            if ($this->initializationLogin($request))
+            {
+                $user = User::where('email', $request->username)->first();
+                $publications = Publication::where('user_id', $user->id)->orderBy('created_at', 'desc')->simplePaginate(5);
+
+                session([   //'user' => $user,
+                            'publications' => $publications,
+                            'publication_session_name' => 'publications']);
+
+                return redirect('/profile');
+            }
         }
 
         return redirect('/')->with('signupfail', true);
@@ -268,11 +285,6 @@ class UserController extends Controller
 
     public function removePublication(Request $request)
     {
-        if (session('user') === null)
-        {
-            return redirect('/');
-        }
-
         if ($request->has('publication_id'))
         {
             $pub = Publication::find($request->publication_id);
@@ -288,11 +300,6 @@ class UserController extends Controller
 
     public function modifyPublication(Request $request)
     {
-        if (session('user') === null)
-        {
-            return redirect('/');
-        }
-
         if ($request->has('publication') && $request->has('publication_id'))
         {
             if (empty($request->publication))
@@ -391,14 +398,9 @@ class UserController extends Controller
 
     public function remove(Request $request)
     {
-        if (session('user') === null)
-        {
-            return redirect('/');
-        }
+        $my_id = Auth::user()->id;
 
-        $my_id = session('user')->id;
-
-        $user = session('user');
+        $user = Auth::user();
 
         if ($request->has('user_id'))
         {
@@ -409,7 +411,8 @@ class UserController extends Controller
 
         if ($my_id == $request->user_id)
         {
-            session(['user' => null]);
+            //session(['user' => null]);
+            Auth::logout();
 
             return redirect('/');
         }

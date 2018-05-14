@@ -9,21 +9,17 @@ use App\Genre;
 use Cookie;
 use Redirect;
 
-//use Auth;
+use Auth;
 
 class SongController extends Controller
 {
 
     public function show(Request $request){
-        if (session('user') === null){
-            return redirect('/');
-        }
-
         $genres = Genre::all();
 
         session(['genres' => $genres]);
 
-        $songs = Song::where('user_id', session('user')->id);
+        $songs = Song::where('user_id', Auth::user()->id);
 
         if ($request->has('order-form'))
         {
@@ -61,10 +57,6 @@ class SongController extends Controller
     }
 
     public function add_song(Request $request){
-        if (session('user') === null){
-            return redirect('/');
-        }
-
         $request->validate([
             'file' => 'max:102400',
         ], [
@@ -80,7 +72,7 @@ class SongController extends Controller
         $sfile = $data['file'];
         $sgenres = $data['chosen_genres'];
 
-        $user = session('user');
+        $user = Auth::user();
         $audio = $request->file('file');
         $audioName = $user->email . ' - ' . $sname . '.' . $audio->getClientOriginalExtension();
 
@@ -90,7 +82,7 @@ class SongController extends Controller
             $song = new Song([
                 'name' => $sname,
                 'song_path' => "user/songs/$audioName",
-                'user_id' => session('user')->id
+                'user_id' => Auth::user()->id
             ]);
             $song->save();
             
@@ -99,8 +91,8 @@ class SongController extends Controller
                 $song->save();
             }
 
-            $user = User::find(session('user')->id);
-            session(['user' => $user]);
+            $user = User::find(Auth::user()->id);
+            //session(['user' => $user]);
 
             return back()->with('success', true);
         }
@@ -112,21 +104,17 @@ class SongController extends Controller
     }
 
     public function removeSong(Request $request){
-        if (session('user') === null){
-            return redirect('/');
-        }
-
         if ($request->has('song_id')){
             $song = Song::find($request->song_id);
 
             if ($song !== null){
                 $song->delete();
 
-                if (session('user')->song_status !== null && session('user')->song_status->id == $request->song_id)
+                if (Auth::user()->song_status !== null && Auth::user()->song_status->id == $request->song_id)
                 {
                     //session('user')->song_status()->associate(null);
-                    session('user')->song_status()->dissociate();
-                    session('user')->save();
+                    Auth::user()->song_status()->dissociate();
+                    Auth::user()->save();
                 }
             }
         }
@@ -173,11 +161,6 @@ class SongController extends Controller
 
     public function update(Request $request)
     {
-        if (session('user') === null)
-        {
-            return redirect('/');
-        }
-
         if ($request->has('song_id'))
         {
             $song = Song::find($request->song_id);
@@ -194,9 +177,9 @@ class SongController extends Controller
 
             $song->save();
     
-            if (session('user')->song_status !== null && session('user')->song_status->id == $song->id)
+            if (Auth::user()->song_status !== null && Auth::user()->song_status->id == $song->id)
             {
-                session('user')->song_status = $song;
+                Auth::user()->song_status = $song;
             }
         }
 
