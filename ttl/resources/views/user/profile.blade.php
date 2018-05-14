@@ -54,8 +54,9 @@
         </div>
     </div>
     <hr>
+    <h2 style="text-align: center;">New Publication</h2>
+    <hr>
     <div class="write-pub">
-        <h2>New Publication</h2>
         @if (session('create_publication_fail') !== null)
         <div class="alert alert-danger">
             <strong>Error!</strong> Publication can not have empty fields!

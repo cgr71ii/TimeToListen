@@ -14,7 +14,7 @@
 
     <div>
         <h2 style="text-align: center;"> Add Songs </h2>
-
+        <hr>
         <!--form method="POST" action="{{ action('SongController@add_song') }}" class="container" name="add_song" enctype="multipart/form-data"-->
         {!! Form::open(array('route' => 'song.add_song','files'=>true)) !!}
         {{ csrf_field() }}
