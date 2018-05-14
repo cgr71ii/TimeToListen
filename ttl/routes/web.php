@@ -35,7 +35,8 @@ Route::get('/deleteFriend/{email}', 'FriendsController@deleteFriend');
 
 Route::post('/deleteFriend', 'FriendsController@deleteF');
 
-Route::get('/', 'RootController@show');
+//Route::get('/', 'RootController@show');
+Route::get('/', ['as' => 'login', 'uses' => 'RootController@show']);
 
 Route::post('/profile', 'UserController@show');
 

@@ -9,6 +9,8 @@ use App\Genre;
 use Cookie;
 use Redirect;
 
+//use Auth;
+
 class SongController extends Controller
 {
 
@@ -133,6 +135,7 @@ class SongController extends Controller
     }
 
     public function listSongs(Request $request){
+        //dd(Auth::user());
         $songs = Song::where('id', '>=', '0');
 
         if ($request->has('order-form'))
