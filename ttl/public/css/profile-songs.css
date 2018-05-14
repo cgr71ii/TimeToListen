@@ -1,0 +1,14 @@
+#add-songs-div
+{
+    width: 49%;
+    float: left;
+    text-align: center;
+}
+
+#must-remove-div
+{
+    width: 50%;
+    float: left;
+    border: 1px solid black;
+    text-align: center;
+}

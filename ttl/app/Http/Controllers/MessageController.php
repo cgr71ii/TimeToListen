@@ -13,18 +13,116 @@ use App\User;
 class MessageController extends Controller
 {
 
-    public function index(){
-        return view('message.messages');
+    public function show(Request $request)
+    {
+        if (session('user') === null)
+        {
+            return redirect('/');
+        }
 
+        $id = session('user')->id;
+
+        $friends = User::find(session('user')->id)->following()->get();
+
+        $messages_sent_count = User::find($id)->message()->count();
+
+        $messages_recv_count = User::find($id)->message_user()->where('message_user.user_id', $id)->count();
+
+        if ($request->has('friend_email'))
+        {
+            return view('message.messages')->with('friends', $friends)->with('messages_sent_count', $messages_sent_count)->with('messages_recv_count', $messages_recv_count)->with('friend_email', $request->friend_email);
+        }
+
+        return view('message.messages')->with('friends', $friends)->with('messages_sent_count', $messages_sent_count)->with('messages_recv_count', $messages_recv_count);
     }
+
+    public function listSentMessages(Request $request)
+    {
+        $id = session('user')->id;
+
+        $messages_sent = User::find($id)->message();
+
+        if ($request->has('order-form'))
+        {
+            session([   'message_sent_field' => null, 
+                        'message_sent_direction' => null]);
+        }
+        else if (session('message_sent_field') === null || (session('message_sent_field') == 'created_at' && session('message_sent_direction') == 'desc'))
+        {
+            session([   'message_sent_field' => 'created_at',
+                        'message_sent_direction' => 'desc']);
+        }
+
+        if (session('message_sent_field') !== null)
+        {
+            $messages_sent = $messages_sent->orderBy(session('message_sent_field'), session('message_sent_direction'));
+        }
+        else if ($request->has('field') && $request->has('direction'))
+        {
+            session([   'message_sent_field' => $request->field,
+                        'message_sent_direction' => $request->direction]);
+
+            $messages_sent = $messages_sent->orderBy($request->field, $request->direction);
+        }
+
+        $messages_sent = $messages_sent->simplePaginate(5);
+
+        if ($request->ajax())
+        {
+            return view('message.messages-sent-pag', ['messages_sent' => $messages_sent])->render();
+        }
+
+        return view('message.messages-sent', ['messages_sent' => $messages_sent]);
+    }
+
+    public function listReceivedMessages(Request $request)
+    {
+        $id = session('user')->id;
+
+        $messages_received = User::find($id)->message_user()->where('message_user.user_id', $id);
+
+        if ($request->has('order-form'))
+        {
+            session([   'message_received_field' => null, 
+                        'message_received_direction' => null]);
+        }
+        else if (session('message_received_field') === null || (session('message_received_field') == 'created_at' && session('message_received_direction') == 'desc'))
+        {
+            session([   'message_received_field' => 'created_at',
+                        'message_received_direction' => 'desc']);
+        }
+
+        if (session('message_received_field') !== null)
+        {
+            $messages_received = $messages_received->orderBy(session('message_received_field'), session('message_received_direction'));
+        }
+        else if ($request->has('field') && $request->has('direction'))
+        {
+            session([   'message_received_field' => $request->field,
+                        'message_received_direction' => $request->direction]);
+
+            $messages_received = $messages_received->orderBy($request->field, $request->direction);
+        }
+
+        $messages_received = $messages_received->simplePaginate(5);
+
+        if ($request->ajax())
+        {
+            return view('message.messages-received-pag', ['messages_received' => $messages_received])->render();
+        }
+
+        return view('message.messages-received', ['messages_received' => $messages_received]);
+    }
+
     public function send(){
         $users = array();
         if (session('user') === null){
             return redirect('/');
         }
         $id = session('user')->id;
-        $user1 = User::find($id)->users()->get();
-        $user2 = User::find($id)->userFriends()->get();
+        $user1 = User::find($id)->following()->get();
+        //$user2 = User::find($id)->userFriends()->get();
+        $user2 = [];
         foreach ($user1 as $u)
         {
             array_push($users, $u);
@@ -46,13 +144,51 @@ class MessageController extends Controller
 
     }
 
+    public function listMessages(Request $request)
+    {
+        $messages = Message::where('id', '>=', '0');
+
+        if ($request->has('order-form'))
+        {
+            session([   'messages_field' => null, 
+                        'messages_direction' => null]);
+        }
+        else if (session('messages_field') === null || (session('messages_field') == 'created_at' && session('messages_direction') == 'desc'))
+        {
+            session([   'messages_field' => 'created_at',
+                        'messages_direction' => 'desc']);
+        }
+
+        if (session('messages_field') !== null)
+        {
+            $messages = $messages->orderBy(session('messages_field'), session('messages_direction'));
+        }
+        else if ($request->has('field') && $request->has('direction'))
+        {
+            session([   'messages_field' => $request->field,
+                        'messages_direction' => $request->direction]);
+
+            $messages = $messages->orderBy($request->field, $request->direction);
+        }
+
+        $messages = $messages->simplePaginate(5);
+
+        if ($request->ajax())
+        {
+            return view('lists.pag.messages', ['messages' => $messages])->render();
+        }
+
+        return view('lists.list-messages', ['messages' => $messages]);
+    }
+
     public function create(Request $request){
 
         if (session('user') === null){
             return redirect('/');
         }
 
-        if($request->has('receptors') && count($request->receptors) >= 1){
+        if($request->has('receptors') && count($request->receptors) >= 1 && $request->has('title') && $request->has('body') && !empty($request->title) && !empty($request->body))
+        {
             $message = new Message([
                 'user_id' => session('user')->id,
                 'title' => $request->title,
@@ -60,31 +196,47 @@ class MessageController extends Controller
                 'read' => false,
                 'date' => date('Y-m-d h:i:s', time())
             ]);
+            
             $message->save();
-            $m_id = DB::table('messages')->count();
-            $t = date('Y-m-d h:i:s', time());
 
-            foreach($request->receptors as $receptor){
+            if (in_array('all_friends', $request->receptors))
+            {
+                $receptors = session('user')->following()->get();
+
+
+                foreach($receptors as $receptor)
+                {
                     DB::table('message_user')->insert(
-                        array('message_id' => $m_id, 
-                              'user_id' => $receptor,
-                              'created_at' => $t,
-                              'updated_at' => $t)
-                    );                
+                        array('message_id' => $message->id, 
+                                'user_id' => $receptor->id)
+                    );
+                }
             }
-            return back();
+            else
+            {
+                $receptors = $request->receptors;
+
+                foreach($receptors as $receptor)
+                {
+                    DB::table('message_user')->insert(
+                        array('message_id' => $message->id, 
+                                'user_id' => $receptor)
+                    );                
+                }
+            }
         }
+        
         return back();
     }
 
     public function delete(Request $request){
-        if (session('user') === null){
+        if (session('user') === null)
+        {
             return redirect('/');
         }
 
+        /*
         if($request->has('message_id')){
-            /*$message_user = Message_user::where('user_id',session('user')->id)
-                                    ->where('message_id',$request->message_id)->first();*/
             $message_user = DB::table('message_user')->where('user_id',session('user')->id)
                                       ->where('message_id',$request->message_id)->first();
             
@@ -93,6 +245,15 @@ class MessageController extends Controller
                 ->where('message_id',$request->message_id)->delete();
             }
         }
+        */
+
+        if ($request->has('message_id'))
+        {
+            $message = Message::find($request->message_id);
+
+            $message->delete();
+        }
+        
         return back();
     }
 

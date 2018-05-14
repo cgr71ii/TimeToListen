@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'email', 'password', 'name', 'lastname', 'birthday', 'pic_profile_path',
+        'email', 'password', 'name', 'lastname', 'birthday', 'pic_profile_path', 'song_id',
     ];
 
     /**
@@ -27,12 +27,14 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function users()
+    public function following()   // I'm following (i added them)
+    //public function users()
     {
         return $this->belongsToMany('App\User', 'user_user', 'user_id', 'user_friend_id')->withTimestamps();
     }
 
-    public function userFriends()
+    public function followers()   // They are following me (i was added by them)
+    //public function userFriends()
     {
         return $this->belongsToMany('App\User', 'user_user', 'user_friend_id', 'user_id')->withTimestamps();
     }
@@ -65,6 +67,11 @@ class User extends Authenticatable
     public function song_status()
     {
         return $this->belongsTo('App\Song', 'song_id');
+    }
+
+    public function have_created()
+    {
+        return $this->hasMany('App\Groups');
     }
 
 }

@@ -20,7 +20,7 @@ class UserTableSeeder extends Seeder
                             'name' => 'Mike',
                             'lastname' => 'Salty',
                             'birthday' => '2018-02-26 20:42:51',
-                            'pic_profile_path' => 'storage/app/mike@gmail.com_pic_profile',
+                            'pic_profile_path' => 'user/pic_profile/mike@gmail.com_pic_profile.png',
                             'song_id' => '1']);
         $user->save();
 
@@ -29,7 +29,7 @@ class UserTableSeeder extends Seeder
                             'name' => 'Kamil',
                             'lastname' => 'Mans',
                             'birthday' => '2018-02-26 20:43:51',
-                            'pic_profile_path' => 'storage/app/kamil@gmail.com_pic_profile',
+                            'pic_profile_path' => 'user/pic_profile/kamil@gmail.com_pic_profile.png',
                             'song_id' => '1']);
         $user->save();
 
@@ -38,7 +38,7 @@ class UserTableSeeder extends Seeder
                             'name' => 'Adrian',
                             'lastname' => 'Fernandez',
                             'birthday' => '2018-02-26 20:44:51',
-                            'pic_profile_path' => 'storage/app/adrian@gmail.com_pic_profile',
+                            'pic_profile_path' => 'user/pic_profile/adrian@gmail.com_pic_profile.png',
                             'song_id' => '1']);
         $user->save();
 
@@ -47,7 +47,7 @@ class UserTableSeeder extends Seeder
                             'name' => 'Tudor',
                             'lastname' => 'Mateiu',
                             'birthday' => '2018-02-26 20:45:51',
-                            'pic_profile_path' => 'storage/app/tudor@gmail.com_pic_profile',
+                            'pic_profile_path' => 'user/pic_profile/tudor@gmail.com_pic_profile.png',
                             'song_id' => '1']);
         $user->save();
 
@@ -56,7 +56,34 @@ class UserTableSeeder extends Seeder
                             'name' => 'Cristian',
                             'lastname' => 'Garcia',
                             'birthday' => '2018-02-26 20:46:51',
-                            'pic_profile_path' => 'storage/app/cristian@gmail.com_pic_profile',
+                            'pic_profile_path' => 'user/pic_profile/cristian@gmail.com_pic_profile.png',
+                            'song_id' => '1']);
+        $user->save();
+
+        $user = new User([  'email' => 'a1@gmail.com', 
+                            'password' => 'a1', 
+                            'name' => 'a1',
+                            'lastname' => 'a1',
+                            'birthday' => '2018-02-26 20:46:51',
+                            'pic_profile_path' => 'user/pic_profile/cristian@gmail.com_pic_profile.png',
+                            'song_id' => '1']);
+        $user->save();
+
+        $user = new User([  'email' => 'a2@gmail.com', 
+                            'password' => 'a2', 
+                            'name' => 'a2',
+                            'lastname' => 'a2',
+                            'birthday' => '2018-02-26 20:46:51',
+                            'pic_profile_path' => 'user/pic_profile/cristian@gmail.com_pic_profile.png',
+                            'song_id' => '1']);
+        $user->save();
+
+        $user = new User([  'email' => 'a3@gmail.com', 
+                            'password' => 'a3', 
+                            'name' => 'a3',
+                            'lastname' => 'a3',
+                            'birthday' => '2018-02-26 20:46:51',
+                            'pic_profile_path' => 'user/pic_profile/cristian@gmail.com_pic_profile.png',
                             'song_id' => '1']);
         $user->save();
         
