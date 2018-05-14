@@ -35,9 +35,7 @@ Route::get('/deleteFriend/{email}', 'FriendsController@deleteFriend')->middlewar
 
 Route::post('/deleteFriend', 'FriendsController@deleteF')->middleware('auth');
 
-//Route::get('/', 'RootController@show');
-//Route::get('/', ['as' => 'login', 'uses' => 'RootController@show'])->middleware('notauth');
-Route::get('/', ['as' => 'login', 'uses' => 'RootController@show']);
+Route::get('/', ['as' => 'login', 'uses' => 'RootController@show'])->middleware('notauth');
 
 Route::post('/profile', 'UserController@showAfterLogin');
 
@@ -45,8 +43,7 @@ Route::get('/profile/{friend_email}', 'UserController@showFriend')->middleware('
 
 Route::get('/user/logout', 'UserController@logout')->middleware('auth');
 
-//Route::post('/user/signup', 'UserController@signup')->middleware('noauth');
-Route::post('/user/signup', 'UserController@signup');
+Route::post('/user/signup', 'UserController@signup')->middleware('notauth');
 
 Route::post('/user/publication/remove', 'PublicationController@delete')->middleware('auth');
 
