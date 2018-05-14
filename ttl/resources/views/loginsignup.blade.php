@@ -35,8 +35,6 @@
                     @endif
                     
                     <p>Remember me: <input type="checkbox" style="width: 20px;" name="remember"></p>
-                    <a href="#">I forgot my password</a>
-                    <br>
                     <div style="text-align: center; margin-top: 20px;">
                         <input type="submit" value="Log In">
                     </div>

@@ -16,75 +16,85 @@ class UserTableSeeder extends Seeder
         DB::table('users')->delete();
 
         $user = new User([  'email' => 'mike@gmail.com', 
-                            'password' => 'mikethebest', 
+                            'password' => Hash::make('mikethebest'), 
                             'name' => 'Mike',
                             'lastname' => 'Salty',
                             'birthday' => '2018-02-26 20:42:51',
-                            'pic_profile_path' => 'user/pic_profile/mike@gmail.com_pic_profile.png',
+                            'pic_profile_path' => 'default-user.png',
                             'song_id' => '1']);
         $user->save();
 
         $user = new User([  'email' => 'kamil@gmail.com', 
-                            'password' => 'kamilkamil', 
+                            'password' => Hash::make('kamilkamil'), 
                             'name' => 'Kamil',
                             'lastname' => 'Mans',
                             'birthday' => '2018-02-26 20:43:51',
-                            'pic_profile_path' => 'user/pic_profile/kamil@gmail.com_pic_profile.png',
+                            'pic_profile_path' => 'default-user.png',
                             'song_id' => '1']);
         $user->save();
 
         $user = new User([  'email' => 'adrian@gmail.com', 
-                            'password' => 'adrianadrian', 
+                            'password' => Hash::make('adrianadrian'), 
                             'name' => 'Adrian',
                             'lastname' => 'Fernandez',
                             'birthday' => '2018-02-26 20:44:51',
-                            'pic_profile_path' => 'user/pic_profile/adrian@gmail.com_pic_profile.png',
+                            'pic_profile_path' => 'default-user.png',
                             'song_id' => '1']);
         $user->save();
 
         $user = new User([  'email' => 'tudor@gmail.com', 
-                            'password' => 'tudortudor', 
+                            'password' => Hash::make('tudortudor'), 
                             'name' => 'Tudor',
                             'lastname' => 'Mateiu',
                             'birthday' => '2018-02-26 20:45:51',
-                            'pic_profile_path' => 'user/pic_profile/tudor@gmail.com_pic_profile.png',
+                            'pic_profile_path' => 'default-user.png',
                             'song_id' => '1']);
         $user->save();
 
         $user = new User([  'email' => 'cristian@gmail.com', 
-                            'password' => 'cristiancristian', 
+                            'password' => Hash::make('cristiancristian'), 
                             'name' => 'Cristian',
                             'lastname' => 'Garcia',
                             'birthday' => '2018-02-26 20:46:51',
-                            'pic_profile_path' => 'user/pic_profile/cristian@gmail.com_pic_profile.png',
+                            'pic_profile_path' => 'default-user.png',
                             'song_id' => '1']);
         $user->save();
 
         $user = new User([  'email' => 'a1@gmail.com', 
-                            'password' => 'a1', 
+                            'password' => Hash::make('a1'), 
                             'name' => 'a1',
                             'lastname' => 'a1',
                             'birthday' => '2018-02-26 20:46:51',
-                            'pic_profile_path' => 'user/pic_profile/cristian@gmail.com_pic_profile.png',
+                            'pic_profile_path' => 'default-user.png',
                             'song_id' => '1']);
         $user->save();
 
         $user = new User([  'email' => 'a2@gmail.com', 
-                            'password' => 'a2', 
+                            'password' => Hash::make('a2'), 
                             'name' => 'a2',
                             'lastname' => 'a2',
                             'birthday' => '2018-02-26 20:46:51',
-                            'pic_profile_path' => 'user/pic_profile/cristian@gmail.com_pic_profile.png',
+                            'pic_profile_path' => 'default-user.png',
                             'song_id' => '1']);
         $user->save();
 
         $user = new User([  'email' => 'a3@gmail.com', 
-                            'password' => 'a3', 
+                            'password' => Hash::make('a3'), 
                             'name' => 'a3',
                             'lastname' => 'a3',
                             'birthday' => '2018-02-26 20:46:51',
-                            'pic_profile_path' => 'user/pic_profile/cristian@gmail.com_pic_profile.png',
+                            'pic_profile_path' => 'default-user.png',
                             'song_id' => '1']);
+        $user->save();
+
+        $user = new User([  'email' => 'admin@admin', 
+                            'password' => Hash::make('admin'), 
+                            'name' => 'ttl',
+                            'lastname' => 'admin',
+                            'birthday' => '2018-02-26 20:46:51',
+                            'pic_profile_path' => 'default-user.png',
+                            'song_id' => '1',
+                            'type' => '1']);
         $user->save();
         
         /*
