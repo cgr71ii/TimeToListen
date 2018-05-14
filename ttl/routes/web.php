@@ -36,9 +36,10 @@ Route::get('/deleteFriend/{email}', 'FriendsController@deleteFriend');
 Route::post('/deleteFriend', 'FriendsController@deleteF');
 
 //Route::get('/', 'RootController@show');
+//Route::get('/', ['as' => 'login', 'uses' => 'RootController@show'])->middleware('notauth');
 Route::get('/', ['as' => 'login', 'uses' => 'RootController@show']);
 
-Route::post('/profile', 'UserController@show');
+Route::post('/profile', 'UserController@showAfterLogin');
 
 Route::get('/profile/{friend_email}', 'UserController@showFriend');
 
@@ -48,15 +49,15 @@ Route::post('/user/signup', 'UserController@signup');
 
 Route::post('/user/publication/remove', 'PublicationController@delete');
 
-Route::get('/profile', 'UserController@show');
+Route::get('/profile', 'UserController@show')->middleware('auth');
 
-Route::get('/settings', 'UserController@showSettings');
+Route::get('/settings', 'UserController@showSettings')->middleware('auth');
 
-Route::post('/user/update/info', 'UserController@update');
+Route::post('/user/update/info', 'UserController@update')->middleware('auth');
 
 Route::post('/user/publication/modify', 'UserController@modifyPublication');
 
-Route::post('/user/update/image', ['as'=>'user.update.image','uses'=>'UserController@updateImage']);
+Route::post('/user/update/image', ['as'=>'user.update.image','uses'=>'UserController@updateImage'])->middleware('auth');
 
 Route::post('/user/remove', 'UserController@remove');
 
@@ -64,7 +65,7 @@ Route::get('/list/users', 'UserController@listUsers');
 
 Route::get('/list/genres', 'GenreController@listGenres');
 
-Route::get('/list/songs', 'SongController@listSongs');
+Route::get('/list/songs', 'SongController@listSongs')->middleware('auth');
 
 Route::get('/list/groups', 'GroupController@listGroups');
 

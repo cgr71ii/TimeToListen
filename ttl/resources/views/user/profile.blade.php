@@ -24,20 +24,20 @@
     @endif
     <div id="user-info-wrapper">
         <div id="user-info-img">
-            <!-- The conditinal it will check if session('user')->pic_profile_path exists -->
-            @if (File::exists(session('user')->pic_profile_path))
-            <img src="{{ session('user')->pic_profile_path }}" alt="User Image">
+            <!-- The conditinal it will check if Auth::user()->pic_profile_path exists -->
+            @if (File::exists(Auth::user()->pic_profile_path))
+            <img src="{{ Auth::user()->pic_profile_path }}" alt="User Image">
             @else
             <img src="default-user.png" alt="User Image">
             @endif
         </div>
         <div id="user-info-content">
             <div id="user-info-content-wrapper">
-            <p>{{ session('user')->name }} {{ session('user')->lastname }}</p>
-            @if (session('user')->song_status !== null)
-            <p><img src="favicon.png"> {{ session('user')->song_status->name }} <img src="favicon.png"></p>
-            @if (session('user')->song_status !== null && File::exists(session('user')->song_status->song_path))
-            <audio controls id="myaudio"><source src="{{ session('user')->song_status->song_path }}" type="audio/mp3">Audio not Available!</audio>
+            <p>{{ Auth::user()->name }} {{ Auth::user()->lastname }}</p>
+            @if (Auth::user()->song_status !== null)
+            <p><img src="favicon.png"> {{ Auth::user()->song_status->name }} <img src="favicon.png"></p>
+            @if (Auth::user()->song_status !== null && File::exists(Auth::user()->song_status->song_path))
+            <audio controls id="myaudio"><source src="{{ Auth::user()->song_status->song_path }}" type="audio/mp3">Audio not Available!</audio>
 
             <script>
                 var audio = document.getElementById("myaudio");
@@ -66,10 +66,10 @@
             <textarea name="publication"></textarea><br>
             <select name="publication_group" style="float: left;">
                 <option value="own_publication">Own Publication</option>
-                @foreach (session('user')->group_user as $group)
+                @foreach (Auth::user()->group_user as $group)
                 <option value="{{ $group->id }}">{{ $group->name }}</option>
                 @endforeach
-                @if (count(session('user')->group_user) != 0)
+                @if (count(Auth::user()->group_user) != 0)
                 <option value="all_groups">All Groups</option>
                 @endif
             </select>
