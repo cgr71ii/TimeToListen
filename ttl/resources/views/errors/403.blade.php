@@ -12,9 +12,9 @@
 @section('content')
 <div id="error-container">
     <div id="container">
-        <h1>Error 404</h1><br><br><br>
-        <p>It looks like if that song was not in our Database...</p><br><br>
-        <p>Try Again!</p>
+        <h1>Error 403</h1><br><br><br>
+        <p>You have tried to do something you should not have done.</p><br><br>
+        <p>This action have been logged.</p>
         <p><img src="{{ asset('favicon.png') }}"><a href="{{ action('UserController@show') }}">https://www.timelisten.com/</a><img src="{{ asset('favicon.png') }}"></p>
     </div>
 </div>

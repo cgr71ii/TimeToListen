@@ -59,17 +59,17 @@ Route::post('/user/update/image', ['as'=>'user.update.image','uses'=>'UserContro
 
 Route::post('/user/remove', 'UserController@remove')->middleware('auth');
 
-Route::get('/list/users', 'UserController@listUsers')->middleware('auth');
+Route::get('/list/users', 'UserController@listUsers')->middleware('auth', 'admin');
 
-Route::get('/list/genres', 'GenreController@listGenres')->middleware('auth');
+Route::get('/list/genres', 'GenreController@listGenres')->middleware('auth', 'admin');
 
-Route::get('/list/songs', 'SongController@listSongs')->middleware('auth');
+Route::get('/list/songs', 'SongController@listSongs')->middleware('auth', 'admin');
 
-Route::get('/list/groups', 'GroupController@listGroups')->middleware('auth');
+Route::get('/list/groups', 'GroupController@listGroups')->middleware('auth', 'admin');
 
-Route::get('/list/messages', 'MessageController@listMessages')->middleware('auth');
+Route::get('/list/messages', 'MessageController@listMessages')->middleware('auth', 'admin');
 
-Route::get('/list/publications', 'PublicationController@listPublications')->middleware('auth');
+Route::get('/list/publications', 'PublicationController@listPublications')->middleware('auth', 'admin');
 
 Route::post('/genres/update', 'GenreController@update')->middleware('auth');
 
