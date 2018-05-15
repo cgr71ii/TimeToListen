@@ -153,7 +153,7 @@ class FriendsController extends Controller
             }
         }
         */
-
+        
         $friends = User::find(session('user')->id)->following()->get();
 
         foreach($friends as $friend)

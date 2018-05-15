@@ -50,7 +50,6 @@ class PublicationController extends Controller
                 {
                     $group_publication_id = $request->publication_group;
                 }
-
                 $publication = new Publication([
                     'text' => $request->publication,
                     'user_id' => session('user')->id,
