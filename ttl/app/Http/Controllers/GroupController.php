@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Group;
 use App\Publication;
-use DB;
+use App\ServiceLayer\GroupServices;
 
 class GroupController extends Controller
 {
 
-    private function getFriends($id){
+    private function getFriends($id)
+    {
         $users = array();
 
         if (User::find($id) == null )
@@ -36,7 +37,8 @@ class GroupController extends Controller
     }
 
 
-    public function show(Request $request){
+    public function show(Request $request)
+    {
 
         if (session('user') === null)
         {
@@ -98,7 +100,8 @@ class GroupController extends Controller
 
     }
 
-    public function listGroups(Request $request){
+    public function listGroups(Request $request)
+    {
         $groups = Group::where('id', '>=', '0');
 
         if ($request->has('order-form'))
@@ -134,8 +137,11 @@ class GroupController extends Controller
         return view('lists.list-groups', ['groups' => $groups]);
     }
 
-    public function createGroup(Request $request){
-        if($request->friend_list == null || $request->newgroupname == null)
+    public function createGroup(Request $request)
+    {
+        GroupServices::createGroup($request);
+        return back();
+        /*if($request->friend_list == null || $request->newgroupname == null)
         {
             return back()->with('Error');
         }
@@ -171,29 +177,16 @@ class GroupController extends Controller
                 'creator_id' => session('user')->id,
                 'name' => $request->newgroupname
             ]);
-            // Transaction to create Group
-            DB::beginTransaction();
-            try{
-                $success = true;
-                $group->save();
-                DB::commit();
-            } catch(\Exception $e){
-                $success = false;
-                DB::rollback();
-            }
 
-            if($success){
-                $group = Group::where('name',$request->newgroupname)->FirstOrFail();
+            $group->save();
 
-                foreach($friends as $friend)
-                {
-                    $user = User::where('id', $friend->id)->FirstOrFail();
-                    $user->group_user()->attach($group->id);
-                }
-            } else {
-                return back()->with('Error');
+            $group = Group::where('name',$request->newgroupname)->FirstOrFail();
+
+            foreach($friends as $friend)
+            {
+                $user = User::where('id', $friend->id)->FirstOrFail();
+                $user->group_user()->attach($group->id);
             }
-            
         }
         else
         {
@@ -204,42 +197,28 @@ class GroupController extends Controller
                 'name' => $request->newgroupname
             ]);
 
-            // Transaction to create Group
-            DB::beginTransaction();
-            try{
-                $success = true;
-                $group->save();
-                DB::commit();
-            } catch(\Exception $e){
-                $success = false;
-                DB::rollback();
+            $group->save();
+
+            $group = Group::where('name',$request->newgroupname)->FirstOrFail();
+
+            foreach($friends as $friend_id)
+            {
+                $user = User::where('id', $friend_id)->FirstOrFail();
+                $user->group_user()->attach($group->id);
             }
-
-            if($success){
-                $group = Group::where('name',$request->newgroupname)->FirstOrFail();
-
-                foreach($friends as $friend_id)
-                {
-                    $user = User::where('id', $friend_id)->FirstOrFail();
-                    $user->group_user()->attach($group->id);
-                }
-
-                session('user')->group_user()->attach($group->id);
-
-                $update_user = User::find(session('user')->id);
-        
-                session(['user' => $update_user]);
-
-            } else {
-                return back()->with('Error');
-            }
-            
         }
+        
+        session('user')->group_user()->attach($group->id);
 
-        return back();
+        $update_user = User::find(session('user')->id);
+
+        session(['user' => $update_user]);
+
+        return back();*/
     }
 
-    public function addFriend(Request $request){
+    public function addFriend(Request $request)
+    {
         if (!$request->has('friend_list') || count($request->friend_list) == 0)
         {
             return back()->with('erroremptyfield', true);
@@ -278,6 +257,7 @@ class GroupController extends Controller
                 }
             }
         }
+        
         return back();
     }
 
@@ -437,7 +417,6 @@ class GroupController extends Controller
             $group = Group::find($request->id);
             if($group!=null)
             {
-                
                 $group->fill(['name' => $request->newgroupname])->save();
             }
         }

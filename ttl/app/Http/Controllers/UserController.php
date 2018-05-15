@@ -9,9 +9,6 @@ use App\Song;
 use Cookie;
 use Redirect;
 use Session;
-use DB;
-
-
 
 class UserController extends Controller
 {
@@ -255,27 +252,22 @@ class UserController extends Controller
             {
                 return redirect('/')->with('signupfailuserexists', true);
             }
-            //Transaction to create new user
-            DB::beginTransaction();
-            try{
-                $time = time();
 
-                $user = new User([  'email' => $request->username,
-                                    'password' => $request->password,
-                                    'name' => $request->name,
-                                    'lastname' => $request->lname,
-                                    'birthday' => "$request->birthday 00:00:00",
-                                    'pic_profile_path' => "user/pic_profile/$request->username - $time.png"]);
-            
-                $user->save();
-                DB::commit();
-                session(['user' => $user]);
-                return redirect('/profile');
-            } catch(\Exception $e){
-                DB::rollback();
-                return redirect('/')->with('signupfail', true);
-            }
+            $time = time();
+
+            $user = new User([  'email' => $request->username,
+                                'password' => $request->password,
+                                'name' => $request->name,
+                                'lastname' => $request->lname,
+                                'birthday' => "$request->birthday 00:00:00",
+                                'pic_profile_path' => "user/pic_profile/$request->username - $time.png"]);
+            $user->save();
+
+            session(['user' => $user]);
+
+            return redirect('/profile');
         }
+
         return redirect('/')->with('signupfail', true);
     }
 
@@ -292,14 +284,7 @@ class UserController extends Controller
 
             if ($pub !== null)
             {
-                // Transaction to remove publication
-                DB::beginTransaction();
-                try{
-                    $pub->delete();
-                    DB::commit();
-                } catch(\Exception $e){
-                    DB::rollback();
-                }
+                $pub->delete();
             }
         }
         
@@ -327,15 +312,7 @@ class UserController extends Controller
                 $pub = Publication::where('id', $request->publication_id)->first();
                 $pub->text = $request->publication;
                 //$pub->date = date('Y-m-d h:i:s', time());
-                
-                // Transaction to modify Publication
-                DB::beginTransaction();
-                try{
-                    $pub->delete();
-                    DB::commit();
-                } catch(\Exception $e){
-                    DB::rollback();
-                }
+                $pub->save();
 
                 return back();
             }
@@ -432,14 +409,8 @@ class UserController extends Controller
         {
             $user = User::find($request->user_id);
         }
-        // Trasaction to delete User
-        DB::beginTransaction();
-        try{
-            $user->delete();
-            DB::commit();
-        } catch(\Exception $e){
-            DB::rollback();
-        }
+        
+        $user->delete();
 
         if ($my_id == $request->user_id)
         {
@@ -509,14 +480,8 @@ class UserController extends Controller
                 }
             }
         }
-        // Transaction to update data User
-        DB::beginTransaction();
-        try{
-            $user->save();
-            DB::commit();
-        } catch(\Exception $e){
-            DB::rollback();
-        }
+
+        $user->save();
 
         if (!$request->has('user_id') || $request->user_id == session('user')->id)
         {
@@ -548,14 +513,8 @@ class UserController extends Controller
         $image->move(public_path('/user/pic_profile'), $imageName);
 
         $user->pic_profile_path = "user/pic_profile/$imageName";
-        // Transaction to update image User
-        DB::beginTransaction();
-        try{
-            $user->save();
-            DB::commit();
-        } catch(\Exception $e){
-            DB::rollback();
-        }
+
+        $user->save();
 
         session(['user' => $user]);
 

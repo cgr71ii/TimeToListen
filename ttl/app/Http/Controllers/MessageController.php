@@ -10,7 +10,8 @@ use App\Message_user;
 use App\User;
 
 
-class MessageController extends Controller{
+class MessageController extends Controller
+{
 
     public function show(Request $request)
     {

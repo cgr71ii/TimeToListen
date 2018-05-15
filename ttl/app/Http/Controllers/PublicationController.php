@@ -11,7 +11,8 @@ use Redirect;
 
 class PublicationController extends Controller
 {
-    public function create(Request $request){
+    public function create(Request $request)
+    {
         if (session('user') === null)
         {
             return redirect('/');
@@ -35,16 +36,10 @@ class PublicationController extends Controller
                         'user_id' => session('user')->id,
                         'date' => date('Y-m-d h:i:s', time())
                     ]);
-                    DB::beginTransaction();
-                    try{
-                        $publication->save();
-                        $publication->group_id = $group->id;
-                        $publication->save();
-                        DB::commit();
-                    } catch(\Exception $e){
-                        DB::rollback();
-                        return back()->with('create_publication_fail', true);
-                    }
+                    $publication->save();
+
+                    $publication->group_id = $group->id;
+                    $publication->save();
                 }
             }
             else
@@ -55,29 +50,26 @@ class PublicationController extends Controller
                 {
                     $group_publication_id = $request->publication_group;
                 }
+
                 $publication = new Publication([
                     'text' => $request->publication,
                     'user_id' => session('user')->id,
                     'date' => date('Y-m-d h:i:s', time())
                 ]);
-                DB::beginTransaction();
-                try{
-                    $publication->save();
-                    $publication->group_id = $group_publication_id;
-                    $publication->save();
-                    DB::commit();
-                } catch(\Exception $e){
-                    DB::rollback();
-                    return back()->with('create_publication_fail', true);
-                }
+                $publication->save();
+
+                $publication->group_id = $group_publication_id;
+                $publication->save();
             }
 
             return back();
         }
+
         return back()->with('unexpected_error', true);
     }
     
-    public function delete(Request $request){
+    public function delete(Request $request)
+    {
         if (session('user') === null)
         {
             return redirect('/');
@@ -89,16 +81,10 @@ class PublicationController extends Controller
 
             if ($pub !== null)
             {
-                DB::beginTransaction();
-                try{
-                    $pub->delete();
-                    DB::commit();
-                } catch(\Exception $e){
-                    DB::rollback();
-                    return back();
-                }
+                $pub->delete();
             }
         }
+        
         return back();
     }
 
@@ -118,7 +104,8 @@ class PublicationController extends Controller
         return view('publication.publications');
     }*/
 
-    public function listPublications(Request $request){
+    public function listPublications(Request $request)
+    {
         $publications = Publication::where('id', '>=', '0');
 
         if ($request->has('order-form') || $request->has('find-form'))
