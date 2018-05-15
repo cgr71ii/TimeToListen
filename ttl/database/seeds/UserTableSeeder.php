@@ -16,7 +16,7 @@ class UserTableSeeder extends Seeder
         DB::table('users')->delete();
 
         $user = new User([  'email' => 'mike@gmail.com', 
-                            'password' => Hash::make('mikethebest'), 
+                            'password' => bcrypt('mikethebest'), 
                             'name' => 'Mike',
                             'lastname' => 'Salty',
                             'birthday' => '2018-02-26 20:42:51',
@@ -25,7 +25,7 @@ class UserTableSeeder extends Seeder
         $user->save();
 
         $user = new User([  'email' => 'kamil@gmail.com', 
-                            'password' => Hash::make('kamilkamil'), 
+                            'password' => bcrypt('kamilkamil'), 
                             'name' => 'Kamil',
                             'lastname' => 'Mans',
                             'birthday' => '2018-02-26 20:43:51',
@@ -34,7 +34,7 @@ class UserTableSeeder extends Seeder
         $user->save();
 
         $user = new User([  'email' => 'adrian@gmail.com', 
-                            'password' => Hash::make('adrianadrian'), 
+                            'password' => bcrypt('adrianadrian'), 
                             'name' => 'Adrian',
                             'lastname' => 'Fernandez',
                             'birthday' => '2018-02-26 20:44:51',
@@ -43,7 +43,7 @@ class UserTableSeeder extends Seeder
         $user->save();
 
         $user = new User([  'email' => 'tudor@gmail.com', 
-                            'password' => Hash::make('tudortudor'), 
+                            'password' => bcrypt('tudortudor'), 
                             'name' => 'Tudor',
                             'lastname' => 'Mateiu',
                             'birthday' => '2018-02-26 20:45:51',
@@ -52,7 +52,7 @@ class UserTableSeeder extends Seeder
         $user->save();
 
         $user = new User([  'email' => 'cristian@gmail.com', 
-                            'password' => Hash::make('cristiancristian'), 
+                            'password' => bcrypt('cristiancristian'), 
                             'name' => 'Cristian',
                             'lastname' => 'Garcia',
                             'birthday' => '2018-02-26 20:46:51',
@@ -61,7 +61,7 @@ class UserTableSeeder extends Seeder
         $user->save();
 
         $user = new User([  'email' => 'a1@gmail.com', 
-                            'password' => Hash::make('a1'), 
+                            'password' => bcrypt('a1'), 
                             'name' => 'a1',
                             'lastname' => 'a1',
                             'birthday' => '2018-02-26 20:46:51',
@@ -70,7 +70,7 @@ class UserTableSeeder extends Seeder
         $user->save();
 
         $user = new User([  'email' => 'a2@gmail.com', 
-                            'password' => Hash::make('a2'), 
+                            'password' => bcrypt('a2'), 
                             'name' => 'a2',
                             'lastname' => 'a2',
                             'birthday' => '2018-02-26 20:46:51',
@@ -79,7 +79,7 @@ class UserTableSeeder extends Seeder
         $user->save();
 
         $user = new User([  'email' => 'a3@gmail.com', 
-                            'password' => Hash::make('a3'), 
+                            'password' => bcrypt('a3'), 
                             'name' => 'a3',
                             'lastname' => 'a3',
                             'birthday' => '2018-02-26 20:46:51',
@@ -88,7 +88,7 @@ class UserTableSeeder extends Seeder
         $user->save();
 
         $user = new User([  'email' => 'admin@admin', 
-                            'password' => Hash::make('admin'), 
+                            'password' => bcrypt('admin'), 
                             'name' => 'ttl',
                             'lastname' => 'admin',
                             'birthday' => '2018-02-26 20:46:51',

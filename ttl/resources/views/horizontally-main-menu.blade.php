@@ -17,6 +17,11 @@
     <a href="{{ action('GroupController@show') }}" class="general-main-menu-option">
         <p>Groups</p>
     </a>
+    @if (Auth::user()->type == 1)
+    <a href="{{ action('UserController@showAdminLinks') }}" class="general-main-menu-option">
+        <p>Admin Links</p>
+    </a>
+    @endif
     <a href="{{ action('UserController@showSettings') }}" class="general-main-menu-option">
         <p>Settings</p>
     </a>

@@ -11,7 +11,6 @@ use Redirect;
 use Session;
 
 use Auth;
-use Hash;
 
 class UserController extends Controller
 {
@@ -24,10 +23,8 @@ class UserController extends Controller
         {
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 
     public function showAfterLogin(Request $request)
@@ -259,7 +256,7 @@ class UserController extends Controller
             $time = time();
 
             $user = new User([  'email' => $request->username,
-                                'password' => Hash::make($request->password),
+                                'password' => bcrypt($request->password),
                                 'name' => $request->name,
                                 'lastname' => $request->lname,
                                 'birthday' => "$request->birthday 00:00:00",
@@ -470,6 +467,16 @@ class UserController extends Controller
             }
         }
 
+        if ($request->has('password') && !empty($request->password))
+        {
+            $user->password = bcrypt($request->password);
+        }
+
+        if ($request->has('isadmin'))
+        {
+            $user->type = $request->isadmin;
+        }
+
         $user->save();
 
         /*
@@ -505,6 +512,11 @@ class UserController extends Controller
         //session(['user' => $user]);
 
         return back()->with('success','You have successfully uploaded the image.');
+    }
+
+    public function showAdminLinks(Request $request)
+    {
+        return view('user.admin-links');
     }
 
 }

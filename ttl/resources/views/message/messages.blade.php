@@ -12,9 +12,10 @@
 
 @section('content')
 
+    <h2 style="text-align: center;">Send Message</h2>
+    <hr>
+
     <div class="write-pub">
-        <h2>Send Message</h2>
-        <hr>
         <p style="float: left;"> Select your friends:</p>
         <form method="POST" action="{{ action('MessageController@create') }}">
             {{ csrf_field() }}

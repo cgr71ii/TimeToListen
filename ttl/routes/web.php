@@ -98,3 +98,5 @@ Route::post('/song/update', 'SongController@update')->middleware('auth');
 Route::get('/messages/send', 'MessageController@send')->middleware('auth');
 
 Route::post('/message/send/create', 'MessageController@create')->middleware('auth');
+
+Route::get('/admin/links', 'UserController@showAdminLinks')->middleware('auth', 'admin');;

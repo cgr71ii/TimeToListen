@@ -75,6 +75,11 @@
         @else
         <p>Status Id Song: No Song Selected</p>
         @endif
+        @if ($user->type == 1)
+        <p>Is admin: yes</p>
+        @else
+        <p>Is admin: no</p>
+        @endif
         @if ($user->created_at != $user->updated_at)
         <p style="text-align: right;">Updated at: {{ $user->updated_at }}</p>
         @endif
@@ -138,6 +143,18 @@
                                 <option value="empty">No Songs Available</option>
                                 @endforelse
                             </select>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Is admin</th>
+                        <th>
+                            @if ($user->type == 1)
+                            <input type="radio" name="isadmin" value="1" checked>yes
+                            <input type="radio" name="isadmin" value="0">no
+                            @else
+                            <input type="radio" name="isadmin" value="1">yes
+                            <input type="radio" name="isadmin" value="0" checked>no
+                            @endif
                         </th>
                     </tr>
                 </table>
