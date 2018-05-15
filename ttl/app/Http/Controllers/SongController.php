@@ -90,7 +90,15 @@ class SongController extends Controller
                 'song_path' => "user/songs/$audioName",
                 'user_id' => session('user')->id
             ]);
-            $song->save();
+            // Transaction to save Song
+            DB::beginTransaction();
+            try{
+                $song->save();
+                DB::commit();
+            } catch(\Exception $e){
+                DB::rollback();
+                return back()->with('errorfile', true);
+            }
             
             foreach($sgenres as $sgenre){
                 $song->genres()->attach($sgenre);
@@ -118,7 +126,15 @@ class SongController extends Controller
             $song = Song::find($request->song_id);
 
             if ($song !== null){
-                $song->delete();
+                // Transaction to save Song
+                DB::beginTransaction();
+                try{
+                    $song->delete();
+                    DB::commit();
+                } catch(\Exception $e){
+                    DB::rollback();
+                    return back();
+                }
 
                 if (session('user')->song_status !== null && session('user')->song_status->id == $request->song_id)
                 {
@@ -168,8 +184,7 @@ class SongController extends Controller
         return view('lists.list-songs', ['songs' => $songs]);
     }
 
-    public function update(Request $request)
-    {
+    public function update(Request $request){
         if (session('user') === null)
         {
             return redirect('/');
@@ -188,9 +203,16 @@ class SongController extends Controller
             {
                 $song->song_path = $request->song_path;
             }
+            // Transaction to update Song
+            DB::beginTransaction();
+            try{
+                $song->save();
+                DB::commit();
+            } catch(\Exception $e){
+                DB::rollback();
+                return back();
+            }
 
-            $song->save();
-    
             if (session('user')->song_status !== null && session('user')->song_status->id == $song->id)
             {
                 session('user')->song_status = $song;
