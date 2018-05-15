@@ -11,8 +11,7 @@ use Redirect;
 
 class PublicationController extends Controller
 {
-    public function create(Request $request)
-    {
+    public function create(Request $request){
         if (session('user') === null)
         {
             return redirect('/');
@@ -36,10 +35,16 @@ class PublicationController extends Controller
                         'user_id' => session('user')->id,
                         'date' => date('Y-m-d h:i:s', time())
                     ]);
-                    $publication->save();
-
-                    $publication->group_id = $group->id;
-                    $publication->save();
+                    DB::beginTransaction();
+                    try{
+                        $publication->save();
+                        $publication->group_id = $group->id;
+                        $publication->save();
+                        DB::commit();
+                    } catch(\Exception $e){
+                        DB::rollback();
+                        return back()->with('create_publication_fail', true);
+                    }
                 }
             }
             else
@@ -55,20 +60,24 @@ class PublicationController extends Controller
                     'user_id' => session('user')->id,
                     'date' => date('Y-m-d h:i:s', time())
                 ]);
-                $publication->save();
-
-                $publication->group_id = $group_publication_id;
-                $publication->save();
+                DB::beginTransaction();
+                try{
+                    $publication->save();
+                    $publication->group_id = $group_publication_id;
+                    $publication->save();
+                    DB::commit();
+                } catch(\Exception $e){
+                    DB::rollback();
+                    return back()->with('create_publication_fail', true);
+                }
             }
 
             return back();
         }
-
         return back()->with('unexpected_error', true);
     }
     
-    public function delete(Request $request)
-    {
+    public function delete(Request $request){
         if (session('user') === null)
         {
             return redirect('/');
@@ -80,10 +89,16 @@ class PublicationController extends Controller
 
             if ($pub !== null)
             {
-                $pub->delete();
+                DB::beginTransaction();
+                try{
+                    $pub->delete();
+                    DB::commit();
+                } catch(\Exception $e){
+                    DB::rollback();
+                    return back();
+                }
             }
         }
-        
         return back();
     }
 
@@ -103,8 +118,7 @@ class PublicationController extends Controller
         return view('publication.publications');
     }*/
 
-    public function listPublications(Request $request)
-    {
+    public function listPublications(Request $request){
         $publications = Publication::where('id', '>=', '0');
 
         if ($request->has('order-form') || $request->has('find-form'))
