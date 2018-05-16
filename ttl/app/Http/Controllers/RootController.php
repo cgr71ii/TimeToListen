@@ -31,7 +31,7 @@ class RootController extends Controller
         {
             return view('loginsignup', ["signupfail" => $signupfail]);
         }
-
+        
         return view('loginsignup');
     }
 

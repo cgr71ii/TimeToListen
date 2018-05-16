@@ -35,7 +35,13 @@ Route::get('/deleteFriend/{email}', 'FriendsController@deleteFriend');
 
 Route::post('/deleteFriend', 'FriendsController@deleteF');
 
-Route::get('/', 'RootController@show');
+Route::get('/', function(){
+    return view('home');
+});
+
+Route::get('/loginsignup', function(){
+    return view('loginsignup');
+});
 
 Route::post('/profile', 'UserController@show');
 
