@@ -94,4 +94,51 @@ class GroupServices {
             DB::commit();
 
     }
+
+    public static function exitGroup($request){
+        $rollback = false;
+        DB::beginTransaction();
+
+        if (session('user') === null)
+        {
+            $rollback = true;
+        }
+
+        if ($request->has('group_id'))
+        {
+            //$group = Group::find($request->group_id);
+            $group = Group::where('id', $request->group_id);
+
+            $count = $group->get()->count();
+            
+            if ($count == 1)
+            {
+                if ($group->get()[0]->creator_id == session('user')->id)
+                {
+                    $group->delete();
+                }
+                else
+                {
+                    session('user')->group_user()->detach($request->group_id);
+                }
+
+                
+            } else {
+                $rollback = true;
+            }
+        } else {
+            $rollback = true;
+        }
+
+        if($rollback){
+            DB::rollBack();
+        }
+        
+        DB::commit();
+           
+        $groups = session('user')->group_user();
+
+    }
+
+
 }

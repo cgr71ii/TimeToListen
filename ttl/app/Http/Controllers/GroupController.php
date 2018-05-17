@@ -141,7 +141,8 @@ class GroupController extends Controller
     {
         GroupServices::createGroup($request);
         return back();
-        /*if($request->friend_list == null || $request->newgroupname == null)
+        /*
+        if($request->friend_list == null || $request->newgroupname == null)
         {
             return back()->with('Error');
         }
@@ -214,7 +215,8 @@ class GroupController extends Controller
 
         session(['user' => $update_user]);
 
-        return back();*/
+        return back();
+        */
     }
 
     public function addFriend(Request $request)
@@ -314,8 +316,11 @@ class GroupController extends Controller
         return view('groups.groupPublications', ['group' => $group, 'group_id' => $id, 'friends' => $friends, 'members' => $members, 'publications' => $publications]);
     }
 
-    public function exit(Request $request, $id)
+    public function exit(Request $request)
     {
+        GroupServices::exitGroup($request);
+        return back();
+        /*
         if (session('user') === null)
         {
             return redirect('/');
