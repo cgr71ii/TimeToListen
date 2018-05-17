@@ -182,7 +182,8 @@ class MessageController extends Controller
         return view('lists.list-messages', ['messages' => $messages]);
     }
 
-   public function create(Request $request){
+   public function create(Request $request)
+   {
         MessageServices::sendMessage($request);
         return back();
 
@@ -232,7 +233,8 @@ class MessageController extends Controller
         return back();*/
     }
 
-    public function delete(Request $request){
+    public function delete(Request $request)
+    {
         if (session('user') === null)
         {
             return redirect('/');
@@ -260,7 +262,8 @@ class MessageController extends Controller
         return back();
     }
 
-    public function list(Request $request){
+    public function list(Request $request)
+    {
         if (session('user') === null){
             return redirect('/');
         }
