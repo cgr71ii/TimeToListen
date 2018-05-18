@@ -23,9 +23,15 @@
     </div>
     <div id="general-footer-height"></div>
     <div id="general-footer">
-        <p>Design of Software System</p>
-        <p>2017 - 2018</p>
-        <p>Time to Listen</p>
+        <div style=" position: relative;float: left; margin-left:35%">   
+            <p>Design of Software System</p>
+            <p>2017 - 2018</p>
+            <p>Time to Listen</p>
+        </div>
+        <div style=" position: relative;float: right;margin-right: 35%;">
+            <p style="margin-top: 20%"><a href="/contact"> Contact us </a></p>
+            <p><a href="/information"> More information </a></p>
+        </div>
     </div>
 </body>
 </html>

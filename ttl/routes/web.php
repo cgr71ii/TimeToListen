@@ -43,6 +43,14 @@ Route::get('/loginsignup', function(){
     return view('loginsignup');
 });
 
+Route::get('/information', function(){
+    return view('information');
+});
+
+Route::get('/contact', function(){
+    return view('contact');
+});
+
 Route::post('/profile', 'UserController@show');
 
 Route::get('/profile/{friend_email}', 'UserController@showFriend');
