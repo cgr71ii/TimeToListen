@@ -51,6 +51,8 @@ Route::get('/contact', function(){
     return view('contact');
 });
 
+Route::post('/sendemail','MailController@sendContactEmail');
+
 Route::post('/profile', 'UserController@show');
 
 Route::get('/profile/{friend_email}', 'UserController@showFriend');

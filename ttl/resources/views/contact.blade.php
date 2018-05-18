@@ -16,8 +16,8 @@
         <img src="line.png">
     </div>
     <div class="container">
-        <form action="enviar.php">
-
+        <form method='post' action="{{ action('MailController@sendContactEmail') }}">
+        {{ csrf_field() }}
             <label for="fname">First Name</label>
             <input type="text" id="fname" name="firstname" placeholder="Your name...">
 
@@ -31,6 +31,19 @@
             <textarea id="subject" name="subject" placeholder="Write something..." style="height:200px"></textarea>
 
             <input type="submit" value="Submit">
+            <input type="submit" name="submitted" value="Cancel">
+            @if (session('fail') !== null)
+                <hr>
+                <div class="alert alert-danger">
+                    <strong>Error!</strong>
+                </div>
+
+            @elseif (session('sent') !== null)
+                <hr>
+                <div class="alert alert-success">
+                    <strong>Message sent</strong>
+                </div>
+            @endif
 
         </form>
     </div>
