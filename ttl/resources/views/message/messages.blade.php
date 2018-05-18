@@ -36,6 +36,7 @@
                 <option value="all_friends" selected>All Friends</option>
                 @endif
             </select>
+            <br>
             <span style="float:left;">Title</span>
             <br>
             <textarea style="height: auto;" rows="1" cols="10" name="title"></textarea>
