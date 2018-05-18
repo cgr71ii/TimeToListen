@@ -184,7 +184,16 @@ class MessageController extends Controller
 
    public function create(Request $request)
    {
-        MessageServices::sendMessage($request);
+        $response = MessageServices::sendMessage($request);
+
+        if($response == "userfail"){
+            return redirect('/');
+        }
+
+        if($response == "sendfail"){
+            return redirect('/messages')->with('sendfail', true);
+        }
+
         return back();
 
         /*if (session('user') === null){

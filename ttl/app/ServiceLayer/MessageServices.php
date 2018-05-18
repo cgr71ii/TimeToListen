@@ -10,9 +10,11 @@ class MessageServices {
     public static function sendMessage($request){
         $rollback = false;
         DB::beginTransaction();
+        $response = "";
 
         if (session('user') === null){
             $rollback = true;
+            $response = "userFail";
         }
 
         if($request->has('receptors') && count($request->receptors) >= 1 && $request->has('title') && $request->has('body') && !empty($request->title) && !empty($request->body))
@@ -52,11 +54,14 @@ class MessageServices {
                     );                
                 }
             }
+        } else {
+            $response = "sendfail";
         }
         if($rollback){
             DB::rollBack();
         }
         
-        DB::commit();        
+        DB::commit();     
+        return $response;   
     }
 }

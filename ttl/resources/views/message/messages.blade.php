@@ -15,6 +15,12 @@
     <div class="write-pub">
         <h2>Send Message</h2>
         <hr>
+        @if (session('sendfail') !== null)
+                <hr>
+                <div class="alert alert-danger">
+                    <strong>Error!</strong> Please fill in all fields!
+                </div>
+        @endif
         <p style="float: left;"> Select your friends:</p>
         <form method="POST" action="{{ action('MessageController@create') }}">
             {{ csrf_field() }}
