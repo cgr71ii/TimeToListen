@@ -22,6 +22,19 @@
         <div style="text-align: center;margin-top: 5%;">
             <p> Name </p>
             <input type="text" id="new-group-name" name="newgroupname" style="width:50%"> 
+
+            @if (session('ErrorName')!=null)
+                <hr>
+                <div class="alert alert-danger">
+                    <strong>Error!</strong> This group already exist.
+                </div>
+            @elseif (session('Error')!=null)
+                <hr>
+                <div class="alert alert-danger">
+                    <strong>Error!</strong> Select a group name and members.
+                </div>
+            @endif
+
         </div>
         <div class="selection">
             <select multiple name="friend_list[]" style="width: 100%;height: 200px;overflow-y: scroll;">

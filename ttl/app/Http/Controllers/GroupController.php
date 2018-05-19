@@ -141,14 +141,14 @@ class GroupController extends Controller
     {
         if($request->friend_list == null || $request->newgroupname == null)
         {
-            return back()->with('Error');
+            return back()->with('Error',true);
         }
 
         $g = Group::where('name',$request->newgroupname);
 
         if ($g->count() != 0)
         {
-            return back()->with('Error');
+            return back()->with('ErrorName',true);
         }
 
         $g = $g->first();
@@ -164,7 +164,7 @@ class GroupController extends Controller
         
         if($count != 0)
         {
-            return back()->with('Error');
+            return back()->with('ErrorName',true);
         }
 
         if (in_array("allfriends", $request->friend_list))
@@ -375,6 +375,12 @@ class GroupController extends Controller
         if (!$request->has('name') || empty($request->name))
         {
             return back()->with('erroremptyfield', true);
+        }
+        $g = Group::where('name',$request->name);
+
+        if ($g->count() != 0)
+        {
+            return back()->with('errorname',true);
         }
 
         $group = Group::find($request->group_id);

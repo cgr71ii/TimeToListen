@@ -45,11 +45,47 @@
             <p><a href="{{ action('UserController@showFriend', ['email' => $friend->email]) }}">{{ $friend->name }} {{$friend->lastname}}</a></p>
             <p>{{ $friend->email }}</p>
             <p><a href="{{ action('MessageController@show', ['friend_email' => $friend->email]) }}">Send Message</a></p>
-            <p><a href="{{ action('FriendsController@deleteFriend', ['friend' => $friend->email]) }}">Delete Friend</a></p>
+            <a href="#" data-id="{{ $friend->email }}" data-title="Delete Friend" style="color: red" data-toggle="modal" data-target="#removeFriendModal">Delete Friend</a>
+
         </div>
         
     </div> 
         
+
+
+<div class="modal fade" id="removeFriendModal" tabindex="-1" role="dialog" aria-labelledby="removeFriendModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <form method="POST" action="{{ action('FriendsController@deleteF')}}">
+            {{ csrf_field() }}
+
+            <input type="hidden" name="friend_email" value="{{ $friend->email }}">
+
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="removeFriendModalLabel">Remove Friend</h4>
+            </div>
+            <div class="modal-body write-pub">
+            Are you sure you want to delete this friend?
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <span class="pull-right">
+                <button type="submit" class="btn btn-primary">Delete</button>
+            </span>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
 @endforeach
 
 @if (count($friends) != 0)

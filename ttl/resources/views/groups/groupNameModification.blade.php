@@ -22,6 +22,17 @@
     <div style="text-align: center;margin-top: 5%;">
         <p>Name </p>
         <input type="text" id="new-group-name" name="name" style="width:50%"> 
+        @if (session('erroremptyfield') != null)
+            <hr>
+            <div class="alert alert-danger">
+                <strong>Error!</strong> The field is empty.
+            </div>
+        @elseif (session('errorname') != null)
+            <hr>
+            <div class="alert alert-danger">
+                <strong>Error!</strong> This group already exist.
+            </div>
+        @endif
     </div>
     <div style="text-align: center; margin-top: 5%;">
         <input type="submit" value="Send">
