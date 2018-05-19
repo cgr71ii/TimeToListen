@@ -229,7 +229,7 @@ class FriendsController extends Controller
             return back()->with('errorSelfFriend', true);
         }
 
-        $my_friends = session('user')->following;
+        $my_friends = User::find(session('user')->id)->following()->get();
 
         foreach ($my_friends as $my_friend)
         {
@@ -255,7 +255,7 @@ class FriendsController extends Controller
 
     }
 
-    public function deleteF(Request $request)
+    public function deleteF(Request $request, $friendEmail)
     {
          
 
@@ -265,10 +265,11 @@ class FriendsController extends Controller
         }
 
         $friends = User::find(session('user')->id)->following()->get();
+        return $friendEmail;
 
         foreach($friends as $friend)
         {
-            if ($friend->email ==  $request->friend_email)
+            if ($friend->email ==  $friendEmail)
             {
                 session('user')->following()->detach($friend);
             }
