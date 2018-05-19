@@ -45,7 +45,7 @@
             <p><a href="{{ action('UserController@showFriend', ['email' => $friend->email]) }}">{{ $friend->name }} {{$friend->lastname}}</a></p>
             <p>{{ $friend->email }}</p>
             <p><a href="{{ action('MessageController@show', ['friend_email' => $friend->email]) }}">Send Message</a></p>
-            <a href="#" data-title="Delete Friend" style="color: red" data-toggle="modal" data-target="#removeFriendModal">Delete Friend</a>
+            <a href="#" data-title="Delete Friend" style="color: red" data-toggle="modal" data-target="#removeFriendModal{{$friend->id}}">Delete Friend</a>
 
         </div>
         
@@ -53,7 +53,7 @@
         
 
 
-<div class="modal fade" id="removeFriendModal" tabindex="-1" role="dialog" aria-labelledby="removeFriendModalLabel">
+<div class="modal fade" id="removeFriendModal{{$friend->id}}" tabindex="-1" role="dialog" aria-labelledby="removeFriendModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
         <form method="POST" action="{{ action('FriendsController@deleteF',['friendEmail' => $friend->email ]) }}">
