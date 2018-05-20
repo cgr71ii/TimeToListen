@@ -1,7 +1,4 @@
 
-<h2>List of Songs</h2>
-
-<hr>
 
 <div class="pagination-element-box-non-style">
     <form id="order-form" method="GET" action="{{ action('SongController@show') }}">
@@ -25,18 +22,17 @@
 <hr>
 
 @if (count($songs) != 0)
-<span class="link-pagination">
     {{ $songs->links() }}
-</span>
 @endif
 
 @foreach ($songs as $song)
-<div class="pagination-element-box-style">
-    <div class="pagination-content-wrapper">
+<hr>
+<div>
+    <div>
         <p>Name: {{ $song->name }}</p>
         
         @if (File::exists($song->song_path))
-        <audio controls id="myaudio"><source src="{{ $song->song_path }}" type="audio/mp3">Audio not Available!</audio>
+        <audio style="width:350px;" controls id="myaudio"><source src="{{ $song->song_path }}" type="audio/wav">Audio not Available!</audio>
 
         <script>
             var audio = document.getElementById("myaudio");
@@ -56,9 +52,9 @@
         </p>
 
         @if ($song->created_at != $song->updated_at)
-        <p style="text-align: right;">Updated at: {{ $song->updated_at }}</p>
+        <p style="text-align: center;">Updated at: {{ $song->updated_at }}</p>
         @endif
-        <p style="text-align: right;">Created at: {{ $song->created_at }}</p>
+        <p style="text-align: center;">Created at: {{ $song->created_at }}</p>
     </div>
 </div>
 
@@ -79,7 +75,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            <h4 class="modal-title" id="modifySongModalLabel">Modify Song</h4>
+            <h4 class="modal-title" id="modifySongModalLabel"></h4>
             </div>
             <div class="modal-body write-pub">
             <p>Changing {{ $song->name }} Song</p>
@@ -113,7 +109,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            <h4 class="modal-title" id="removeSongModalLabel">Remove Song</h4>
+            <h4 class="modal-title" id="removeSongModalLabel"></h4>
             </div>
             <div class="modal-body write-pub">
             Are you sure you want to delete this song?
@@ -130,6 +126,8 @@
 </div>
 
 @endforeach
+
+<hr>
 
 @if (count($songs) != 0)
 <span class="link-pagination">

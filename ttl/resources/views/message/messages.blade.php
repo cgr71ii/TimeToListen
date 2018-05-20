@@ -2,14 +2,6 @@
 
 @section('title', 'Messages')
 
-@section('css')
-    <!-- All css imports or <style></style> here. -->
-
-    <link rel="stylesheet" type="text/css" href="/css/profile.css">
-    <link rel="stylesheet" type="text/css" href="/css/app.css">
-    <link rel="stylesheet" type="text/css" href="/css/pagination.css">
-@endsection
-
 @section('content')
 
     <h2 style="text-align: center;">Send Message</h2>
@@ -39,7 +31,7 @@
             </select>
             <span style="float:left;">Title</span>
             <br>
-            <textarea style="height: auto;" rows="1" cols="10" name="title"></textarea>
+            <textarea style="height: auto; width:100%;" rows="1" cols="10" name="title"></textarea>
             <br>
             <span style="float:left;">Body of Message</span>
             <br>

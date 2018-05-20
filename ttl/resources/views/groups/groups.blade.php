@@ -2,62 +2,94 @@
 
 @section('title', "Groups")
 
-@section('css')
-    <!-- All css imports or <style></style> here. -->
-
-    <link rel="stylesheet" type="text/css" href="/css/groups.css">
-    <link rel="stylesheet" type="text/css" href="/css/app.css">
-    <link rel="stylesheet" type="text/css" href="/css/pagination.css">
-@endsection
-
 @section('content')
 
-<h2 style="text-align: center;">New Group</h2>
-
-<hr>
-
-<form method="POST" action="{{ action ('GroupController@createGroup') }}">
-    {{ csrf_field() }}
-    <div id="new-group">
-        <div style="text-align: center;margin-top: 5%;">
-            <p> Name </p>
-            <input type="text" id="new-group-name" name="newgroupname" style="width:50%"> 
-        </div>
-        <div class="selection">
-            <select multiple name="friend_list[]" style="width: 100%;height: 200px;overflow-y: scroll;">
-                <div id="block">
-                    <p id="text">Select Friends</p>
-                </div>
-                <div id="list-friends">
-                    @forelse ($friends as $friend)
-                        <div id="friend">
-                            <option value="{{ $friend->id }}">{{ $friend->name }} {{$friend->lastname}}  ({{ $friend->email }})</option>
-                        </div>
-                        
-                    @empty  
-                        <li>You Don't Have Any Friend</li>
+<section class="page-section cta">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-9 mx-auto">
+                <div class="cta-inner text-center rounded">
+                    <h2 class="section-heading mb-4">
+                        <span class="section-heading-upper">Be creative together!</span>
+                        <span class="section-heading-lower">Create Group</span>
+                    </h2>
                     
-                    @endforelse
-                    <option value="allfriends" selected> All Friends </option>
-                </div>
-            </select>
-        </div> 
-        <div style="text-align: center; margin-top: 5%;">
-            <button type="submit" > Send </button>
+                    <hr>
+                    
+                    <form method="POST" action="{{ action ('GroupController@createGroup') }}">
+                        {{ csrf_field() }}
+                        <div id="new-group">
+                                    <div style="text-align: center;">
+                                        <p> Name: </p>
+                                        <input type="text" id="new-group-name" name="newgroupname"> 
+                                    </div>
+                            <br>
+                                    <div id="block">
+                                        <p>Select Friends</p>
+                                    </div>
+                                        <select multiple name="friend_list[]" style="overflow-y: scroll;">
+                                            
+                                            <div id="list-friends">
+                                                @forelse ($friends as $friend)
+                                                    <div id="friend">
+                                                        <option value="{{ $friend->id }}">{{ $friend->name }} {{$friend->lastname}}  ({{ $friend->email }})</option>
+                                                    </div>
+                                                    
+                                                @empty  
+                                                    <li>You Don't Have Any Friends</li>
+                                                
+                                                @endforelse
+                                                <option value="allfriends" selected> All Friends </option>
+                                            </div>
+                                        </select>
+                            <div class="row">
+                                <div class="col-md-4 offset-md-4">
+                                    <div>
+                                        <br>
+                                        {!! Form::submit('Create Group') !!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <hr>
+            </div>
         </div>
     </div>
-</form>
+</section>
 
-@if (count($groups) != 0)
+<section class="page-section cta">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-9 mx-auto">
+                <div class="cta-inner text-center rounded">
+                    <h2 class="section-heading mb-4">
+                        <span class="section-heading-upper">Right where you belong</span>
+                        <span class="section-heading-lower">Group List</span>
+                    </h2>
 
-<hr>
+                    <div class="row">
+                        <div class="col-xl-9 mx-auto">
+                        @if (count($groups) != 0)
 
-<div id="pagination-box-style" class="ajax-pagination">
-    @include('groups.groups-pag', ['groups' => $groups])
-</div>
+                        <hr>
 
-@include('pagination-ajax', ['class_name' => 'ajax-pagination', 'object_title' => 'List of Groups'])
+                        <div id="pagination-box-style" class="ajax-pagination">
+                            @include('groups.groups-pag', ['groups' => $groups])
+                        </div>
 
-@endif
+                        @include('pagination-ajax', ['class_name' => 'ajax-pagination', 'object_title' => 'List of Groups'])
+
+                        @endif
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 @endsection
