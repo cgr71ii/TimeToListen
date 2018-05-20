@@ -11,7 +11,7 @@
 
 @section('content')
 
-<section class="page-section cta" style="background: none;">
+<section class="page-section cta">
     <div class="container">
         <div class="row">
             <div class="col-xl-12 mx-auto">

@@ -64,7 +64,7 @@
                     @endif
                     <div class="row">
                         <div class="col-md-12 offset-md-0">
-                        <button type="submit">Send</button>
+                        <input type="submit" value="Send">
                         </div>
                     </div>
                     
@@ -74,21 +74,23 @@
             </div>
         </div>
     </div>
-</section>
+
+<div style="height: 100px;"></div>
 
 @if (count($friends) != 0)
-<section class="page-section cta">
     <div class="container">
         <div class="row">
             <div class="col-xl-12 mx-auto">
                 <div class="cta-inner text-center rounded">
-                    <h2 class="section-heading mb-4">
-                        <span class="section-heading-lower">My Friends</span>
-                    </h2>
-                    
                     <div class="row">
                         <div class="col-xl-12 mx-auto">
-                            <div id="pagination-box-style" class="ajax-pagination" style="margin-top: 5%">
+                            <h2 class="section-heading mb-4">
+                                <span class="section-heading-lower">My Friends</span>
+                            </h2>
+
+                            <hr>
+                            
+                            <div id="pagination-box-style" class="ajax-pagination">
                                 @include('friends.friends-pag', ['friends' => $friends])
                             </div>
 
@@ -99,9 +101,9 @@
             </div>
         </div>
     </div>
-</section>
 
 @endif
         
+</section>
         
 @endsection

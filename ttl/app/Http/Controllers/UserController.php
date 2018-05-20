@@ -9,6 +9,7 @@ use App\Song;
 use Cookie;
 use Redirect;
 use Session;
+use DB;
 
 use Auth;
 
@@ -324,6 +325,13 @@ class UserController extends Controller
         }
         
         return back()->with('error_unexpected', true);
+    }
+
+    public function listLog(Request $request)
+    {
+        $id = DB::table('log')->orderBy('unixTime', 'desc')->simplePaginate();
+
+        return view('lists.list-log', ['logs' => $id]);
     }
 
     public function listUsers(Request $request)

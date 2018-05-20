@@ -87,6 +87,8 @@ Route::get('/list-messages', 'MessageController@listMessages')->middleware('auth
 
 Route::get('/list-publications', 'PublicationController@listPublications')->middleware('auth', 'admin');
 
+Route::get('/list-log-entries', 'UserController@listLog')->middleware('auth', 'admin');
+
 Route::post('/genres/update', 'GenreController@update')->middleware('auth');
 
 Route::post('/genres/remove', 'GenreController@remove')->middleware('auth');
@@ -115,4 +117,4 @@ Route::get('/messages/send', 'MessageController@send')->middleware('auth');
 
 Route::post('/message/send/create', 'MessageController@create')->middleware('auth');
 
-Route::get('/admin/links', 'UserController@showAdminLinks')->middleware('auth', 'admin');;
+Route::get('/admin/links', 'UserController@showAdminLinks')->middleware('auth', 'admin');

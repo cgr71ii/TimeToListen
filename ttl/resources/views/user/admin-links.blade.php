@@ -45,6 +45,11 @@
                                 <a href="{{ action('PublicationController@listPublications') }}">List Publications</a>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-10 offset-md-1">
+                                <a href="{{ action('UserController@listLog') }}">List Log Entries</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

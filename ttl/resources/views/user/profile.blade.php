@@ -107,10 +107,10 @@
             </div>
         </div>
     </div>
-</section>
+
+<div style="height: 100px;"></div>
 
 @if (session('publications')[0] !== null)
-<section class="page-section cta">
     <div class="container">
         <div class="row">
             <div class="col-xl-12 mx-auto">
@@ -119,7 +119,6 @@
                     <div class="row">
                         <div class="col-md-12 offset-md-0">
                         @if (session('publications')[0] !== null)
-                        <hr>
                         <div id="pagination-box-style" class="ajax-publication">
                             @include('publication.publications', ['actions' => true, 'group_notify' => true])
                         </div>
@@ -133,9 +132,8 @@
             </div>
         </div>
     </div>
-</section>
 @endif
     
-    
+</section>
 
 @endsection

@@ -93,10 +93,10 @@
             </div>
         </div>
     </div>
-</section>
+    
+<div style="height: 100px;"></div>
 
 @if (session('songs')[0] !== null)
-<section class="page-section cta">
     <div class="container">
         <div class="row">
             <div class="col-xl-12 mx-auto">
@@ -123,7 +123,8 @@
             </div>
         </div>
     </div>
-</section>
 @endif
+
+</section>
 
 @endsection
