@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Group;
 use App\Publication;
-use DB;
+use App\ServiceLayer\GroupServices;
 
 use Auth;
 
@@ -135,6 +135,9 @@ class GroupController extends Controller
 
     public function createGroup(Request $request)
     {
+        GroupServices::createGroup($request);
+        return back();
+        /*
         if($request->friend_list == null || $request->newgroupname == null)
         {
             return back()->with('Error');
@@ -209,6 +212,7 @@ class GroupController extends Controller
         //session(['user' => $update_user]);
 
         return back();
+        */
     }
 
     public function addFriend(Request $request)
@@ -308,8 +312,16 @@ class GroupController extends Controller
         return view('groups.groupPublications', ['group' => $group, 'group_id' => $id, 'friends' => $friends, 'members' => $members, 'publications' => $publications]);
     }
 
-    public function exit(Request $request, $id)
+    public function exit(Request $request)
     {
+        GroupServices::exitGroup($request);
+        return back();
+        /*
+        if (session('user') === null)
+        {
+            return redirect('/');
+        }
+
         if ($request->has('group_id'))
         {
             //$group = Group::find($request->group_id);

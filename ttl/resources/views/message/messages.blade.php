@@ -8,6 +8,14 @@
     <hr>
 
     <div class="write-pub">
+        <h2>Send Message</h2>
+        <hr>
+        @if (session('sendfail') !== null)
+                <hr>
+                <div class="alert alert-danger">
+                    <strong>Error!</strong> Please fill in all fields!
+                </div>
+        @endif
         <p style="float: left;"> Select your friends:</p>
         <form method="POST" action="{{ action('MessageController@create') }}">
             {{ csrf_field() }}
@@ -29,6 +37,7 @@
                 <option value="all_friends" selected>All Friends</option>
                 @endif
             </select>
+            <br>
             <span style="float:left;">Title</span>
             <br>
             <textarea style="height: auto; width:100%;" rows="1" cols="10" name="title"></textarea>

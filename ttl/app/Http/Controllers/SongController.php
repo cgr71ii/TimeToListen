@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\ServiceLayer\SongServices;
 use App\User;
 use App\Song;
 use App\Genre;
@@ -57,6 +58,13 @@ class SongController extends Controller
     }
 
     public function add_song(Request $request){
+        $response = SongServices::addSong($request);
+        return back()->with($response, true);
+
+        /*if (session('user') === null){
+            return redirect('/');
+        }
+
         $request->validate([
             'file' => 'max:102400',
         ], [
@@ -100,10 +108,15 @@ class SongController extends Controller
             return back()->with('errorfile', true);
         }
 
-        return back();
+        return back();*/
     }
 
     public function removeSong(Request $request){
+        SongServices::deleteSong($request);
+        return back();
+        /*if (session('user') === null){
+            return redirect('/');
+        }
         if ($request->has('song_id')){
             $song = Song::find($request->song_id);
 
@@ -119,7 +132,7 @@ class SongController extends Controller
             }
         }
 
-        return back();
+        return back();*/
     }
 
     public function listSongs(Request $request){

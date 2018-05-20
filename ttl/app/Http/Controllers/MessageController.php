@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
+use App\ServiceLayer\MessageServices;
 use App\Message;
 use App\Message_user;
 use App\User;
@@ -174,7 +175,24 @@ class MessageController extends Controller
         return view('lists.list-messages', ['messages' => $messages]);
     }
 
-    public function create(Request $request){
+    public function create(Request $request)
+    {
+        $response = MessageServices::sendMessage($request);
+
+        if($response == "userfail"){
+            return redirect('/');
+        }
+
+        if($response == "sendfail"){
+            return redirect('/messages')->with('sendfail', true);
+        }
+
+        return back();
+
+        /*if (session('user') === null){
+            return redirect('/');
+        }
+
         if($request->has('receptors') && count($request->receptors) >= 1 && $request->has('title') && $request->has('body') && !empty($request->title) && !empty($request->body))
         {
             $message = new Message([
@@ -214,10 +232,16 @@ class MessageController extends Controller
             }
         }
         
-        return back();
+        return back();*/
     }
 
-    public function delete(Request $request){
+    public function delete(Request $request)
+    {
+        if (Auth::user() === null)
+        {
+            return redirect('/');
+        }
+
         /*
         if($request->has('message_id')){
             $message_user = DB::table('message_user')->where('user_id',session('user')->id)
@@ -240,7 +264,11 @@ class MessageController extends Controller
         return back();
     }
 
-    public function list(Request $request){
+    public function list(Request $request)
+    {
+        if (Auth::user() === null){
+            return redirect('/');
+        }
         /* 
             Obtener mensajes recibidos
             select * from messages where id IN (
