@@ -57,7 +57,7 @@
                                     @endif
                                     <hr>
 
-                                    <a href="{{ action('UserController@show') }}">Go back</a>
+                                    <a href="{{ action('UserController@show') }}">Home</a>
                                 </div>
                             </form>
                         </div>
