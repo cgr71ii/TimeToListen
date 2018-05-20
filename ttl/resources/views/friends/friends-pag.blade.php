@@ -1,27 +1,21 @@
 
-<h2>My Friends</h2>
+<form id="order-form" method="GET" action="{{ action('FriendsController@show') }}">
+    {{ csrf_field() }}
+    <select name="field" form="order-form">
+        <option value="created_at">Created At</option>
+        <option value="updated_at">Updated At</option>
+        <option value="name">Name</option>
+        <option value="email">Email</option>
+    </select>
 
-<hr>
-
-<div class="pagination-element-box-non-style">
-    <form id="order-form" method="GET" action="{{ action('FriendsController@show') }}">
-        {{ csrf_field() }}
-        <select name="field" form="order-form">
-            <option value="created_at">Created At</option>
-            <option value="updated_at">Updated At</option>
-            <option value="name">Name</option>
-            <option value="email">Email</option>
-        </select>
-
-        <select name="direction" form="order-form">
-            <option value="asc">Ascendent</option>
-            <option value="desc">Descendent</option>
-        </select>
-        
-        <input type="hidden" name="order-form">
-        <input type="submit" value="Order">
-    </form>
-</div>
+    <select name="direction" form="order-form">
+        <option value="asc">Ascendent</option>
+        <option value="desc">Descendent</option>
+    </select>
+    
+    <input type="hidden" name="order-form">
+    <input type="submit" value="Order">
+</form>
 
 <hr>
 

@@ -29,7 +29,7 @@
                             <div id="user-info-content-wrapper">
                             @if (session('friend')->song_status !== null)
                             <p><img width="32" heigth"32" src="{{ asset('favicon.png') }}"> {{ session('friend')->song_status->name }} <img width="32" heigth"32" src="{{ asset('favicon.png') }}"></p>
-                            @if (session('user')->song_status !== null && File::exists(session('friend')->song_status->song_path))
+                            @if (Auth::user()->song_status !== null && File::exists(session('friend')->song_status->song_path))
                             <audio style="width:350px;" controls id="myaudio"><source src="{{ asset(session('friend')->song_status->song_path) }}" type="audio/mp3">Audio not Available!</audio>
 
                             <script>

@@ -6,7 +6,6 @@
     <!-- All css imports or <style></style> here. -->
 
     <link rel="stylesheet" type="text/css" href="/css/pagination.css">
-    <link rel="stylesheet" type="text/css" href="/css/app.css">
 @endsection
 
 @section('content')
