@@ -44,44 +44,53 @@ class GroupServices {
             $rollback = true;
         }
 
-        if (in_array("allfriends", $request->friend_list))
+        if (Group::where('name', $request->newgroupname)->count() != 0)
         {
-            $friends = Auth::user()->following()->get();
-
-            $group = new Group([
-                'creator_id' => Auth::user()->id,
-                'name' => $request->newgroupname
-            ]);
-
-            $group->save();
-
-            $group = Group::where('name',$request->newgroupname)->FirstOrFail();
-
-            foreach($friends as $friend)
-            {
-                $user = User::where('id', $friend->id)->FirstOrFail();
-                $user->group_user()->attach($group->id);
-            }
+            $rollback = true;
         }
         else
         {
-            $friends = $request->friend_list; 
-
-            $group = new Group([
-                'creator_id' => Auth::user()->id,
-                'name' => $request->newgroupname
-            ]);
-
-            $group->save();
-
-            $group = Group::where('name',$request->newgroupname)->FirstOrFail();
-
-            foreach($friends as $friend_id)
+            if (in_array("allfriends", $request->friend_list))
             {
-                $user = User::where('id', $friend_id)->FirstOrFail();
-                $user->group_user()->attach($group->id);
+                $friends = Auth::user()->following()->get();
+
+                $group = new Group([
+                    'creator_id' => Auth::user()->id,
+                    'name' => $request->newgroupname
+                ]);
+
+                $group->save();
+
+                $group = Group::where('name',$request->newgroupname)->FirstOrFail();
+
+                foreach($friends as $friend)
+                {
+                    $user = User::where('id', $friend->id)->FirstOrFail();
+                    $user->group_user()->attach($group->id);
+                }
+            }
+            else
+            {
+                $friends = $request->friend_list; 
+
+                $group = new Group([
+                    'creator_id' => Auth::user()->id,
+                    'name' => $request->newgroupname
+                ]);
+
+                $group->save();
+
+                $group = Group::where('name',$request->newgroupname)->FirstOrFail();
+
+                foreach($friends as $friend_id)
+                {
+                    $user = User::where('id', $friend_id)->FirstOrFail();
+                    $user->group_user()->attach($group->id);
+                }
             }
         }
+
+        
         
         if($rollback){
             DB::rollBack();
@@ -93,8 +102,9 @@ class GroupServices {
             session(['user' => $update_user]);
 
         }
-            DB::commit();
+        DB::commit();
 
+        return !$rollback;
     }
 
     public static function exitGroup($request){

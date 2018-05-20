@@ -7,7 +7,7 @@
 <section class="page-section cta">
     <div class="container">
         <div class="row">
-            <div class="col-xl-9 mx-auto">
+            <div class="col-xl-12 mx-auto">
                 <div class="cta-inner text-center rounded">
                     <div class="row">
                         <div class="col-md-12 offset-md-0">
@@ -24,15 +24,20 @@
                                             <div style="text-align: center;">
                                                 <p> Name: </p>
                                                 <input type="text" id="new-group-name" name="newgroupname"> 
-                                                @if (session('ErrorName')!=null)
+                                                @if (session('error')!=null)
                                                     <hr>
                                                     <div class="alert alert-danger">
-                                                        <strong>Error!</strong> This group already exist.
+                                                        <strong>Error!</strong> Something unexpected happened.
                                                     </div>
-                                                @elseif (session('Error')!=null)
+                                                @elseif (session('errorEmpty'))
                                                     <hr>
                                                     <div class="alert alert-danger">
-                                                        <strong>Error!</strong> Select a group name and members.
+                                                        <strong>Error!</strong> Can't be empty fields.
+                                                    </div>
+                                                @elseif (session('new_group'))
+                                                    <hr>
+                                                    <div class="alert alert-success">
+                                                        <h5> The group {{ session('new_group') }} has been successfuly created! </h5>
                                                     </div>
                                                 @endif
                                             </div>
@@ -75,10 +80,11 @@
     </div>
 </section>
 
+@if (count($groups) != 0)
 <section class="page-section cta">
     <div class="container">
         <div class="row">
-            <div class="col-xl-9 mx-auto">
+            <div class="col-xl-12 mx-auto">
                 <div class="cta-inner text-center rounded">
                     <h2 class="section-heading mb-4">
                         <span class="section-heading-upper">Right where you belong</span>
@@ -106,6 +112,6 @@
         </div>
     </div>
 </section>
-
+@endif
 
 @endsection

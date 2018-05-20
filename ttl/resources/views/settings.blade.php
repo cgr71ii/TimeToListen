@@ -7,7 +7,7 @@
 <section class="page-section cta">
     <div class="container">
         <div class="row">
-            <div class="col-xl-9 mx-auto">
+            <div class="col-xl-12 mx-auto">
                 <div class="cta-inner text-center rounded">
                     <h2 class="section-heading mb-4">
                         <span class="section-heading-lower">{{ Auth::user()->name }} {{ Auth::user()->lastname }}</span>
@@ -26,7 +26,7 @@
                             <div id="user-info-content-wrapper">
 
                                 <div class="row">
-                                    <div class="col-md-10 offset-md-1">
+                                    <div class="col-md-12 offset-md-0">
                                         @if (Auth::user()->song_status !== null)
                                         <p><img width="32" heigth"32" src="favicon.png"> {{ Auth::user()->song_status->name }} <img width="32" heigth"32" src="favicon.png"></p>
                                         @if (Auth::user()->song_status !== null && File::exists(Auth::user()->song_status->song_path))
@@ -47,7 +47,7 @@
                                 </div>
                             
                                 <div class="row">
-                                    <div class="col-md-10 offset-md-1">
+                                    <div class="col-md-12 offset-md-0">
                                         <a href="{{ action('UserController@logout') }}">Sign Out</a>
                                     </div>
                                 </div>
@@ -152,70 +152,3 @@
 </section>
 
 @endsection
-
-
-
-<!--
-    <div id="settings-wrapper">
-        <form method="POST" action="{{ action('UserController@update') }}">
-            {{ csrf_field() }}
-            <div class="row">
-                <div class="col-md-4">
-                    <p>Name</p>
-                </div>
-                <div class="col-md-4">
-                    <p>Email</p>
-                </div>
-                <div class="col-md-4">
-                    <p>Status Song</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <input type="text" class="text-input" name="name" value="{{ Auth::user()->name }}">
-                </div>
-                <div class="col-md-4">
-                    <input type="email" class="text-input" name="username" value="{{ Auth::user()->email }}" oninvalid="this.setCustomValidity('Please, insert a valid email.')">
-                </div>
-                <div class="col-md-4">
-                <select multiple name="status_song[]">
-                    @forelse (Auth::user()->song as $song)
-                    @if (Auth::user()->song_status !== null && $song->id === Auth::user()->song_status->id)
-                    <option value="{{ $song->id }}" selected>{{ $song->name }}</option>
-                    @else
-                    <option value="{{ $song->id }}">{{ $song->name }}</option>
-                    @endif
-                    @empty
-                    <option value="empty">No Songs Available</option>
-                    @endforelse
-                </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <p>Lastname</p>
-                </div>
-                <div class="col-md-4">
-                    
-                </div>
-                <div class="col-md-4">
-                    <p>Birthday</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <input type="text" class="text-input" name="lname" value="{{ Auth::user()->lastname }}">
-                </div>
-                <div class="col-md-4">
-                    <input type="submit" value="Update Information">
-                </div>
-                <div class="col-md-4">
-                    <input type="date" class="text-input" name="birthday" value="{{ substr(Auth::user()->birthday, 0, 10) }}">
-                </div>
-            </div>
-        </form>
-    </div>
-
-    <div class="general-floor"></div>
-
-    -->

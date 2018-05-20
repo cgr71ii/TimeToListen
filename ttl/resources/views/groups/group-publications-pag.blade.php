@@ -4,7 +4,7 @@
 <hr>
 
 <div class="row">
-    <div class="col-xl-9 mx-auto">
+    <div class="col-xl-12 mx-auto">
         <div class="pagination-element-box-non-style">
             <form id="order-form" method="GET" action="{{ action('GroupController@groupPublications') }}">
                 {{ csrf_field() }}

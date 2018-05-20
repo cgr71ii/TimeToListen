@@ -5,10 +5,10 @@
 @section('content')
 
 <section class="page-section cta">
-    <div class="row">
-        <div class="col-xl-9 mx-auto">
+    <div class="container">
+        <div class="col-xl-12 mx-auto">
             <div class="cta-inner text-center rounded">
-                <div class="container">
+                <div class="row">
 
                     <div class="row">
                         <div id="information" class="col-md-7">

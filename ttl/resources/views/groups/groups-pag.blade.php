@@ -50,10 +50,11 @@
                     <input type="hidden" name="group_id" value="{{ $group->id }}">
 
                     <div class="modal-header">
+                    
+                    <h4 class="modal-title" id="removeGroupModalLabel">Remove Group</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" id="removeGroupModalLabel"></h4>
                     </div>
                     <div class="modal-body write-pub">
                     Are you sure you want to delete this group?

@@ -137,8 +137,16 @@ class GroupController extends Controller
 
     public function createGroup(Request $request)
     {
-        GroupServices::createGroup($request);
-        return back();
+        if($request->friend_list == null || $request->newgroupname == null)
+        {
+            return back()->with('errorEmpty', true);
+        }
+        if (!GroupServices::createGroup($request))
+        {
+            return back()->with('error', true);
+        }
+
+        return back()->with('new_group', $request->newgroupname);
         /*
         if($request->friend_list == null || $request->newgroupname == null)
         {
