@@ -249,14 +249,14 @@ class UserController extends Controller
                 empty($request->username) || empty($request->password) ||
                 empty($request->birthday))
             {
-                return redirect('/loginsignup')->with('signupfailemptyfield', true);
+                return redirect('/signup')->with('signupfailemptyfield', true);
             }
 
             $count = User::where('email', $request->username)->count();
 
             if ($count != 0)
             {
-                return redirect('/loginsignup')->with('signupfailuserexists', true);
+                return redirect('/signup')->with('signupfailuserexists', true);
             }
 
             $time = time();
@@ -284,7 +284,7 @@ class UserController extends Controller
             }
         }
 
-        return redirect('/loginsignup')->with('signupfail', true);
+        return redirect('/signup')->with('signupfail', true);
     }
 
     public function removePublication(Request $request)
