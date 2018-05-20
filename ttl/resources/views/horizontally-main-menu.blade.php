@@ -7,11 +7,6 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item px-lg-4">
-                    <a class="nav-link text-uppercase text-expanded" href="{{ action('UserController@show') }}">Home
-                    <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item px-lg-4">
                     <a class="nav-link text-uppercase text-expanded" href="{{ action('UserController@show') }}">Profile</a>
                 </li>
                 <li class="nav-item px-lg-4">

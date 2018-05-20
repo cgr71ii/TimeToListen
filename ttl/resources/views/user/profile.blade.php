@@ -29,16 +29,16 @@
                         <div id="user-info-img">
                             <!-- The conditinal it will check if Auth::user()->pic_profile_path exists -->
                             @if (File::exists(Auth::user()->pic_profile_path))
-                            <img width="300" heigth"300" src="{{ Auth::user()->pic_profile_path }}" alt="User Image">
+                            <img width="300" height="300" src="{{ Auth::user()->pic_profile_path }}" alt="User Image">
                             @else
-                            <img width="300" heigth"300" src="default-user.png" alt="User Image">
+                            <img width="300" height="300" src="default-user.png" alt="User Image">
                             @endif
                         </div>
                         <div id="user-info-content">
                             <div id="user-info-content-wrapper">
                             <br>
                             @if (Auth::user()->song_status !== null)
-                            <p><img width="32" heigth"32" src="favicon.png"> {{ Auth::user()->song_status->name }} <img width="32" heigth"32" src="favicon.png"></p>
+                            <p><img width="32" height="32" src="favicon.png"> {{ Auth::user()->song_status->name }} <img width="32" height="32" src="favicon.png"></p>
                             
                             <div class="row">
                                 <div class="col-md-10 offset-md-1">
@@ -59,12 +59,12 @@
                                 </div>
                             </div>
 
-                            </div>
-                        </div>
                     </div>
                     <hr>
                     
-                    <h2>New Publication</h2>
+                    <h2 class="section-heading mb-4">
+                        <span class="section-heading-upper">New Publication</span>
+                    </h2>
                     
                     @if (session('create_publication_fail') !== null)
                     <div class="alert alert-danger">
@@ -101,6 +101,7 @@
     </div>
 </section>
 
+@if (session('publications')[0] !== null)
 <section class="page-section cta">
     <div class="container">
         <div class="row">
@@ -125,7 +126,7 @@
         </div>
     </div>
 </section>
-
+@endif
     
     
 
