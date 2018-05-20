@@ -113,10 +113,11 @@
         <input type="hidden" name="publication_id" value="{{ $pub->id }}">
 
         <div class="modal-header">
+          
+          <h4 class="modal-title" id="modifyPublicationModalLabel">Modify Publication</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-          <h4 class="modal-title" id="modifyPublicationModalLabel">Modify Publication</h4>
         </div>
         <div class="modal-body write-pub">
           <p>Insert your new publication</p>
@@ -142,10 +143,11 @@
         <input type="hidden" name="publication_id" value="{{ $pub->id }}">
 
         <div class="modal-header">
+          
+          <h4 class="modal-title" id="removePublicationModalLabel">Remove Publication</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-          <h4 class="modal-title" id="removePublicationModalLabel">Remove Publication</h4>
         </div>
         <div class="modal-body write-pub">
           Are you sure you want to delete this publication?

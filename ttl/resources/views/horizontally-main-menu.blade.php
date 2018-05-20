@@ -25,24 +25,27 @@
                     </li>
                     @if (Auth::user()->type == 1)
                         <li class="nav-item px-lg-3">
-                            <a class="nav-link text-uppercase text-expanded" href="{{ action('UserController@showAdminLinks') }}">Admin Links</a>
+                            <a class="nav-link text-uppercase text-expanded" href="{{ action('UserController@showAdminLinks') }}">Admin</a>
                         </li>
                     @endif
-                    <li class="nav-item px-lg-3">
-                        <a class="nav-link text-uppercase text-expanded" href="{{ action('UserController@showSettings') }}">Settings</a>
-                    </li>
                     <li class="nav-item px-lg-3">
                         <a class="nav-link text-uppercase text-expanded" href="/contact">Contact</a>
                     </li>
                     <li class="nav-item px-lg-3">
                         <a class="nav-link text-uppercase text-expanded" href="/information">About</a>
                     </li>
+                    <li class="nav-item px-lg-3">
+                        <a class="nav-link text-uppercase text-expanded" href="{{ action('UserController@showSettings') }}">Settings</a>
+                    </li>
+                    <li class="nav-item px-lg-3">
+                        <a class="nav-link text-uppercase text-expanded" href="{{ action('UserController@logout') }}">Logout</a>
+                    </li>
                 @elseif (Auth::user() == null)
                     <li class="nav-item px-lg-3">
                         <a class="nav-link text-uppercase text-expanded" href="{{ action('UserController@show') }}">Log In</a>
                     </li>
                     <li class="nav-item px-lg-3">
-                        <a class="nav-link text-uppercase text-expanded" href="/loginsignup">Sign Up</a>
+                        <a class="nav-link text-uppercase text-expanded" href="/signup">Sign Up</a>
                     </li>
                     <li class="nav-item px-lg-3">
                         <a class="nav-link text-uppercase text-expanded" href="/contact">Contact</a>

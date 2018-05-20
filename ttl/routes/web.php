@@ -39,9 +39,9 @@ Route::get('/', ['as' => 'login', 'uses' => function(){
     return view('home');
 }])->middleware('notauth');
 
-Route::get('/loginsignup', function(){
-    return view('loginsignup');
-});
+Route::get('/signup', function(){
+    return view('signup');
+})->middleware('notauth');
 
 Route::get('/information', function(){
     return view('information');
