@@ -235,6 +235,11 @@ class UserController extends Controller
 
     public function signup(Request $request)
     {
+        if($request['submitted'] == "Cancel")
+        {
+            return redirect('/');
+        }
+
         if ($request->has('name') && $request->has('lname') && 
             $request->has('username') && $request->has('password') && 
             $request->has('birthday'))
@@ -243,14 +248,14 @@ class UserController extends Controller
                 empty($request->username) || empty($request->password) ||
                 empty($request->birthday))
             {
-                return redirect('/')->with('signupfailemptyfield', true);
+                return redirect('/loginsignup')->with('signupfailemptyfield', true);
             }
 
             $count = User::where('email', $request->username)->count();
 
             if ($count != 0)
             {
-                return redirect('/')->with('signupfailuserexists', true);
+                return redirect('/loginsignup')->with('signupfailuserexists', true);
             }
 
             $time = time();
@@ -278,7 +283,7 @@ class UserController extends Controller
             }
         }
 
-        return redirect('/')->with('signupfail', true);
+        return redirect('/loginsignup')->with('signupfail', true);
     }
 
     public function removePublication(Request $request)

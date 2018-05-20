@@ -22,6 +22,17 @@
                                     <div style="text-align: center;">
                                         <p> Name: </p>
                                         <input type="text" id="new-group-name" name="newgroupname"> 
+                                        @if (session('ErrorName')!=null)
+                                            <hr>
+                                            <div class="alert alert-danger">
+                                                <strong>Error!</strong> This group already exist.
+                                            </div>
+                                        @elseif (session('Error')!=null)
+                                            <hr>
+                                            <div class="alert alert-danger">
+                                                <strong>Error!</strong> Select a group name and members.
+                                            </div>
+                                        @endif
                                     </div>
                             <br>
                                     <div id="block">

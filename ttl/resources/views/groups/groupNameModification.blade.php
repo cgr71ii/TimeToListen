@@ -22,19 +22,31 @@
                         <div style="text-align: center;margin-top: 5%;">
                             <div class="row">
                                 <div class="col-md-4 offset-md-4">
+                                    <p>Name </p>
                                     <input type="text" id="new-group-name" name="name" style="width:100%">
+                                    @if (session('erroremptyfield') != null)
+                                        <hr>
+                                        <div class="alert alert-danger">
+                                            <strong>Error!</strong> The field is empty.
+                                        </div>
+                                    @elseif (session('errorname') != null)
+                                        <hr>
+                                        <div class="alert alert-danger">
+                                            <strong>Error!</strong> This group already exist.
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4 offset-md-4">
                                 <div style="text-align: center; margin-top: 5%;">
-                                    <input type="submit" value="Change">
+                                    <input type="submit" value="Send">
                                 </div>
                             </div>
                         </div>
                     </form>
-
+                </div>
             </div>
         </div>
     </div>

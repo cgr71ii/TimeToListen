@@ -30,13 +30,29 @@ Route::post('/group/remove', 'GroupController@delete')->middleware('auth');
 Route::get('/friends','FriendsController@show')->middleware('auth');
 
 Route::post('/friends', 'FriendsController@addFriend')->middleware('auth');
+//aaa
+//Route::get('/', ['as' => 'login', 'uses' => 'RootController@show'])->middleware('notauth');
+//aaa
+Route::post('/deleteFriend/{friendEmail}', 'FriendsController@deleteF')->middleware('auth');
 
-Route::get('/deleteFriend/{email}', 'FriendsController@deleteFriend')->middleware('auth');
+Route::get('/', ['as' => 'login', 'uses' => function(){
+    return view('home');
+}])->middleware('notauth');
 
-Route::post('/deleteFriend', 'FriendsController@deleteF')->middleware('auth');
+Route::get('/loginsignup', function(){
+    return view('loginsignup');
+});
 
-Route::get('/', ['as' => 'login', 'uses' => 'RootController@show'])->middleware('notauth');
+Route::get('/information', function(){
+    return view('information');
+});
 
+Route::get('/contact', function(){
+    return view('contact');
+});
+
+Route::post('/sendemail','MailController@sendContactEmail');
+//aaa
 Route::post('/profile', 'UserController@showAfterLogin');
 
 Route::get('/profile/{friend_email}', 'UserController@showFriend')->middleware('auth');
