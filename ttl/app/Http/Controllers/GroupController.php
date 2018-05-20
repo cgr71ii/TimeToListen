@@ -10,6 +10,8 @@ use App\ServiceLayer\GroupServices;
 
 use Auth;
 
+use DB;
+
 class GroupController extends Controller
 {
 

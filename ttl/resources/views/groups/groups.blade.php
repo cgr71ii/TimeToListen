@@ -9,62 +9,67 @@
         <div class="row">
             <div class="col-xl-9 mx-auto">
                 <div class="cta-inner text-center rounded">
-                    <h2 class="section-heading mb-4">
-                        <span class="section-heading-upper">Be creative together!</span>
-                        <span class="section-heading-lower">Create Group</span>
-                    </h2>
-                    
-                    <hr>
-                    
-                    <form method="POST" action="{{ action ('GroupController@createGroup') }}">
-                        {{ csrf_field() }}
-                        <div id="new-group">
-                                    <div style="text-align: center;">
-                                        <p> Name: </p>
-                                        <input type="text" id="new-group-name" name="newgroupname"> 
-                                        @if (session('ErrorName')!=null)
-                                            <hr>
-                                            <div class="alert alert-danger">
-                                                <strong>Error!</strong> This group already exist.
-                                            </div>
-                                        @elseif (session('Error')!=null)
-                                            <hr>
-                                            <div class="alert alert-danger">
-                                                <strong>Error!</strong> Select a group name and members.
-                                            </div>
-                                        @endif
-                                    </div>
-                            <br>
-                                    <div id="block">
-                                        <p>Select Friends</p>
-                                    </div>
-                                        <select multiple name="friend_list[]" style="overflow-y: scroll;">
-                                            
-                                            <div id="list-friends">
-                                                @forelse ($friends as $friend)
-                                                    <div id="friend">
-                                                        <option value="{{ $friend->id }}">{{ $friend->name }} {{$friend->lastname}}  ({{ $friend->email }})</option>
+                    <div class="row">
+                        <div class="col-md-12 offset-md-0">
+                            <h2 class="section-heading mb-4">
+                                <span class="section-heading-upper">Be creative together!</span>
+                                <span class="section-heading-lower">Create Group</span>
+                            </h2>
+                            
+                            <hr>
+                            
+                            <form method="POST" action="{{ action ('GroupController@createGroup') }}">
+                                {{ csrf_field() }}
+                                <div id="new-group">
+                                            <div style="text-align: center;">
+                                                <p> Name: </p>
+                                                <input type="text" id="new-group-name" name="newgroupname"> 
+                                                @if (session('ErrorName')!=null)
+                                                    <hr>
+                                                    <div class="alert alert-danger">
+                                                        <strong>Error!</strong> This group already exist.
                                                     </div>
-                                                    
-                                                @empty  
-                                                    <li>You Don't Have Any Friends</li>
-                                                
-                                                @endforelse
-                                                <option value="allfriends" selected> All Friends </option>
+                                                @elseif (session('Error')!=null)
+                                                    <hr>
+                                                    <div class="alert alert-danger">
+                                                        <strong>Error!</strong> Select a group name and members.
+                                                    </div>
+                                                @endif
                                             </div>
-                                        </select>
-                            <div class="row">
-                                <div class="col-md-4 offset-md-4">
-                                    <div>
-                                        <br>
-                                        {!! Form::submit('Create Group') !!}
+                                    <br>
+                                            <div id="block">
+                                                <p>Select Friends</p>
+                                            </div>
+                                                <select multiple name="friend_list[]" style="overflow-y: scroll;">
+                                                    
+                                                    <div id="list-friends">
+                                                        @forelse ($friends as $friend)
+                                                            <div id="friend">
+                                                                <option value="{{ $friend->id }}">{{ $friend->name }} {{$friend->lastname}}  ({{ $friend->email }})</option>
+                                                            </div>
+                                                            
+                                                        @empty  
+                                                            <li>You Don't Have Any Friends</li>
+                                                        
+                                                        @endforelse
+                                                        <option value="allfriends" selected> All Friends </option>
+                                                    </div>
+                                                </select>
+                                    <div class="row">
+                                        <div class="col-md-4 offset-md-4">
+                                            <div>
+                                                <br>
+                                                {!! Form::submit('Create Group') !!}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </form>
+                            </form>
 
-                    <hr>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -97,9 +97,9 @@ Route::post('/user/publication/remove', 'PublicationController@delete')->middlew
 
 Route::get('/messages', 'MessageController@show')->middleware('auth');
 
-Route::get('/messages/sent', 'MessageController@listSentMessages')->middleware('auth');
+Route::get('/messages-sent', 'MessageController@listSentMessages')->middleware('auth');
 
-Route::get('/messages/received', 'MessageController@listReceivedMessages')->middleware('auth');
+Route::get('/messages-received', 'MessageController@listReceivedMessages')->middleware('auth');
 
 Route::post('/messages/received/remove', 'MessageController@delete')->middleware('auth');
 

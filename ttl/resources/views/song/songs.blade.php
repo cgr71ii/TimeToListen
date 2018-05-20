@@ -7,7 +7,7 @@
 <section class="page-section cta">
     <div class="container">
         <div class="row">
-            <div class="col-xl-9 mx-auto">
+            <div class="col-xl-12 mx-auto">
                 <div class="cta-inner text-center rounded">
                     <h2 class="section-heading mb-4">
                         <span class="section-heading-upper">You're an artist!</span>
@@ -89,15 +89,17 @@
                     {!! Form::close() !!}
 
                     <hr>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
+@if (session('songs')[0] !== null)
 <section class="page-section cta">
     <div class="container">
         <div class="row">
-            <div class="col-xl-9 mx-auto">
+            <div class="col-xl-12 mx-auto">
                 <div class="cta-inner text-center rounded">
                     <h2 class="section-heading mb-4">
                         <span class="section-heading-upper">Your masterpieces!</span>
@@ -105,7 +107,7 @@
                     </h2>
 
                     <div class="row">
-                        <div class="col-xl-9 mx-auto">
+                        <div class="col-xl-12 mx-auto">
                             @if (session('songs')[0] !== null)
                             <hr>
                             <div id="pagination-box-style" class="ajax-publication">
@@ -122,5 +124,6 @@
         </div>
     </div>
 </section>
+@endif
 
 @endsection

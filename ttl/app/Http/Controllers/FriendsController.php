@@ -206,6 +206,11 @@ class FriendsController extends Controller
         return redirect('/friends');
         */
 
+        if ($request->email === null)
+        {
+            return back()->with('errorEmpty', true);
+        }
+
         $friend = User::where('email', $request->email)->get();
 
         $count = $friend->count();
@@ -242,7 +247,7 @@ class FriendsController extends Controller
             $this->send_hello_message('', Auth::user(), $friend[0]);
         }
         
-        return back();
+        return back()->with('new_friend', $request->email);
 
     }
 

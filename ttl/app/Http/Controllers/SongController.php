@@ -58,6 +58,11 @@ class SongController extends Controller
     }
 
     public function add_song(Request $request){
+        if ($request->song_name === null || $request->chosen_genres === null || $request->file === null)
+        {
+            return back()->with('emptyfields', true);
+        }
+
         $response = SongServices::addSong($request);
         return back()->with($response, true);
 

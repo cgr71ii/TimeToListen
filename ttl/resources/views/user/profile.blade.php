@@ -10,7 +10,7 @@
 <section class="page-section cta">
     <div class="container">
         <div class="row">
-            <div class="col-xl-9 mx-auto">
+            <div class="col-xl-12 mx-auto">
                 <div class="cta-inner text-center rounded">
                     <h2 class="section-heading mb-4">
                         <span class="section-heading-lower">{{ Auth::user()->name }} {{ Auth::user()->lastname }}</span>
@@ -113,11 +113,11 @@
 <section class="page-section cta">
     <div class="container">
         <div class="row">
-            <div class="col-xl-11 mx-auto">
+            <div class="col-xl-12 mx-auto">
                 <div class="cta-inner text-center rounded">
 
                     <div class="row">
-                        <div class="col-md-10 offset-md-1">
+                        <div class="col-md-12 offset-md-0">
                         @if (session('publications')[0] !== null)
                         <hr>
                         <div id="pagination-box-style" class="ajax-publication">

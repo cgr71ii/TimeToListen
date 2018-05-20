@@ -1,4 +1,5 @@
 
+
 <form id="order-form" method="GET" action="{{ action('FriendsController@show') }}">
     {{ csrf_field() }}
     <select name="field" form="order-form">
@@ -54,10 +55,11 @@
             {{ csrf_field() }}
 
             <div class="modal-header">
+            
+            <h4 class="modal-title" id="removeFriendModalLabel">Remove Friend</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            <h4 class="modal-title" id="removeFriendModalLabel">Remove Friend</h4>
             </div>
             <div class="modal-body write-pub">
             Are you sure you want to delete {{ $friend->name }} from your friends?
