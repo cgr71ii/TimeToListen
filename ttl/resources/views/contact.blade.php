@@ -4,49 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="shortcut icon" type="image/png" href="/favicon.png">
     <title>Time to Listen</title>
-    <link rel="stylesheet" type="text/css" href="/css/root.css">
-    <link rel="stylesheet" type="text/css" href="/css/app.css">
-    <link rel="stylesheet" type="text/css" href="/css/contact.css">
     @include('general-css')
 </head>
 <body>
-    <div id="img-div">
-        <img src="line.png">
-    </div>
-    <div class="container">
-        <form method='post' action="{{ action('MailController@sendContactEmail') }}">
-        {{ csrf_field() }}
-            <label for="fname">First Name</label>
-            <input type="text" id="fname" name="firstname" placeholder="Your name...">
+    <section class="page-section cta">
+        <div class="row">
+            <div class="col-xl-9 mx-auto">
+                <div class="cta-inner text-center rounded">
+                    <div class="container">
 
-            <label for="lname">Last Name</label>
-            <input type="text" id="lname" name="lastname" placeholder="Your last name...">
+                        <h2 class="section-heading mb-0">
+                            <span class="section-heading-upper">We value your opinion</span>
+                            <span class="section-heading-lower">Contact Us!</span>
+                        </h2>
 
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Your Email...">     
+                        <hr>
 
-            <label for="subject">Subject</label>
-            <textarea id="subject" name="subject" placeholder="Write something..." style="height:200px"></textarea>
+                        <div class="row">
+                            <form method='post' action="{{ action('MailController@sendContactEmail') }}">
+                            {{ csrf_field() }}
+                                <div class="col-md-11 offset-md-1">
+                                    <label for="fname">First Name</label>
+                                    <input type="text" id="fname" name="firstname" placeholder="Your name...">
 
-            <input type="submit" value="Submit">
-            <input type="submit" name="submitted" value="Cancel">
-            @if (session('fail') !== null)
-                <hr>
-                <div class="alert alert-danger">
-                    <strong>Contact failed! Can't be empty fields.</strong>
+                                    <label for="lname">Last Name</label>
+                                    <input type="text" id="lname" name="lastname" placeholder="Your last name...">
+
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" name="email" placeholder="Your Email...">   
+                                </div>
+
+                                <div class="col-md-11 offset-md-1">
+                                    <hr>
+                                    <label for="subject">Subject</label>
+                                    <textarea id="subject" name="subject" placeholder="Write something..." style="height: auto; width:100%;" rows="6"></textarea>
+                                </div>
+                                <div class="col-md-11 offset-md-1">
+                                    <hr>
+                                    <input type="submit" value="Submit">
+                                    @if (session('fail') !== null)
+                                        <hr>
+                                        <div class="alert alert-danger">
+                                            <strong>Sending failed! There can't be any empty fields.</strong>
+                                        </div>
+
+                                    @elseif (session('sent') !== null)
+                                        <hr>
+                                        <div class="alert alert-success">
+                                            <strong>Message sent</strong>
+                                        </div>
+                                    @endif
+                                    <hr>
+
+                                    <a href="{{ action('UserController@show') }}">Go back</a>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
                 </div>
+            </div>
+        </div>
+    </section>
 
-            @elseif (session('sent') !== null)
-                <hr>
-                <div class="alert alert-success">
-                    <strong>Message sent</strong>
-                </div>
-            @endif
-
-        </form>
-    </div>
+    <footer class="footer text-center py-5">
+        <div class="container">
+            <h5>Copyright &copy; Time To Listen 2018</h5>
+        </div>
+    </footer>
 
 </body>
 </html>
