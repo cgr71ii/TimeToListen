@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Song;
 
+use Auth;
+
 class SongServices {
     public static function addSong($request){
         $rollback = false;

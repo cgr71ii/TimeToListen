@@ -56,6 +56,7 @@
             <input type="hidden" name="genre_id" value="{{ $genre->id }}">
 
             <div class="modal-header">
+            <h4 class="modal-title" id="modifyGenreModalLabel">Modify Genre</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -89,6 +90,8 @@
             <input type="hidden" name="genre_id" value="{{ $genre->id }}">
 
             <div class="modal-header">
+            
+            <h4 class="modal-title" id="removeGenreModalLabel">Remove Genre</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>

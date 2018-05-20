@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\DB;
 
 use App\Message;
 
+use Auth;
+
 class MessageServices {
     public static function sendMessage($request){
         $rollback = false;

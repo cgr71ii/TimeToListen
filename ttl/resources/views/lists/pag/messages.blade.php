@@ -64,11 +64,12 @@
             <input type="hidden" name="message_id" value="{{ $message->id }}">
 
             <div class="modal-header">
+            
+            <h4 class="modal-title" id="removeMessageModalLabel">Remove Message</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            <h4 class="modal-title" id="removeMessageModalLabel">Remove Message</h4>
-            </div>
+        </div>
             <div class="modal-body write-pub">
             Are you sure you want to delete this message?
             </div>

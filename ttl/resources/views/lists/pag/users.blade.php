@@ -101,10 +101,11 @@
             <input type="hidden" name="user_id" value="{{ $user->id }}">
 
             <div class="modal-header">
+            
+            <h4 class="modal-title" id="modifyUserModalLabel">Modify User</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            <h4 class="modal-title" id="modifyUserModalLabel">Modify User</h4>
             </div>
             <div class="modal-body write-pub">
             <p>Changing {{ $user->email }}'s Informacion</p>
@@ -179,10 +180,11 @@
             <input type="hidden" name="user_id" value="{{ $user->id }}">
 
             <div class="modal-header">
+            
+            <h4 class="modal-title" id="removeUserModalLabel">Remove Publication</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            <h4 class="modal-title" id="removeUserModalLabel">Remove Publication</h4>
             </div>
             <div class="modal-body write-pub">
             Are you sure you want to delete this publication?
