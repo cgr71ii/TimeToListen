@@ -3,29 +3,41 @@
 
 @section('title', "Groups")
 
-@section('css')
-    <!-- All css imports or <style></style> here. -->
-
-    <link rel="stylesheet" type="text/css" href="/css/groups.css">
-    <link rel="stylesheet" type="text/css" href="/css/app.css">
-@endsection
-
 @section('content')
 
-<h3 style="text-align: center;">New Name</h3>
+<section class="page-section cta">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-9 mx-auto">
+                <div class="cta-inner text-center rounded">
+                    <h2 class="section-heading mb-4">
+                        <span class="section-heading-lower">New Group Name</span>
+                    </h2>
 
-<form method="POST" action="{{ action('GroupController@updateOnlyName') }}">
-    {{ csrf_field() }}
+                    <form method="POST" action="{{ action('GroupController@updateOnlyName') }}">
+                        {{ csrf_field() }}
 
-    <input type="hidden" name="group_id" value="{{ $id }}">
+                        <input type="hidden" name="group_id" value="{{ $id }}">
 
-    <div style="text-align: center;margin-top: 5%;">
-        <p>Name </p>
-        <input type="text" id="new-group-name" name="name" style="width:50%"> 
+                        <div style="text-align: center;margin-top: 5%;">
+                            <div class="row">
+                                <div class="col-md-4 offset-md-4">
+                                    <input type="text" id="new-group-name" name="name" style="width:100%">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 offset-md-4">
+                                <div style="text-align: center; margin-top: 5%;">
+                                    <input type="submit" value="Change">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+            </div>
+        </div>
     </div>
-    <div style="text-align: center; margin-top: 5%;">
-        <input type="submit" value="Send">
-    </div>
-</form>
+</section>
 
 @endsection

@@ -35,11 +35,21 @@
   @endif
     {{ csrf_field() }}
     <p>Publication contains <input type="text" name="pub_contains"></p>
+
+    <div class="row">
+    <div class="col-md-11 offset-md-1">
     <p>
       Publication between <input type="date" name="min_date"> and <input type="date" name="max_date">
-      (<input type="radio" name="date_field" value="created_at" checked>Created 
-      <input type="radio" name="date_field" value="updated_at">Updated)
+      <div class="row">
+        <div class="col-md-9 offset-md-1">
+          (<input type="radio" name="date_field" value="created_at" checked>Created 
+          <input type="radio" name="date_field" value="updated_at">Updated)
+        </div>
+      </div>
     </p>
+    </div>
+    </div>
+
     <p>
       Order by 
       <select name="field" form="find-form">
