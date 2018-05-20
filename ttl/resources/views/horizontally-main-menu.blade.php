@@ -6,35 +6,52 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav mx-auto">
-                <li class="nav-item px-lg-3">
-                    <a class="nav-link text-uppercase text-expanded" href="{{ action('UserController@show') }}">Profile</a>
-                </li>
-                <li class="nav-item px-lg-3">
-                    <a class="nav-link text-uppercase text-expanded" href="{{ action('FriendsController@show') }}">Friends</a>
-                </li>
-                <li class="nav-item px-lg-3">
-                    <a class="nav-link text-uppercase text-expanded" href="{{ action('MessageController@show') }}">Messages</a>
-                </li>
-                <li class="nav-item px-lg-3">
-                    <a class="nav-link text-uppercase text-expanded" href="{{ action('SongController@show') }}">Songs</a>
-                </li>
-                <li class="nav-item px-lg-3">
-                    <a class="nav-link text-uppercase text-expanded" href="{{ action('GroupController@show') }}">Groups</a>
-                </li>
-                @if (Auth::user()->type == 1)
-                <li class="nav-item px-lg-3">
-                    <a class="nav-link text-uppercase text-expanded" href="{{ action('UserController@showAdminLinks') }}">Admin Links</a>
-                </li>
+
+                @if (Auth::user() != null)
+                    <li class="nav-item px-lg-3">
+                        <a class="nav-link text-uppercase text-expanded" href="{{ action('UserController@show') }}">Profile</a>
+                    </li>
+                    <li class="nav-item px-lg-3">
+                        <a class="nav-link text-uppercase text-expanded" href="{{ action('FriendsController@show') }}">Friends</a>
+                    </li>
+                    <li class="nav-item px-lg-3">
+                        <a class="nav-link text-uppercase text-expanded" href="{{ action('MessageController@show') }}">Messages</a>
+                    </li>
+                    <li class="nav-item px-lg-3">
+                        <a class="nav-link text-uppercase text-expanded" href="{{ action('SongController@show') }}">Songs</a>
+                    </li>
+                    <li class="nav-item px-lg-3">
+                        <a class="nav-link text-uppercase text-expanded" href="{{ action('GroupController@show') }}">Groups</a>
+                    </li>
+                    @if (Auth::user()->type == 1)
+                        <li class="nav-item px-lg-3">
+                            <a class="nav-link text-uppercase text-expanded" href="{{ action('UserController@showAdminLinks') }}">Admin Links</a>
+                        </li>
+                    @endif
+                    <li class="nav-item px-lg-3">
+                        <a class="nav-link text-uppercase text-expanded" href="{{ action('UserController@showSettings') }}">Settings</a>
+                    </li>
+                    <li class="nav-item px-lg-3">
+                        <a class="nav-link text-uppercase text-expanded" href="/contact">Contact</a>
+                    </li>
+                    <li class="nav-item px-lg-3">
+                        <a class="nav-link text-uppercase text-expanded" href="/information">About</a>
+                    </li>
+                @elseif (Auth::user() == null)
+                    <li class="nav-item px-lg-3">
+                        <a class="nav-link text-uppercase text-expanded" href="{{ action('UserController@show') }}">Log In</a>
+                    </li>
+                    <li class="nav-item px-lg-3">
+                        <a class="nav-link text-uppercase text-expanded" href="/loginsignup">Sign Up</a>
+                    </li>
+                    <li class="nav-item px-lg-3">
+                        <a class="nav-link text-uppercase text-expanded" href="/contact">Contact</a>
+                    </li>
+                    <li class="nav-item px-lg-3">
+                        <a class="nav-link text-uppercase text-expanded" href="/information">About</a>
+                    </li>
                 @endif
-                <li class="nav-item px-lg-3">
-                    <a class="nav-link text-uppercase text-expanded" href="{{ action('UserController@showSettings') }}">Settings</a>
-                </li>
-                <li class="nav-item px-lg-3">
-                    <a class="nav-link text-uppercase text-expanded" href="/contact">Contact</a>
-                </li>
-                <li class="nav-item px-lg-3">
-                    <a class="nav-link text-uppercase text-expanded" href="/information">About</a>
-                </li>
+
             </ul>
         </div>
     </div>
