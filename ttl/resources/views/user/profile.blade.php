@@ -30,9 +30,9 @@
                         <div id="user-info-img">
                             <!-- The conditinal it will check if Auth::user()->pic_profile_path exists -->
                             @if (File::exists(Auth::user()->pic_profile_path))
-                            <img width="300" height="300" src="{{ Auth::user()->pic_profile_path }}" alt="User Image">
+                            <img width="300" height="400" src="{{ Auth::user()->pic_profile_path }}" alt="User Image">
                             @else
-                            <img width="300" height="300" src="default-user.png" alt="User Image">
+                            <img width="300" height="400" src="default-user.png" alt="User Image">
                             @endif
                         </div>
                         <div id="user-info-content">

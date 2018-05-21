@@ -123,8 +123,8 @@
                         <th><input type="email" name="username" value="{{ $user->email }}"></th>
                     </tr>
                     <tr>
-                        <th>Password&nbsp;</th>
-                        <th><input type="password" name="password" value="{{ $user->password }}"></th>
+                        <th>New Password&nbsp;</th>
+                        <th><input type="password" name="password"></th>
                     </tr>
                     <tr>
                         <th>Birthday&nbsp;</th>

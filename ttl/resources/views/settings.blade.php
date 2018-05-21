@@ -16,9 +16,9 @@
                     <div id="user-info-wrapper">
                         <div id="user-info-img">
                             @if (File::exists(Auth::user()->pic_profile_path))
-                            <img width="300" heigth"300" src="{{ Auth::user()->pic_profile_path }}" alt="User Image">
+                            <img width="300" height"400" src="{{ Auth::user()->pic_profile_path }}" alt="User Image">
                             @else
-                            <img width="300" heigth"300" src="default-user.png" alt="User Image">
+                            <img width="300" height"400" src="default-user.png" alt="User Image">
                             @endif
                         </div>
                         <br>
@@ -28,7 +28,7 @@
                                 <div class="row">
                                     <div class="col-md-12 offset-md-0">
                                         @if (Auth::user()->song_status !== null)
-                                        <p><img width="32" heigth"32" src="favicon.png"> {{ Auth::user()->song_status->name }} <img width="32" heigth"32" src="favicon.png"></p>
+                                        <p><img width="32" height"32" src="favicon.png"> {{ Auth::user()->song_status->name }} <img width="32" height"32" src="favicon.png"></p>
                                         @if (Auth::user()->song_status !== null && File::exists(Auth::user()->song_status->song_path))
                                         <audio style="width:350px;" controls id="myaudio"><source src="{{ Auth::user()->song_status->song_path }}" type="audio/wav">Audio not Available!</audio>
 
