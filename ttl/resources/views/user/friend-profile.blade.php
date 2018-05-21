@@ -18,9 +18,9 @@
                     <div id="user-info-wrapper">
                         <div id="user-info-img">
                             @if (File::exists(session('friend')->pic_profile_path))
-                            <img width="300" heigth"300"  src="{{ asset(session('friend')->pic_profile_path) }}" alt="User Image">
+                            <img width="300" height"400"  src="{{ asset(session('friend')->pic_profile_path) }}" alt="User Image">
                             @else
-                            <img width="300" heigth"300"  src="{{ asset('default-user.png') }}" alt="User Image">
+                            <img width="300" height"400"  src="{{ asset('default-user.png') }}" alt="User Image">
                             @endif
                         </div>
                         <div id="user-info-content">
@@ -28,7 +28,7 @@
                         <br>
                             <div id="user-info-content-wrapper">
                             @if (session('friend')->song_status !== null)
-                            <p><img width="32" heigth"32" src="{{ asset('favicon.png') }}"> {{ session('friend')->song_status->name }} <img width="32" heigth"32" src="{{ asset('favicon.png') }}"></p>
+                            <p><img width="32" height"32" src="{{ asset('favicon.png') }}"> {{ session('friend')->song_status->name }} <img width="32" height"32" src="{{ asset('favicon.png') }}"></p>
                             @if (Auth::user()->song_status !== null && File::exists(session('friend')->song_status->song_path))
                             <div class="row">
                                 <div class="col-md-10 offset-md-1">
