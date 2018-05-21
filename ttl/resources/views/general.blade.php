@@ -2,9 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="shortcut icon" type="image/png" href="/favicon.png">
+    <style>
+      #map {
+        height: 400px;
+        width: 100%;
+       }
+    </style>
     @include('general-css')
     @yield('css')
     <title>
@@ -15,17 +21,26 @@
     </title>
 </head>
 <body>
-    <div id="general-main-menu-wrapper">
+
+    <h1 class="site-heading text-center text-white d-none d-lg-block">
+      <span class="site-heading-upper text-primary mb-3">Keeping you in touch, through music.</span>
+      <span class="site-heading-lower">Time To Listen</span>
+    </h1>
+
+    @if (!isset($menu) || $menu == true)
         @include('horizontally-main-menu')
-    </div>
-    <div id="general-content-wrapper">
-        @yield('content')
-    </div>
-    <div id="general-footer-height"></div>
-    <div id="general-footer">
-        <p>Design of Software System</p>
-        <p>2017 - 2018</p>
-        <p>Time to Listen</p>
-    </div>
+    @endif
+        
+    @yield('content')
+    
+    <footer class="footer text-center py-5">
+        <div class="container">
+            <h5>Copyright &copy; Time To Listen 2018</h5>
+        </div>
+    </footer>
+
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    
 </body>
 </html>

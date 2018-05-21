@@ -9,88 +9,27 @@ use App\Song;
 use Cookie;
 use Redirect;
 use Session;
+use DB;
+
+use Auth;
 
 class UserController extends Controller
 {
 
-    public function show(Request $request)
+    private function initializationLogin(Request $request)
     {
-        if  (session('user') !== null)
+        $credentials = ['email' => $request->username, 'password' => $request->password];
+
+        if (Auth::attempt($credentials))
         {
-
-            {
-                // We update pagination recalling the methods again.
-                
-                $publications = Publication::where('user_id', session('user')->id);
-
-                if ($request->has('order-form') || $request->has('find-form'))
-                {
-                    session([   'pub_data_field' => null, 
-                                'pub_data_direction' => null,
-                                'pub_data_min_date' => null,
-                                'pub_data_max_date' => null,
-                                'pub_data_pub_contains' => null,
-                                'pub_data_date_field' => null]);
-                }
-                else if (session('pub_data_field') === null || (session('pub_data_field') == 'created_at' && session('pub_data_direction') == 'desc'))
-                {
-                    session([   'pub_data_field' => 'created_at',
-                                'pub_data_direction' => 'desc']);
-                }
-
-                if (session('pub_data_field') !== null)
-                {
-                    $publications = $publications->orderBy(session('pub_data_field'), session('pub_data_direction'));
-                }
-                else if ($request->has('field') && $request->has('direction'))
-                {
-                    $publications = $publications->orderBy($request->field, $request->direction);
-
-                    session([   'pub_data_field' => $request->field,
-                                'pub_data_direction' => $request->direction]);
-                }
-
-                if (session('pub_data_pub_contains') !== null)
-                {
-                    $publications = $publications->where('text', 'like', '%' . session('pub_data_pub_contains') . '%');
-                }
-                else if ($request->has('pub_contains') && !empty($request->pub_contains))
-                {
-                    $publications = $publications->where('text', 'like', '%' . $request->pub_contains . '%');
-                    
-                    session(['pub_data_pub_contains' => $request->pub_contains]);
-                }
-
-                if (session('pub_data_min_date') !== null)
-                {
-                    $publications = $publications->whereBetween(session('pub_data_date_field'), array(session('pub_data_min_date'), session('pub_data_max_date')));
-                }
-                else if ($request->has('min_date') && $request->has('max_date') && $request->has('date_field') && !empty($request->min_date) && !empty($request->max_date) && strtotime($request->min_date) <= strtotime($request->max_date))
-                {
-                    $min_date = "$request->min_date 00:00:00";
-                    $max_date = "$request->max_date 23:59:59";
-
-                    $publications = $publications->whereBetween($request->date_field, array($min_date, $max_date));
-
-                    session([   'pub_data_min_date' => $min_date,
-                                'pub_data_max_date' => $max_date,
-                                'pub_data_date_field' => $request->date_field]);
-                }
-
-                $publications = $publications->simplePaginate(5);
-
-                session([   'publications' => $publications,
-                            'publication_session_name' => 'publications']);
-            }
-
-            if ($request->ajax())
-            {
-                return view('publication.publications', ['publications' => session('publications'), 'actions' => true, 'group_notify' => true])->render();  
-            }
-
-            return view('user.profile', ['group_notify' => true]);
+            return true;
         }
 
+        return false;
+    }
+
+    public function showAfterLogin(Request $request)
+    {
         if ($request->has('username') && $request->has('password'))
         {
             if ($request->has('remember'))
@@ -106,23 +45,16 @@ class UserController extends Controller
 
             // Checking if user is valid.
 
-            $count = User::where('email', $request->username)->count();
-
-            if ($count == 1)
+            if ($this->initializationLogin($request))
             {
                 $user = User::where('email', $request->username)->first();
+                $publications = Publication::where('user_id', $user->id)->orderBy('created_at', 'desc')->simplePaginate(5);
 
-                if ($user->password === $request->password)
-                {                    
-                    //$publications = $user->publication->paginate(1);
-                    $publications = Publication::where('user_id', $user->id)->orderBy('created_at', 'desc')->simplePaginate(5);
+                session([   //'user' => $user,
+                            'publications' => $publications,
+                            'publication_session_name' => 'publications']);
 
-                    session([   'user' => $user,
-                                'publications' => $publications,
-                                'publication_session_name' => 'publications']);
-
-                    return view('user.profile');
-                }
+                return view('user.profile');
             }
 
             return redirect('/')->with('loginfail', true);
@@ -131,20 +63,88 @@ class UserController extends Controller
         return redirect('/');
     }
 
-    public function showFriend(Request $request, $friend_email)
+    public function show(Request $request)
     {
-        if  (session('user') === null)
+        // We update pagination recalling the methods again.
+        
+        $publications = Publication::where('user_id', Auth::user()->id);
+
+        if ($request->has('order-form') || $request->has('find-form'))
         {
-            return redirect('/');
+            session([   'pub_data_field' => null, 
+                        'pub_data_direction' => null,
+                        'pub_data_min_date' => null,
+                        'pub_data_max_date' => null,
+                        'pub_data_pub_contains' => null,
+                        'pub_data_date_field' => null]);
+        }
+        else if (session('pub_data_field') === null || (session('pub_data_field') == 'created_at' && session('pub_data_direction') == 'desc'))
+        {
+            session([   'pub_data_field' => 'created_at',
+                        'pub_data_direction' => 'desc']);
         }
 
+        if (session('pub_data_field') !== null)
+        {
+            $publications = $publications->orderBy(session('pub_data_field'), session('pub_data_direction'));
+        }
+        else if ($request->has('field') && $request->has('direction'))
+        {
+            $publications = $publications->orderBy($request->field, $request->direction);
+
+            session([   'pub_data_field' => $request->field,
+                        'pub_data_direction' => $request->direction]);
+        }
+
+        if (session('pub_data_pub_contains') !== null)
+        {
+            $publications = $publications->where('text', 'like', '%' . session('pub_data_pub_contains') . '%');
+        }
+        else if ($request->has('pub_contains') && !empty($request->pub_contains))
+        {
+            $publications = $publications->where('text', 'like', '%' . $request->pub_contains . '%');
+            
+            session(['pub_data_pub_contains' => $request->pub_contains]);
+        }
+
+        if (session('pub_data_min_date') !== null)
+        {
+            $publications = $publications->whereBetween(session('pub_data_date_field'), array(session('pub_data_min_date'), session('pub_data_max_date')));
+        }
+        else if ($request->has('min_date') && $request->has('max_date') && $request->has('date_field') && !empty($request->min_date) && !empty($request->max_date) && strtotime($request->min_date) <= strtotime($request->max_date))
+        {
+            $min_date = "$request->min_date 00:00:00";
+            $max_date = "$request->max_date 23:59:59";
+
+            $publications = $publications->whereBetween($request->date_field, array($min_date, $max_date));
+
+            session([   'pub_data_min_date' => $min_date,
+                        'pub_data_max_date' => $max_date,
+                        'pub_data_date_field' => $request->date_field]);
+        }
+
+        $publications = $publications->simplePaginate(5);
+
+        session([   'publications' => $publications,
+                    'publication_session_name' => 'publications']);
+
+        if ($request->ajax())
+        {
+            return view('publication.publications', ['publications' => session('publications'), 'actions' => true, 'group_notify' => true])->render();  
+        }
+
+        return view('user.profile', ['group_notify' => true]);
+    }
+
+    public function showFriend(Request $request, $friend_email)
+    {
         $count = User::where('email', $friend_email)->count();
 
         if ($count == 1)
         {
             $friend = User::where('email', $friend_email)->first();
 
-            foreach (session('user')->following()->get() as $f)
+            foreach (Auth::user()->following()->get() as $f)
             {
                 if ($f->id == $friend->id)
                 {
@@ -228,6 +228,7 @@ class UserController extends Controller
     public function logout()
     {
         //session(['user' => null]);
+        Auth::logout();
         Session::flush();
 
         return redirect('/');
@@ -235,6 +236,11 @@ class UserController extends Controller
 
     public function signup(Request $request)
     {
+        if($request['submitted'] == "Cancel")
+        {
+            return redirect('/');
+        }
+
         if ($request->has('name') && $request->has('lname') && 
             $request->has('username') && $request->has('password') && 
             $request->has('birthday'))
@@ -243,41 +249,46 @@ class UserController extends Controller
                 empty($request->username) || empty($request->password) ||
                 empty($request->birthday))
             {
-                return redirect('/')->with('signupfailemptyfield', true);
+                return redirect('/signup')->with('signupfailemptyfield', true);
             }
 
             $count = User::where('email', $request->username)->count();
 
             if ($count != 0)
             {
-                return redirect('/')->with('signupfailuserexists', true);
+                return redirect('/signup')->with('signupfailuserexists', true);
             }
 
             $time = time();
 
             $user = new User([  'email' => $request->username,
-                                'password' => $request->password,
+                                'password' => bcrypt($request->password),
                                 'name' => $request->name,
                                 'lastname' => $request->lname,
                                 'birthday' => "$request->birthday 00:00:00",
-                                'pic_profile_path' => "user/pic_profile/$request->username - $time.png"]);
+                                'pic_profile_path' => "default-user.png"]);
             $user->save();
 
-            session(['user' => $user]);
+            //session(['user' => $user]);
 
-            return redirect('/profile');
+            if ($this->initializationLogin($request))
+            {
+                $user = User::where('email', $request->username)->first();
+                $publications = Publication::where('user_id', $user->id)->orderBy('created_at', 'desc')->simplePaginate(5);
+
+                session([   //'user' => $user,
+                            'publications' => $publications,
+                            'publication_session_name' => 'publications']);
+
+                return redirect('/profile');
+            }
         }
 
-        return redirect('/')->with('signupfail', true);
+        return redirect('/signup')->with('signupfail', true);
     }
 
     public function removePublication(Request $request)
     {
-        if (session('user') === null)
-        {
-            return redirect('/');
-        }
-
         if ($request->has('publication_id'))
         {
             $pub = Publication::find($request->publication_id);
@@ -293,11 +304,6 @@ class UserController extends Controller
 
     public function modifyPublication(Request $request)
     {
-        if (session('user') === null)
-        {
-            return redirect('/');
-        }
-
         if ($request->has('publication') && $request->has('publication_id'))
         {
             if (empty($request->publication))
@@ -319,6 +325,13 @@ class UserController extends Controller
         }
         
         return back()->with('error_unexpected', true);
+    }
+
+    public function listLog(Request $request)
+    {
+        $id = DB::table('log')->orderBy('unixTime', 'desc')->simplePaginate();
+
+        return view('lists.list-log', ['logs' => $id]);
     }
 
     public function listUsers(Request $request)
@@ -396,14 +409,9 @@ class UserController extends Controller
 
     public function remove(Request $request)
     {
-        if (session('user') === null)
-        {
-            return redirect('/');
-        }
+        $my_id = Auth::user()->id;
 
-        $my_id = session('user')->id;
-
-        $user = session('user');
+        $user = Auth::user();
 
         if ($request->has('user_id'))
         {
@@ -414,7 +422,8 @@ class UserController extends Controller
 
         if ($my_id == $request->user_id)
         {
-            session(['user' => null]);
+            //session(['user' => null]);
+            Auth::logout();
 
             return redirect('/');
         }
@@ -424,22 +433,12 @@ class UserController extends Controller
 
     public function showSettings()
     {
-        if (session('user') === null)
-        {
-            return redirect('/');
-        }
-
         return view('settings');
     }
 
     public function update(Request $request)
     {
-        if (session('user') === null)
-        {
-            return redirect('/');
-        }
-
-        $user = session('user');
+        $user = Auth::user();
 
         if ($request->has('user_id'))
         {
@@ -481,30 +480,37 @@ class UserController extends Controller
             }
         }
 
+        if ($request->has('password') && !empty($request->password))
+        {
+            $user->password = bcrypt($request->password);
+        }
+
+        if ($request->has('isadmin'))
+        {
+            $user->type = $request->isadmin;
+        }
+
         $user->save();
 
+        /*
         if (!$request->has('user_id') || $request->user_id == session('user')->id)
         {
             session(['user' => $user]);
         }
+        */
 
         return back()->with('success', 'You have successfully changed your information.');
     }
 
     public function updateImage(Request $request)
     {
-        if (session('user') === null)
-        {
-            return redirect('/');
-        }
-
         request()->validate([
 
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 
         ]);
 
-        $user = session('user');
+        $user = Auth::user();
 
         $image = $request->file('image');
 
@@ -516,9 +522,14 @@ class UserController extends Controller
 
         $user->save();
 
-        session(['user' => $user]);
+        //session(['user' => $user]);
 
         return back()->with('success','You have successfully uploaded the image.');
+    }
+
+    public function showAdminLinks(Request $request)
+    {
+        return view('user.admin-links');
     }
 
 }

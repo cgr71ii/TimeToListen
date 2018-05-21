@@ -1,8 +1,3 @@
-
-<h2>My Groups</h2>
-
-<hr>
-
 <div class="pagination-element-box-non-style">
     <form id="order-form" method="GET" action="{{ action('GroupController@show') }}">
         {{ csrf_field() }}
@@ -30,52 +25,53 @@
 </span>
 @endif
 
-@foreach ($groups as $group)
-<div class="pagination-element-box-non-style">
-    <div class="col-md-6" style="text-align: center;">
-        <form method="GET" name="group{{ $group->id }}" action="{{ action('GroupController@groupPublications') }}">
-            <input type="hidden" name="group_id" value="{{ $group->id }}">
 
-            <a href="#" onclick="group{{ $group->id }}.submit();">{{ $group->name }}</a>
-        </form>
-    </div>
-    <div class="col-md-6" style="text-align: center;">
-        @if ($group->creator_id == session('user')->id)
-        <a href="#" data-id="{{ $group->id }}" data-title="Delete Group" style="margin-left: 10%;color: red" data-toggle="modal" data-target="#removeGroupModal{{ $group->id }}">Click here to remove the group</a>
-        @else
-        <a href="#" data-id="{{ $group->id }}" data-title="Delete Group" style="margin-left: 10%;color: red" data-toggle="modal" data-target="#removeGroupModal{{ $group->id }}">Click here to leave the group</a>
-        @endif
-    </div>
-</div>
+        @foreach ($groups as $group)
+        <hr>
+            
+            <form method="GET" name="group{{ $group->id }}" action="{{ action('GroupController@groupPublications') }}">
+                <input type="hidden" name="group_id" value="{{ $group->id }}">
 
-<div class="modal fade" id="removeGroupModal{{ $group->id }}" tabindex="-1" role="dialog" aria-labelledby="removeGroupModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-        <form method="POST" action="{{ action('GroupController@exit', ['id' => $group->id]) }}">
-            {{ csrf_field() }}
+                <a href="#" onclick="group{{ $group->id }}.submit();">{{ $group->name }}</a>
+            </form>
+                @if ($group->creator_id == Auth::user()->id)
+                <a href="#" data-id="{{ $group->id }}" data-title="Delete Group" style="color: red" data-toggle="modal" data-target="#removeGroupModal{{ $group->id }}">Remove</a>
+                @else
+                <a href="#" data-id="{{ $group->id }}" data-title="Delete Group" style="color: red" data-toggle="modal" data-target="#removeGroupModal{{ $group->id }}">Leave</a>
+                @endif
 
-            <input type="hidden" name="group_id" value="{{ $group->id }}">
 
-            <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            <h4 class="modal-title" id="removeGroupModalLabel">Remove Group</h4>
+        <div class="modal fade" id="removeGroupModal{{ $group->id }}" tabindex="-1" role="dialog" aria-labelledby="removeGroupModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <form method="POST" action="{{ action('GroupController@exit', ['id' => $group->id]) }}">
+                    {{ csrf_field() }}
+
+                    <input type="hidden" name="group_id" value="{{ $group->id }}">
+
+                    <div class="modal-header">
+                    
+                    <h4 class="modal-title" id="removeGroupModalLabel">Remove Group</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body write-pub">
+                    Are you sure you want to delete this group?
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <span class="pull-right">
+                        <button type="submit" class="btn btn-primary">Delete</button>
+                    </span>
+                    </div>
+                </form>
+                </div>
+                </div>
             </div>
-            <div class="modal-body write-pub">
-            Are you sure you want to delete this group?
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <span class="pull-right">
-                <button type="submit" class="btn btn-primary">Delete</button>
-            </span>
-            </div>
-        </form>
-        </div>
-    </div>
-</div>
-@endforeach
+        @endforeach
+
+<hr>
 
 @if (count($groups) != 0)
 <span class="link-pagination">

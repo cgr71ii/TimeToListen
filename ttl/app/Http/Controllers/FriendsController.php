@@ -7,6 +7,8 @@ use App\User;
 use App\Message;
 use DB;
 
+use Auth;
+
 class FriendsController extends Controller
 {
 
@@ -39,12 +41,6 @@ class FriendsController extends Controller
 
     public function show(Request $request)
     {
-
-        if (session('user') === null)
-        {
-            return redirect('/');
-        }
-
         /*
         if(request()->has('empty'))
         {
@@ -56,7 +52,7 @@ class FriendsController extends Controller
         }
         */
 
-        $friends = User::find(session('user')->id)->following();
+        $friends = User::find(Auth::user()->id)->following();
 
         if ($request->has('order-form'))
         {
@@ -137,11 +133,6 @@ class FriendsController extends Controller
 
     public function deleteFriend(Request $request, $email)
     {
-        if (session('user') === null)
-        {
-            return redirect('/');
-        }
-        
         /*
         $friends = $this->getFriends(session('user')->id);
 
@@ -154,7 +145,7 @@ class FriendsController extends Controller
         }
         */
 
-        $friends = User::find(session('user')->id)->following()->get();
+        $friends = User::find(Auth::user()->id)->following()->get();
 
         foreach($friends as $friend)
         {
@@ -170,7 +161,7 @@ class FriendsController extends Controller
     private function send_hello_message($text, $me, $receptor)
     {
         $message = new Message([
-            'user_id' => session('user')->id,
+            'user_id' => Auth::user()->id,
             'title' => "Hello, i'm $me->name $me->lastname",
             'text' => "I'm following you! $text",
             'read' => false,
@@ -215,72 +206,63 @@ class FriendsController extends Controller
         return redirect('/friends');
         */
 
+        if ($request->email === null)
+        {
+            return back()->with('errorEmpty', true);
+        }
+
         $friend = User::where('email', $request->email)->get();
 
         $count = $friend->count();
 
         if($count == 0)
         {
-            return back()->with("The user $request->email does not exist.");
+            //"The user $request->email does not exist."
+            return back()->with('errorEmail',$request->email);
         }
-        else if ($friend[0]->id == session('user')->id)
+        else if ($friend[0]->id == Auth::user()->id)
         {
-            return back()->with('error_self_friend', true);
+            return back()->with('errorSelfFriend', true);
         }
 
-        $my_friends = session('user')->following;
+        $my_friends = Auth::user()->following;
 
         foreach ($my_friends as $my_friend)
         {
             if ($my_friend->id == $friend[0]->id)
             {
-                return back()->with("The user $request->email is your friend already.");
+                //"The user $request->email is your friend already."
+                return back()->with('errorAlreadyFriend',$request->email);
             }
         }
 
-        session('user')->following()->attach($friend[0]->id);
+        Auth::user()->following()->attach($friend[0]->id);
 
         if ($request->has('additional'))
         {
-            $this->send_hello_message($request->additional, session('user'), $friend[0]);
+            $this->send_hello_message($request->additional, Auth::user(), $friend[0]);
         }
         else
         {
-            $this->send_hello_message('', session('user'), $friend[0]);
+            $this->send_hello_message('', Auth::user(), $friend[0]);
         }
         
-        return back();
+        return back()->with('new_friend', $request->email);
 
     }
 
-    public function deleteF(Request $request)
+    public function deleteF(Request $request, $friendEmail)
     {
-        $friend = $request->friend;
-        if ($request->has('confirm')) {
-            if ($request->confirm == 'Yes') {
-                $user1 = DB::table('user_user')->where('user_id',session('user')->id)->where('user_friend_id',$friend)->get();
-                $user2 = DB::table('user_user')->where('user_friend_id',session('user')->id)->where('user_id',$friend)->get();
+        $friends = User::find(Auth::user()->id)->following()->get();
 
-                if($user1->count()>0)
-                {
-                    foreach($user1 as $user)
-                    {
-                        session('user')->following()->detach($friend);
-                    }
-                }
-                if($user2->count()>0)
-                {
-                    foreach($user2 as $user)
-                    {
-                        $u=User::find($user->user_id);
-                        $u->following()->detach(session('user'));
-                    }
-                }
+        foreach($friends as $friend)
+        {
+            if ($friend->email ==  $friendEmail)
+            {
+                Auth::user()->following()->detach($friend);
             }
-            else if ($request->confirm == 'No') {
-                return redirect('/friends');
-            } 
         }
+
         return redirect('/friends');
     }
 

@@ -2,77 +2,92 @@
 
 @section('title', "Groups")
 
-@section('css')
-    <!-- All css imports or <style></style> here. -->
-
-    <link rel="stylesheet" type="text/css" href="/css/general.css">
-    <link rel="stylesheet" type="text/css" href="/css/groups.css">
-    <link rel="stylesheet" type="text/css" href="/css/app.css">
-    <link rel="stylesheet" type="text/css" href="/css/pagination.css">
-@endsection
-
 @section('content')
-    <!--All body code here.-->
 
-    <h2 style="text-align: center;">{{ $group->name }}</h2>
-    
-    @if (session('user')->id == $group->creator_id)
-    <p style="margin-bottom: 4%;text-align: center;">
-        <a href="{{ action('GroupController@showChangeName', ['id' => $group->id]) }}" style="font-size:75%;color: red;" >Change Name</a>
-    </p>
-    @endif
+<section class="page-section cta">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12 mx-auto">
+                <div class="cta-inner text-center rounded">
+                    <h2 class="section-heading mb-4">
+                        <span class="section-heading-lower">{{ $group->name }}</span>
+                    </h2>
 
-    <div id="members">
-        <div id="add-friend">
-            <h4 style="text-align: center;">Add Friend</h4>
-            
-            <form method="POST" action="{{ route('my_route',['id' => $group->id ]) }}">
-                {{ csrf_field() }} 
-
-                <input type="hidden" name="group_id" value = {{ $group->id }}>
-                <div class="selection"> 
-                    <div class="block">
-                        <p class="text">Select Friends</p>
+                    <div class="row">
+                        <div class="col-md-4 offset-md-4">
+                            @if (Auth::user()->id == $group->creator_id)
+                            <p style="margin-top: -10%;text-align: center;">
+                                <a href="{{ action('GroupController@showChangeName', ['id' => $group->id]) }}" style="font-size:75%;color: blue;" >Change Name</a>
+                            </p>
+                            @endif
+                        </div>
                     </div>
-                    <select multiple name="friend_list[]" style="width: 100%;height: 200px;">
-                        @foreach ($friends as $friend)
-                        <option value="{{ $friend->id }}">{{ $friend->name }} {{$friend->lastname}}  ({{ $friend->email }})</option>
-                        @endforeach
-                        <option value="allfriends" selected> All Friends </option>
-                    </select>
-                </div>
-                <div style="text-align: center;margin-top: 5%;">
-                    <button type="sumbmit" id="button"> Send </button>
-                </div>
-            </form>
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-md-12 offset-md-0">
+                            <h4 style="text-align: center;">Add Friend</h4>
+                            <hr>
+                            
+                            <form method="POST" action="{{ route('my_route',['id' => $group->id ]) }}">
+                                {{ csrf_field() }} 
+                                <input type="hidden" name="group_id" value = {{ $group->id }}>
+                                <div>
+                                    <select multiple name="friend_list[]">
+                                        @foreach ($friends as $friend)
+                                        <option value="{{ $friend->id }}">{{ $friend->name }} {{$friend->lastname}}  ({{ $friend->email }})</option>
+                                        @endforeach
+                                        <option value="allfriends" selected> All Friends </option>
+                                    </select>
+                                </div>
+                                <div style="text-align: center;margin-top: 5%;">
+                                    {!! Form::submit('Add To Group') !!}
+                                </div>
+                            </form>
+                        </div>
+                    
+                        <div class="col-md-12 offset-md-0">
+                            <hr style="margin-top: 5%;">
+                            <h4 style="text-align: center;">Belong To The Group</h4>
+                            <hr>
+                            @foreach ($members as $member)
+                                @if ($member->id == Auth::user()->id)
+                                <p><a href="{{ action('UserController@show') }}" style="color: blue;" >{{ $member->name }} {{$member->lastname}} ({{ $member->email }})</a></p>
+                                @else
+                                <p><a href="{{ action('UserController@showFriend', ['email' => $member->email]) }}" style="color: blue;">{{ $member->name }} {{$member->lastname}} ({{ $member->email }})</a></p>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+
+            </div>
         </div>
+    </div>
+    
+<div style="height: 100px;"></div>
 
-        <div id="belong">
-            <h4 style="text-align: center;">Belong To The Group</h4>
-
-            <div class="selection"> 
-                <div class="block">
-                    <p class="text">Friends</p>
-                </div>
-                <div class="list-friends">
-                @foreach ($members as $member)
-                @if ($member->id == session('user')->id)
-                <p><a href="{{ action('UserController@show') }}">{{ $member->name }} {{$member->lastname}} ({{ $member->email }})</a></p>
-                @else
-                <p><a href="{{ action('UserController@showFriend', ['email' => $member->email]) }}">{{ $member->name }} {{$member->lastname}} ({{ $member->email }})</a></p>
-                @endif
-                @endforeach
+@if (count($publications) != 0)
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12 mx-auto">
+                <div class="cta-inner text-center rounded">
+                    <div class="row">
+                        <div class="col-xl-12 mx-auto">
+                            @if (count($publications) != 0)
+                                <div id="pagination-box-style" class="ajax-pagination">
+                                    @include('groups.group-publications-pag')
+                                </div>
+                                
+                                @include('pagination-ajax', ['class_name' => 'ajax-pagination', 'object_title' => 'Group Publications'])
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+@endif
 
-    @if (count($publications) != 0)
-    <div id="pagination-box-style" class="ajax-pagination">
-        @include('groups.group-publications-pag')
-    </div>
-    
-    @include('pagination-ajax', ['class_name' => 'ajax-pagination', 'object_title' => 'Group Publications'])
-    @endif
+</section>
 
 @endsection

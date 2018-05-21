@@ -1,5 +1,7 @@
 
-<h2>List of Messages Received</h2>
+<h2 class="section-heading mb-4">
+    <span class="section-heading-lower">List of Messages Received</span>
+</h2>
 
 <hr>
 
@@ -58,10 +60,11 @@
             <input type="hidden" name="message_id" value="{{ $message->id }}">
 
             <div class="modal-header">
+            
+            <h4 class="modal-title" id="removeMessageModalLabel">Remove Message</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            <h4 class="modal-title" id="removeMessageModalLabel">Remove Message</h4>
             </div>
             <div class="modal-body write-pub">
             Are you sure you want to delete this message?

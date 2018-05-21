@@ -75,6 +75,11 @@
         @else
         <p>Status Id Song: No Song Selected</p>
         @endif
+        @if ($user->type == 1)
+        <p>Is admin: yes</p>
+        @else
+        <p>Is admin: no</p>
+        @endif
         @if ($user->created_at != $user->updated_at)
         <p style="text-align: right;">Updated at: {{ $user->updated_at }}</p>
         @endif
@@ -96,10 +101,11 @@
             <input type="hidden" name="user_id" value="{{ $user->id }}">
 
             <div class="modal-header">
+            
+            <h4 class="modal-title" id="modifyUserModalLabel">Modify User</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            <h4 class="modal-title" id="modifyUserModalLabel">Modify User</h4>
             </div>
             <div class="modal-body write-pub">
             <p>Changing {{ $user->email }}'s Informacion</p>
@@ -117,8 +123,8 @@
                         <th><input type="email" name="username" value="{{ $user->email }}"></th>
                     </tr>
                     <tr>
-                        <th>Password&nbsp;</th>
-                        <th><input type="password" name="password" value="{{ $user->password }}"></th>
+                        <th>New Password&nbsp;</th>
+                        <th><input type="password" name="password"></th>
                     </tr>
                     <tr>
                         <th>Birthday&nbsp;</th>
@@ -129,7 +135,7 @@
                         <th>
                             <select multiple name="status_song[]" style="width: 100%;">
                                 @forelse ($user->song as $song)
-                                @if (session('user')->song_status !== null && $song->id === session('user')->song_status->id)
+                                @if (Auth::user()->song_status !== null && $song->id === Auth::user()->song_status->id)
                                 <option value="{{ $song->id }}" selected>{{ $song->name }}</option>
                                 @else
                                 <option value="{{ $song->id }}">{{ $song->name }}</option>
@@ -138,6 +144,18 @@
                                 <option value="empty">No Songs Available</option>
                                 @endforelse
                             </select>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Is admin</th>
+                        <th>
+                            @if ($user->type == 1)
+                            <input type="radio" name="isadmin" value="1" checked>yes
+                            <input type="radio" name="isadmin" value="0">no
+                            @else
+                            <input type="radio" name="isadmin" value="1">yes
+                            <input type="radio" name="isadmin" value="0" checked>no
+                            @endif
                         </th>
                     </tr>
                 </table>
@@ -162,10 +180,11 @@
             <input type="hidden" name="user_id" value="{{ $user->id }}">
 
             <div class="modal-header">
+            
+            <h4 class="modal-title" id="removeUserModalLabel">Remove Publication</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            <h4 class="modal-title" id="removeUserModalLabel">Remove Publication</h4>
             </div>
             <div class="modal-body write-pub">
             Are you sure you want to delete this publication?

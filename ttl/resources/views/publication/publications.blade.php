@@ -35,11 +35,21 @@
   @endif
     {{ csrf_field() }}
     <p>Publication contains <input type="text" name="pub_contains"></p>
+
+    <div class="row">
+    <div class="col-md-11 offset-md-1">
     <p>
       Publication between <input type="date" name="min_date"> and <input type="date" name="max_date">
-      (<input type="radio" name="date_field" value="created_at" checked>Created 
-      <input type="radio" name="date_field" value="updated_at">Updated)
+      <div class="row">
+        <div class="col-md-9 offset-md-1">
+          (<input type="radio" name="date_field" value="created_at" checked>Created 
+          <input type="radio" name="date_field" value="updated_at">Updated)
+        </div>
+      </div>
     </p>
+    </div>
+    </div>
+
     <p>
       Order by 
       <select name="field" form="find-form">
@@ -103,10 +113,11 @@
         <input type="hidden" name="publication_id" value="{{ $pub->id }}">
 
         <div class="modal-header">
+          
+          <h4 class="modal-title" id="modifyPublicationModalLabel">Modify Publication</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-          <h4 class="modal-title" id="modifyPublicationModalLabel">Modify Publication</h4>
         </div>
         <div class="modal-body write-pub">
           <p>Insert your new publication</p>
@@ -132,10 +143,11 @@
         <input type="hidden" name="publication_id" value="{{ $pub->id }}">
 
         <div class="modal-header">
+          
+          <h4 class="modal-title" id="removePublicationModalLabel">Remove Publication</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-          <h4 class="modal-title" id="removePublicationModalLabel">Remove Publication</h4>
         </div>
         <div class="modal-body write-pub">
           Are you sure you want to delete this publication?

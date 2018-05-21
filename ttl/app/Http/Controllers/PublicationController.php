@@ -7,17 +7,12 @@ use App\Publication;
 use App\User;
 
 use Redirect;
-
+use Auth;
 
 class PublicationController extends Controller
 {
     public function create(Request $request)
     {
-        if (session('user') === null)
-        {
-            return redirect('/');
-        }
-
         if ($request->has('publication') && $request->has('publication_group'))
         {
             if (empty($request->publication))
@@ -27,13 +22,13 @@ class PublicationController extends Controller
 
             if ($request->publication_group == 'all_groups')
             {
-                $groups = session('user')->group_user()->get();
+                $groups = Auth::user()->group_user()->get();
 
                 foreach ($groups as $group)
                 {
                     $publication = new Publication([
                         'text' => $request->publication,
-                        'user_id' => session('user')->id,
+                        'user_id' => Auth::user()->id,
                         'date' => date('Y-m-d h:i:s', time())
                     ]);
                     $publication->save();
@@ -53,7 +48,7 @@ class PublicationController extends Controller
 
                 $publication = new Publication([
                     'text' => $request->publication,
-                    'user_id' => session('user')->id,
+                    'user_id' => Auth::user()->id,
                     'date' => date('Y-m-d h:i:s', time())
                 ]);
                 $publication->save();
@@ -70,11 +65,6 @@ class PublicationController extends Controller
     
     public function delete(Request $request)
     {
-        if (session('user') === null)
-        {
-            return redirect('/');
-        }
-
         if ($request->has('publication_id'))
         {
             $pub = Publication::find($request->publication_id);

@@ -5,24 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
+use App\ServiceLayer\MessageServices;
 use App\Message;
 use App\Message_user;
 use App\User;
 
+use Auth;
 
 class MessageController extends Controller
 {
 
     public function show(Request $request)
     {
-        if (session('user') === null)
-        {
-            return redirect('/');
-        }
+        $id = Auth::user()->id;
 
-        $id = session('user')->id;
-
-        $friends = User::find(session('user')->id)->following()->get();
+        $friends = User::find(Auth::user()->id)->following()->get();
 
         $messages_sent_count = User::find($id)->message()->count();
 
@@ -38,7 +35,7 @@ class MessageController extends Controller
 
     public function listSentMessages(Request $request)
     {
-        $id = session('user')->id;
+        $id = Auth::user()->id;
 
         $messages_sent = User::find($id)->message();
 
@@ -77,7 +74,7 @@ class MessageController extends Controller
 
     public function listReceivedMessages(Request $request)
     {
-        $id = session('user')->id;
+        $id = Auth::user()->id;
 
         $messages_received = User::find($id)->message_user()->where('message_user.user_id', $id);
 
@@ -116,10 +113,7 @@ class MessageController extends Controller
 
     public function send(){
         $users = array();
-        if (session('user') === null){
-            return redirect('/');
-        }
-        $id = session('user')->id;
+        $id = Auth::user()->id;
         $user1 = User::find($id)->following()->get();
         //$user2 = User::find($id)->userFriends()->get();
         $user2 = [];
@@ -181,16 +175,28 @@ class MessageController extends Controller
         return view('lists.list-messages', ['messages' => $messages]);
     }
 
-    public function create(Request $request){
+    public function create(Request $request)
+    {
+        $response = MessageServices::sendMessage($request);
 
-        if (session('user') === null){
+        if($response == "userfail"){
+            return redirect('/');
+        }
+
+        if($response == "sendfail"){
+            return redirect('/messages')->with('sendfail', true);
+        }
+
+        return back();
+
+        /*if (session('user') === null){
             return redirect('/');
         }
 
         if($request->has('receptors') && count($request->receptors) >= 1 && $request->has('title') && $request->has('body') && !empty($request->title) && !empty($request->body))
         {
             $message = new Message([
-                'user_id' => session('user')->id,
+                'user_id' => Auth::user()->id,
                 'title' => $request->title,
                 'text' => $request->body,
                 'read' => false,
@@ -201,7 +207,7 @@ class MessageController extends Controller
 
             if (in_array('all_friends', $request->receptors))
             {
-                $receptors = session('user')->following()->get();
+                $receptors = Auth::user()->following()->get();
 
 
                 foreach($receptors as $receptor)
@@ -226,11 +232,12 @@ class MessageController extends Controller
             }
         }
         
-        return back();
+        return back();*/
     }
 
-    public function delete(Request $request){
-        if (session('user') === null)
+    public function delete(Request $request)
+    {
+        if (Auth::user() === null)
         {
             return redirect('/');
         }
@@ -257,8 +264,9 @@ class MessageController extends Controller
         return back();
     }
 
-    public function list(Request $request){
-        if (session('user') === null){
+    public function list(Request $request)
+    {
+        if (Auth::user() === null){
             return redirect('/');
         }
         /* 
@@ -270,7 +278,7 @@ class MessageController extends Controller
         $messages = DB::table('messages')
                     ->join('message_user', function ($join) {
                         $join->on('messages.id', '=', 'message_user.message_id')
-                             ->where('message_user.user_id', '=', session('user')->id);
+                             ->where('message_user.user_id', '=', Auth::user()->id);
                     })->select('messages.*')->get();
 
         foreach($messages as $message){

@@ -48,11 +48,6 @@ class GenreController extends Controller
 
     public function update(Request $request)
     {
-        if (session('user') === null)
-        {
-            return redirect('/');
-        }
-
         if ($request->has('genre_id') && $request->has('name') && !empty($request->name))
         {
             $genre = Genre::find($request->genre_id);
@@ -67,11 +62,6 @@ class GenreController extends Controller
 
     public function remove(Request $request)
     {
-        if (session('user') === null)
-        {
-            return redirect('/');
-        }
-
         if ($request->has('genre_id'))
         {
             $genre = Genre::find($request->genre_id);
